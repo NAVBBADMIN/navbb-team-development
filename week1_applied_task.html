@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Operator's Playbook — Applied Task: Claim One Thing</title>
+<style>
+  :root {
+    --ink: #0F172A;
+    --white: #FFFFFF;
+    --gray-light: #F0F4F8;
+    --rust: #ED2D2B;
+    --blue: #015698;
+    --blue-dark: #012B4A;
+    --blue-mid: #0270C0;
+    --red: #ED2D2B;
+    --gray-mid: #CBD5E1;
+    --shadow: rgba(31, 36, 33, 0.12);
+    --possum-dark: #8c7163;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: 'Poppins',sans-serif; line-height: 1.6;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .masthead { border-bottom: 4px solid var(--ink); padding: 40px 0 20px; margin-bottom: 30px; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 10px;
+  }
+  .title-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+  h1.book-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 800;
+    font-size: clamp(24px, 4.5vw, 34px); margin: 0; letter-spacing: -0.5px;
+  }
+  .chapter-tag { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: var(--blue-mid); font-weight: 600; }
+
+  .lede {
+    font-size: 18px; font-style: italic; color: var(--teal);
+    border-left: 3px solid var(--red); padding-left: 16px; margin: 0 0 32px;
+  }
+
+  p { font-size: 17px; margin: 0 0 18px; }
+  strong { color: var(--blue-dark); }
+
+  .mission-card {
+    background: #fff; border: 2px solid var(--ink); border-radius: 6px;
+    padding: 28px 28px; margin: 30px 0; box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .mission-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 12px;
+  }
+  .mission-card h3 { font-size: 21px; margin: 0 0 14px; }
+  .mission-steps { margin: 0; padding-left: 0; list-style: none; }
+  .mission-steps li {
+    font-size: 16px; margin-bottom: 14px; padding-left: 36px; position: relative;
+  }
+  .mission-steps li::before {
+    content: attr(data-step); position: absolute; left: 0; top: -2px;
+    width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: var(--paper);
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .guardrails {
+    background: var(--gray-light); border: 1px solid var(--gray-mid); border-radius: 6px;
+    padding: 20px 24px; margin: 26px 0;
+  }
+  .guardrails-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--teal); font-weight: 700; margin-bottom: 10px;
+  }
+  .guardrails ul { margin: 0; padding-left: 20px; }
+  .guardrails li { font-size: 15px; margin-bottom: 8px; }
+  .guardrails li:last-child { margin-bottom: 0; }
+
+  .report-block {
+    background: #fff; border: 1px solid var(--gray-mid); border-radius: 8px;
+    padding: 28px 28px; margin: 36px 0;
+  }
+  .report-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 14px;
+  }
+  .report-block h3 { font-size: 19px; margin: 0 0 18px; }
+
+  .field-row { margin-bottom: 20px; }
+  .field-row label {
+    display: block; font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 700;
+    font-size: 14px; margin-bottom: 8px;
+  }
+  .field-row .hint {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; opacity: 0.65; margin-bottom: 8px; font-weight: 400;
+  }
+  .field-row input[type="text"], .field-row textarea {
+    width: 100%; padding: 11px 14px; border: 1.5px solid var(--gray-mid); border-radius: 4px;
+    font-family: 'Iowan Old Style', Georgia, serif; font-size: 15px; background: var(--paper); color: var(--ink);
+  }
+  .field-row textarea { min-height: 70px; resize: vertical; }
+  .field-row input:focus, .field-row textarea:focus { outline: 2px solid var(--blue-mid); outline-offset: 1px; }
+
+  .checkbox-row {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px;
+  }
+  .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--teal); cursor: pointer; }
+
+  .save-status {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; color: var(--blue-mid);
+    margin-top: 14px; opacity: 0; transition: opacity 0.3s; display: flex; align-items: center; gap: 6px;
+  }
+  .save-status.visible { opacity: 1; }
+
+  .meeting-prompt {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--blue-mid) 100%);
+    color: var(--paper); padding: 26px 28px; border-radius: 6px; margin-top: 10px;
+  }
+  .meeting-prompt .mission-label { color: var(--red); }
+  .meeting-prompt p { color: var(--paper); opacity: 0.95; margin: 0; font-size: 16px; }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 16px 60px; }
+    .mission-card, .report-block, .guardrails, .meeting-prompt { padding: 20px 18px; }
+  }
+
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .wrap{opacity:0;animation:fadeUp 0.7s ease 1.8s forwards;}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 1 &middot; Applied Task</div><div class="loader-title">Claim <span>One Thing</span></div></div>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="kicker">NAVBB Team Development &middot; Week 1 &middot; Applied Task</div>
+    <div class="title-row">
+      <h1 class="book-title">Claim One Thing</h1>
+      <span class="chapter-tag">Do this in real life</span>
+    </div>
+  </div>
+
+  <p class="lede">This is the only piece this week that happens outside the screen. Everything else was reading and reflecting &mdash; this one wants an actual result from your actual job.</p>
+
+  <p>You've spent this week thinking about Patricia and her printer shrine. Now it's time to make sure you're not quietly doing the same thing somewhere. Somewhere in your week, right now, there's a small thing sitting in a gray area &mdash; something that's nobody's clearly defined job, that you've half-noticed, that you've been assuming someone else has. This task is simple: find it, and take it.</p>
+
+  
+<div style="background:#012B4A;border-radius:16px;overflow:hidden;margin:32px 0;">
+  <div style="padding:20px 24px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:64px;height:64px;flex-shrink:0">
+  <ellipse cx="50" cy="75" rx="40" ry="8" fill="rgba(255,255,255,0.1)"/>
+  <ellipse cx="48" cy="68" rx="32" ry="14" fill="#b89a8a" transform="rotate(-3 48 68)"/>
+  <ellipse cx="48" cy="69" rx="25" ry="9" fill="#f0e4dc" transform="rotate(-3 48 69)"/>
+  <circle cx="22" cy="58" r="15" fill="#b89a8a"/>
+  <ellipse cx="14" cy="46" rx="5" ry="8" fill="#8c7163" transform="rotate(-30 14 46)"/>
+  <ellipse cx="28" cy="44" rx="5" ry="8" fill="#8c7163" transform="rotate(10 28 44)"/>
+  <path d="M16 56 L20 58" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M16 60 L20 59" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M26 56 L30 59" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M26 60 L30 58" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+  <ellipse cx="20" cy="64" rx="3" ry="2" fill="#1f2421"/>
+  <path d="M86 60 Q92 58 90 64 Q88 68 82 66" fill="#8c7163"/>
+  <path d="M30 80 L20 88" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 82 L36 90" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+  <path d="M62 82 L68 89" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70 79 L78 85" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+  <rect x="55" y="55" width="28" height="12" rx="4" fill="#ED2D2B" transform="rotate(-15 55 55)"/>
+  <text x="69" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5.5" font-weight="700" fill="white" transform="rotate(-15 69 64)">PATRICIA</text>
+</svg>
+    <div>
+      <div style="font-family:Poppins,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ED2D2B;margin-bottom:4px;">A Patricia Moment</div>
+      <div style="font-family:Poppins,sans-serif;font-size:16px;font-weight:800;color:white;">Patricia is doing the applied task.</div>
+    </div>
+  </div>
+  <div style="padding:20px 24px;">
+    <p style="font-family:Poppins,sans-serif;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;">Patricia identified a gray-area task. Patricia considered claiming it. Patricia decided it probably belonged to someone else. Patricia is now lying next to the printer. The task is still gray.</p>
+  </div>
+</div>
+<div class="mission-card">
+    <div class="mission-label">The Mission</div>
+    <h3>Find one gray-area thing. Claim it. Close it out.</h3>
+    <ol class="mission-steps">
+      <li data-step="1">Identify one small task or loose end this week that doesn't clearly belong to anyone &mdash; something you've noticed but assumed wasn't yours to fix.</li>
+      <li data-step="2">Say out loud (or in writing, to whoever's relevant) that you've got it. Not "I'll look into it" &mdash; "I've got this."</li>
+      <li data-step="3">Actually do it, or get it meaningfully moving, before the week's sync.</li>
+      <li data-step="4">Fill out the short report below so you've got something real to share.</li>
+    </ol>
+  </div>
+
+  <div class="guardrails">
+    <div class="guardrails-label">Guardrails</div>
+    <ul>
+      <li>Keep it small. This isn't about taking on a giant new project &mdash; it's about practicing the reflex on something low-stakes.</li>
+      <li>If it touches someone else's clear responsibility, loop them in rather than quietly taking over &mdash; ownership isn't the same as overstepping.</li>
+      <li>If you genuinely can't find a gray-area task this week, that's worth noting too &mdash; bring that observation instead.</li>
+    </ul>
+  </div>
+
+  <div class="report-block">
+    <div class="report-label">Your Report</div>
+    <h3>What did you claim?</h3>
+
+    <div class="field-row">
+      <label for="taskName">The thing you claimed</label>
+      <div class="hint">One line is plenty.</div>
+      <input type="text" id="taskName" placeholder="e.g. Following up on the unconfirmed Saturday slot" oninput="autoSave()">
+    </div>
+
+    <div class="field-row">
+      <label for="taskResult">What happened when you took it on?</label>
+      <textarea id="taskResult" placeholder="What you did, what changed, anything surprising" oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="checkClaimed" onchange="autoSave()">
+      <label for="checkClaimed">I said "I've got this" out loud or in writing to someone</label>
+    </div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="checkClosed" onchange="autoSave()">
+      <label for="checkClosed">It's actually done or meaningfully moving</label>
+    </div>
+
+    <div class="save-status" id="saveStatus">Saved &mdash; this is just for you.</div>
+  </div>
+
+  <div class="meeting-prompt">
+    <div class="mission-label">Bring This To The 10-Minute Sync</div>
+    <p>One sentence: what you claimed, and how it went. That's the whole report &mdash; no need to over-explain it.</p>
+  </div>
+
+</div>
+
+<script>
+  let saveTimeout;
+  function autoSave() {
+    const status = document.getElementById('saveStatus');
+    clearTimeout(saveTimeout);
+    status.classList.remove('visible');
+    saveTimeout = setTimeout(async () => {
+      const data = {
+        taskName: document.getElementById('taskName').value,
+        taskResult: document.getElementById('taskResult').value,
+        checkClaimed: document.getElementById('checkClaimed').checked,
+        checkClosed: document.getElementById('checkClosed').checked
+      };
+      try {
+        await window.storage.set('applied-task-1', JSON.stringify(data), false);
+        status.classList.add('visible');
+      } catch (e) { console.error('Save failed', e); }
+    }, 800);
+  }
+
+  async function loadSaved() {
+    try {
+      const result = await window.storage.get('applied-task-1', false);
+      if (result && result.value) {
+        const data = JSON.parse(result.value);
+        document.getElementById('taskName').value = data.taskName || '';
+        document.getElementById('taskResult').value = data.taskResult || '';
+        document.getElementById('checkClaimed').checked = !!data.checkClaimed;
+        document.getElementById('checkClosed').checked = !!data.checkClosed;
+      }
+    } catch (e) {}
+  }
+
+  loadSaved();
+
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+</script>
+
+</body>
+</html>

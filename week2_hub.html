@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Week 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #015698;
+    --blue-dark: #012B4A;
+    --blue-mid: #0270C0;
+    --red: #ED2D2B;
+    --red-dark: #C41F1D;
+    --white: #FFFFFF;
+    --gray-light: #F0F4F8;
+    --gray-mid: #CBD5E1;
+    --gray-text: #64748B;
+    --ink: #0F172A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ===== PAGE LOAD ANIMATION ===== */
+  .page-loader {
+    position: fixed; inset: 0;
+    background: var(--blue-dark);
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+    animation: loaderExit 0.6s ease 2.2s forwards;
+  }
+  @keyframes loaderExit {
+    to { opacity: 0; pointer-events: none; }
+  }
+  .loader-series {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); font-weight: 600;
+    animation: fadeUp 0.5s ease 0.3s both;
+  }
+  .loader-title {
+    font-size: clamp(28px, 5vw, 48px); font-weight: 900; color: var(--white);
+    letter-spacing: -1px; text-align: center;
+    animation: fadeUp 0.6s ease 0.6s both;
+  }
+  .loader-title span { color: var(--red); }
+  .loader-week {
+    font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.7);
+    animation: fadeUp 0.5s ease 0.9s both;
+  }
+  .loader-bar {
+    width: 200px; height: 3px; background: rgba(255,255,255,0.15);
+    border-radius: 2px; margin-top: 8px; overflow: hidden;
+    animation: fadeUp 0.5s ease 1s both;
+  }
+  .loader-bar-fill {
+    height: 100%; background: var(--red);
+    animation: barFill 1s ease 1.2s both;
+  }
+  @keyframes barFill { from { width: 0; } to { width: 100%; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue) 50%, var(--blue-mid) 100%);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 0 60px;
+    opacity: 0; animation: fadeUp 0.8s ease 2.4s forwards;
+  }
+
+  .hero-bg-img {
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 800'%3E%3Crect fill='%23012B4A' width='1400' height='800'/%3E%3Cellipse cx='1100' cy='500' rx='350' ry='220' fill='%230270C0' opacity='0.07'/%3E%3Cellipse cx='1200' cy='300' rx='200' ry='150' fill='%230270C0' opacity='0.05'/%3E%3Ccircle cx='1050' cy='200' r='120' fill='%230270C0' opacity='0.06'/%3E%3Cpath d='M800 800 Q900 650 1000 700 Q1100 750 1200 600 Q1300 500 1400 550 L1400 800 Z' fill='%230270C0' opacity='0.05'/%3E%3Ccircle cx='1150' cy='450' r='180' fill='none' stroke='%230270C0' stroke-width='1' opacity='0.15'/%3E%3Ccircle cx='1150' cy='450' r='120' fill='none' stroke='%230270C0' stroke-width='0.8' opacity='0.1'/%3E%3Cellipse cx='160' cy='600' rx='40' ry='28' fill='%230270C0' opacity='0.12'/%3E%3Ccircle cx='135' cy='567' r='14' fill='%230270C0' opacity='0.12'/%3E%3Ccircle cx='170' cy='562' r='12' fill='%230270C0' opacity='0.1'/%3E%3Ccircle cx='188' cy='578' r='12' fill='%230270C0' opacity='0.09'/%3E%3Cellipse cx='400' cy='150' rx='32' ry='22' fill='%230270C0' opacity='0.09'/%3E%3Ccircle cx='378' cy='124' r='11' fill='%230270C0' opacity='0.09'/%3E%3Ccircle cx='410' cy='120' r='10' fill='%230270C0' opacity='0.08'/%3E%3Ccircle cx='425' cy='133' r='10' fill='%230270C0' opacity='0.07'/%3E%3C/svg%3E") center/cover no-repeat;
+    opacity: 0.12;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .hero-nav {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 24px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .hero-nav .logo {
+    font-size: 13px; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--white);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+  .hero-nav .week-badge {
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 14px; border-radius: 20px;
+  }
+
+  .hero-content { padding: 0 40px; position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before { content: ""; width: 32px; height: 2px; background: var(--red); }
+  .hero-title {
+    font-size: clamp(36px, 6vw, 72px); font-weight: 900;
+    color: var(--white); line-height: 1.05; letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+  .hero-title em { font-style: normal; color: var(--red); }
+  .hero-sub {
+    font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.75);
+    max-width: 520px; line-height: 1.6; margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .hero-meta-value { font-size: 15px; font-weight: 700; color: var(--white); }
+
+  .hero-scroll {
+    position: absolute; bottom: 28px; right: 40px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+  .scroll-line {
+    width: 40px; height: 1px; background: rgba(255,255,255,0.3);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: ""; position: absolute; left: -100%; top: 0;
+    width: 100%; height: 100%; background: var(--red);
+    animation: scrollAnim 2s ease infinite;
+  }
+  @keyframes scrollAnim { to { left: 100%; } }
+
+  /* ===== PATRICIA ANIMATED ===== */
+  .patricia-hero {
+    position: absolute; right: 80px; bottom: 80px;
+    width: 140px; height: 140px;
+    animation: patriciaFloat 4s ease-in-out infinite;
+  }
+  @keyframes patriciaFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+  .patricia-hero .eye { animation: blink 4s ease infinite; transform-origin: center; }
+  @keyframes blink {
+    0%, 45%, 55%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .main { max-width: 900px; margin: 0 auto; padding: 80px 40px; }
+
+  /* ===== SECTION LABEL ===== */
+  .section-label {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 48px;
+  }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--gray-mid); }
+
+  /* ===== PIECE CARDS ===== */
+  .pieces { display: flex; flex-direction: column; gap: 20px; }
+
+  .piece-card {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    align-items: center; gap: 28px;
+    background: var(--white);
+    border: 1.5px solid var(--gray-mid);
+    border-radius: 16px; padding: 28px 32px;
+    text-decoration: none; color: var(--ink);
+    position: relative; overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .piece-card.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .piece-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--blue);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.3s ease;
+  }
+  .piece-card:hover { border-color: var(--blue); box-shadow: 0 8px 32px rgba(1,86,152,0.12); transform: translateY(-3px); }
+  .piece-card:hover::before { transform: scaleY(1); }
+  .piece-card.alt::before { background: var(--red); }
+  .piece-card.alt:hover { border-color: var(--red); box-shadow: 0 8px 32px rgba(237,45,43,0.1); }
+
+  .piece-num-wrap {
+    display: flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 16px;
+    background: var(--blue); flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+  .piece-card:hover .piece-num-wrap { transform: scale(1.08) rotate(-3deg); }
+  .piece-card.alt .piece-num-wrap { background: var(--red); }
+  .piece-num {
+    font-size: 28px; font-weight: 900; color: var(--white);
+  }
+
+  .piece-body { min-width: 0; }
+  .piece-kind {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 6px;
+  }
+  .piece-card.alt .piece-kind { color: var(--red); }
+  .piece-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; line-height: 1.2; }
+  .piece-desc { font-size: 14px; color: var(--gray-text); line-height: 1.5; font-weight: 400; }
+
+  .piece-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+  .piece-time {
+    font-size: 13px; font-weight: 700; color: var(--blue);
+    white-space: nowrap;
+  }
+  .piece-card.alt .piece-time { color: var(--red); }
+  .piece-arrow {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gray-light); display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--ink);
+    transition: all 0.3s ease;
+  }
+  .piece-card:hover .piece-arrow { background: var(--blue); color: var(--white); transform: translateX(4px); }
+  .piece-card.alt:hover .piece-arrow { background: var(--red); }
+
+  /* ===== SYNC CARD ===== */
+  .sync-section { margin-top: 60px; }
+  .sync-card {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+    border-radius: 24px; padding: 48px;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  .sync-card.visible { opacity: 1; transform: translateY(0); }
+  .sync-card::before {
+    content: ""; position: absolute;
+    right: -60px; top: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .sync-card::after {
+    content: ""; position: absolute;
+    right: 40px; bottom: -80px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: rgba(237,45,43,0.15);
+  }
+  .sync-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .sync-eyebrow::before { content: ""; width: 20px; height: 2px; background: var(--red); }
+  .sync-title { font-size: 28px; font-weight: 800; color: var(--white); margin-bottom: 14px; }
+  .sync-body { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.7; font-weight: 300; max-width: 520px; }
+
+  /* ===== PATRICIA MOMENT ===== */
+  .patricia-section {
+    margin: 60px 0;
+    background: var(--gray-light); border-radius: 20px;
+    padding: 40px; display: flex; gap: 32px; align-items: center;
+    opacity: 0; transform: translateY(30px); transition: all 0.6s ease;
+  }
+  .patricia-section.visible { opacity: 1; transform: translateY(0); }
+  .patricia-section svg { width: 100px; height: 100px; flex-shrink: 0; }
+  .patricia-text .label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--red); margin-bottom: 8px;
+  }
+  .patricia-text p { font-size: 15px; line-height: 1.7; color: var(--gray-text); }
+
+  @media (max-width: 700px) {
+    .hero-content, .hero-nav { padding: 0 24px; }
+    .hero-nav { padding-top: 20px; }
+    .hero { padding-bottom: 40px; }
+    .main { padding: 60px 24px; }
+    .piece-card { grid-template-columns: 56px 1fr; padding: 22px 20px; }
+    .piece-right { display: none; }
+    .patricia-hero { display: none; }
+    .sync-card { padding: 32px 24px; }
+    .patricia-section { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div class="page-loader">
+  <div class="loader-series">NAVBB &middot; July 2026</div>
+  <div class="loader-title">Team Development<br><span>Series</span></div>
+  <div class="loader-week">Week 2 of 4</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-grid"></div>
+
+  <nav class="hero-nav">
+    <div class="logo"><div class="logo-dot"></div>NAVBB</div>
+    <div class="week-badge">Week 2 of 4</div>
+  </nav>
+
+  <!-- Patricia floating -->
+  <div class="patricia-hero">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body -->
+      <ellipse cx="50" cy="62" rx="28" ry="20" fill="rgba(255,255,255,0.15)"/>
+      <ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/>
+      <ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/>
+      <!-- Head -->
+      <circle cx="50" cy="38" r="20" fill="#b89a8a"/>
+      <!-- Ears -->
+      <ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/>
+      <ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/>
+      <ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/>
+      <ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/>
+      <!-- Face -->
+      <ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/>
+      <circle class="eye" cx="43" cy="35" r="3.2" fill="#1f2421"/>
+      <circle class="eye" cx="57" cy="35" r="3.2" fill="#1f2421"/>
+      <circle cx="44" cy="34" r="0.9" fill="#fff"/>
+      <circle cx="58" cy="34" r="0.9" fill="#fff"/>
+      <ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/>
+      <!-- Nose shine -->
+      <circle cx="49" cy="45" r="0.8" fill="rgba(255,255,255,0.6)"/>
+      <!-- Whiskers -->
+      <path d="M30 50 Q15 48 12 56" stroke="rgba(255,255,255,0.5)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M70 50 Q85 48 88 56" stroke="rgba(255,255,255,0.5)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <!-- Tail -->
+      <path d="M22 76 Q50 90 78 76" stroke="#8c7163" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- Name tag -->
+      <rect x="36" y="72" width="28" height="12" rx="4" fill="#ED2D2B"/>
+      <text x="50" y="81" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Team Development Series</div>
+    <h1 class="hero-title">The Clean<br><em>Handoff</em></h1>
+    <p class="hero-sub">What, How, When — and why most handoffs quietly evaporate before anyone notices they're gone.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">This Week</span>
+        <span class="hero-meta-value">4 pieces, your pace</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Total Time</span>
+        <span class="hero-meta-value">~35 min</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Sync</span>
+        <span class="hero-meta-value">10 min, Monday</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="section-label">This Week's Content</div>
+
+  <div class="pieces">
+    <a class="piece-card" href="https://navbbadmin.github.io/navbb-team-development/week2_read.html">
+      <div class="piece-num-wrap"><div class="piece-num">1</div></div>
+      <div class="piece-body">
+        <div class="piece-kind">Read</div>
+        <p class="piece-title">The Clean Handoff — What, How, When</p>
+        <p class="piece-desc">Why most handoffs don't actually stick, and the three parts that make one land every time.</p>
+      </div>
+      <div class="piece-right">
+        <span class="piece-time">~7 min</span>
+        <div class="piece-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="piece-card alt" href="https://navbbadmin.github.io/navbb-team-development/week2_case_study.html">
+      <div class="piece-num-wrap"><div class="piece-num">2</div></div>
+      <div class="piece-body">
+        <div class="piece-kind">Case Study</div>
+        <p class="piece-title">The Email That Went Everywhere</p>
+        <p class="piece-desc">A list of fifteen partner locations, two people on a thread, zero clarity — and three weeks of nothing to show for it.</p>
+      </div>
+      <div class="piece-right">
+        <span class="piece-time">~8 min</span>
+        <div class="piece-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="piece-card" href="https://navbbadmin.github.io/navbb-team-development/week2_self_assessment.html">
+      <div class="piece-num-wrap"><div class="piece-num">3</div></div>
+      <div class="piece-body">
+        <div class="piece-kind">Self-Assessment</div>
+        <p class="piece-title">Your Handoff Style</p>
+        <p class="piece-desc">Six questions about your actual handoffs — scored across clarity, context, and deadline discipline.</p>
+      </div>
+      <div class="piece-right">
+        <span class="piece-time">~10 min</span>
+        <div class="piece-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="piece-card alt" href="https://navbbadmin.github.io/navbb-team-development/week2_applied_task.html">
+      <div class="piece-num-wrap"><div class="piece-num">4</div></div>
+      <div class="piece-body">
+        <div class="piece-kind">Applied Task</div>
+        <p class="piece-title">The Complete Handoff</p>
+        <p class="piece-desc">Delegate one real thing this week using all three parts. Bring the result Monday.</p>
+      </div>
+      <div class="piece-right">
+        <span class="piece-time">Real work</span>
+        <div class="piece-arrow">→</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Patricia moment -->
+  <div class="patricia-section">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-dead"></svg>
+    <div class="patricia-text">
+      <div class="label">This Week's Patricia Moment</div>
+      <p>Patricia passed something to three people with no context and is still waiting to hear back from all of them. The task has been sitting in three inboxes for eleven days. Patricia considers this "delegated." Patricia is incorrect.</p>
+    </div>
+  </div>
+
+  <!-- Sync card -->
+  <div class="sync-section">
+    <div class="sync-card">
+      <div class="sync-eyebrow">Monday &middot; 10-Minute Sync</div>
+      <h2 class="sync-title">What you'll bring</h2>
+      <p class="sync-body">What you handed off, which of the three parts was hardest to actually include, and how it went. One sentence each is plenty. Patricia would have a lot to say. You'll have something to show.</p>
+    </div>
+  </div>
+
+
+  <div style="margin-top:48px;background:#F0F4F8;border-radius:16px;padding:36px 40px;text-align:center;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#ED2D2B;margin-bottom:12px;">Weekly Wrap-Up</div>
+    <h3 style="font-family:Poppins,sans-serif;font-size:22px;font-weight:800;color:#0F172A;margin:0 0 10px;">Done for the week?</h3>
+    <p style="font-family:Poppins,sans-serif;font-size:15px;color:#64748B;margin:0 0 24px;line-height:1.6;">Submit your Week 2 check-in before your next meeting. Takes about 2 minutes. Anonymous.</p>
+    <a href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUMEdXOFRTOTVDUDhBUlJKV0xRUUcxNldZOC4u" target="_blank" style="display:inline-block;background:#015698;color:white;font-family:Poppins,sans-serif;font-size:14px;font-weight:700;padding:16px 36px;border-radius:10px;text-decoration:none;">Submit Week 2 Check-In →</a>
+  </div>
+</main>
+
+<script>
+  // Patricia dead illustration
+  document.getElementById('patricia-dead').innerHTML = `
+    <ellipse cx="50" cy="75" rx="40" ry="8" fill="#d8cdb5" opacity="0.5"/>
+    <ellipse cx="48" cy="68" rx="32" ry="14" fill="#b89a8a" transform="rotate(-3 48 68)"/>
+    <ellipse cx="48" cy="69" rx="25" ry="9" fill="#f0e4dc" transform="rotate(-3 48 69)"/>
+    <circle cx="22" cy="58" r="15" fill="#b89a8a"/>
+    <ellipse cx="14" cy="46" rx="5" ry="8" fill="#8c7163" transform="rotate(-30 14 46)"/>
+    <ellipse cx="28" cy="44" rx="5" ry="8" fill="#8c7163" transform="rotate(10 28 44)"/>
+    <path d="M16 56 L20 58" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M16 60 L20 59" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M26 56 L30 59" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M26 60 L30 58" stroke="#1f2421" stroke-width="1.3" stroke-linecap="round"/>
+    <ellipse cx="20" cy="64" rx="3" ry="2" fill="#1f2421"/>
+    <path d="M86 60 Q92 58 90 64 Q88 68 82 66" fill="#8c7163"/>
+    <path d="M30 80 L20 88" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+    <path d="M40 82 L36 90" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+    <path d="M62 82 L68 89" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+    <path d="M70 79 L78 85" stroke="#8c7163" stroke-width="3" stroke-linecap="round"/>
+    <rect x="55" y="55" width="28" height="12" rx="4" fill="#ED2D2B" transform="rotate(-15 55 55)"/>
+    <text x="69" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5.5" font-weight="700" fill="white" transform="rotate(-15 69 64)">PATRICIA</text>
+  `;
+
+  // Scroll-triggered animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, entry.target.dataset.delay || 0);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.piece-card').forEach((el, i) => {
+    el.dataset.delay = i * 100;
+    observer.observe(el);
+  });
+  document.querySelectorAll('.sync-card, .patricia-section').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
