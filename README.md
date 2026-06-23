@@ -1,1 +1,0 @@
-# navbb-team-development
