@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Week 3 Applied Task</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .mission-card{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:20px;padding:40px;margin-bottom:40px;}
+  .mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+  .mc-title{font-size:24px;font-weight:900;color:var(--white);margin-bottom:12px;}
+  .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.75;}
+  .patricia-moment{background:var(--ink);border-radius:16px;overflow:hidden;margin:32px 0;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:48px;height:48px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:15px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0;}
+  .task-section{margin-bottom:36px;}
+  .task-section h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .task-section .hint{font-size:13px;color:var(--gray-text);margin-bottom:14px;line-height:1.6;}
+  textarea{width:100%;min-height:90px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);margin-bottom:6px;}
+  textarea:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  .save-indicator{font-size:12px;color:var(--gray-text);height:16px;}
+  .divider{border:none;border-top:2px dashed var(--gray-mid);margin:48px 0;}
+  .paws-section{background:var(--gray-light);border-radius:20px;padding:40px;margin-bottom:40px;}
+  .paws-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+  .paws-title{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:10px;}
+  .paws-intro{font-size:15px;color:var(--gray-text);line-height:1.7;margin-bottom:28px;}
+  .paws-intro strong{color:var(--ink);}
+  .request-card{background:var(--white);border-radius:14px;padding:28px;margin-bottom:16px;border:1.5px solid var(--gray-mid);}
+  .request-num{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:16px;}
+  .field-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;display:block;}
+  input[type=text]{width:100%;padding:11px 14px;border:1.5px solid var(--gray-mid);border-radius:8px;font-family:'Poppins',sans-serif;font-size:14px;color:var(--ink);margin-bottom:14px;}
+  input[type=text]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  .paws-note{background:rgba(1,86,152,0.06);border-left:3px solid var(--blue);padding:16px 20px;border-radius:0 10px 10px 0;font-size:13px;color:var(--gray-text);line-height:1.6;margin-top:20px;}
+  .submit-section{background:var(--blue-dark);border-radius:20px;padding:36px 40px;text-align:center;margin-bottom:40px;}
+  .submit-section h3{font-size:20px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .submit-section p{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6;}
+  .submit-btn{display:inline-block;background:var(--red);color:var(--white);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 40px;border-radius:12px;text-decoration:none;transition:all 0.2s;}
+  .submit-btn:hover{background:#c0201f;transform:translateY(-2px);}
+  .back-to-hub{display:flex;justify-content:center;margin-top:16px;}
+  .back-link{font-size:14px;color:var(--blue);text-decoration:none;font-weight:600;}
+  .back-link:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 3 &middot; Applied Task</div><div class="loader-title">Three Assumptions <span>Before You Drive</span></div></div>
+<div class="wrap">
+  <div class="kicker">Applied Task &middot; Week 3</div>
+  <h1>Three Assumptions Before You Drive</h1>
+  <p class="meta">Real work &middot; Do this before your next field visit &middot; Reflect after.</p>
+
+  <div style="background:#F0F4F8;border-left:4px solid #015698;border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#015698;margin-bottom:8px;">Before You Start — Please Read</div>
+    <p style="font-size:14px;color:#0F172A;line-height:1.7;margin-bottom:10px;"><strong>Your responses here are stored only on your device and are never automatically submitted or shared.</strong> Leadership cannot see what you type in these fields.</p>
+    <p style="font-size:14px;color:#0F172A;line-height:1.7;margin-bottom:10px;">Use this page to work through your assumptions and PAWS/FETCH feature requests at your own pace.</p>
+    <p style="font-size:14px;color:#0F172A;line-height:1.7;margin:0;"><strong>To be counted as complete for this week</strong>, scroll to the bottom and hit the <strong>Submit Week 3 Check-In</strong> button. That's the separate action leadership actually sees.</p>
+  </div>
+  <div class="mission-card">
+    <div class="mc-label">This Week's Task</div>
+    <div class="mc-title">Name your assumptions before you walk in the door.</div>
+    <p class="mc-body">Pick one location you're visiting this week. Before you go, write down three things you assume will be true when you get there. After the visit, come back here and check them. Note what was right, what was wrong, and what the wrong ones tell you. That's it. That's the whole task.</p>
+  </div>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title">Patricia completed this task.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia wrote down three assumptions. They were all correct. Patricia went to the location and found exactly what she expected. Patricia did not ask a single question she hadn't planned in advance. Patricia's assumptions were correct because they were so general they couldn't possibly be wrong. Patricia considers this a win.</p></div>
+  </div>
+
+  <div class="task-section">
+    <h3>Location you're visiting</h3>
+    <p class="hint">Name the specific location — not just "a daycare." Specificity is the point.</p>
+    <input type="text" id="location" placeholder="e.g. Paws & Play on Broad St" oninput="autoSave()">
+  </div>
+
+  <div class="task-section">
+    <h3>Assumption 1 — Before your visit</h3>
+    <p class="hint">What do you expect to find? Be specific — dogs, staff, traffic, owner, energy.</p>
+    <textarea id="a1before" placeholder="I expect..." oninput="autoSave()"></textarea>
+    <h3 style="margin-top:14px;">What actually happened</h3>
+    <textarea id="a1after" placeholder="What I found..." oninput="autoSave()"></textarea>
+  </div>
+
+  <div class="task-section">
+    <h3>Assumption 2 — Before your visit</h3>
+    <textarea id="a2before" placeholder="I expect..." oninput="autoSave()"></textarea>
+    <h3 style="margin-top:14px;">What actually happened</h3>
+    <textarea id="a2after" placeholder="What I found..." oninput="autoSave()"></textarea>
+  </div>
+
+  <div class="task-section">
+    <h3>Assumption 3 — Before your visit</h3>
+    <textarea id="a3before" placeholder="I expect..." oninput="autoSave()"></textarea>
+    <h3 style="margin-top:14px;">What actually happened</h3>
+    <textarea id="a3after" placeholder="What I found..." oninput="autoSave()"></textarea>
+  </div>
+
+  <div class="task-section">
+    <h3>What did the wrong ones tell you?</h3>
+    <p class="hint">If any assumption was wrong — what does that mean for how you approach this location going forward?</p>
+    <textarea id="reflection" placeholder="The one thing I'll do differently next time..." oninput="autoSave()"></textarea>
+    <div class="save-indicator" id="saveIndicator"></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PAWS/FETCH Feature Request Section -->
+  <div class="paws-section">
+    <div class="paws-label">Standing Section — Every Week from Week 3</div>
+    <div class="paws-title">PAWS / FETCH Feature Requests</div>
+    <p class="paws-intro">Leadership wants to hear directly from the people using these platforms every day. Starting this week, submit <strong>1–2 feature requests</strong> describing something in PAWS or FETCH you'd like to see changed or improved. You're building a real backlog — these go to leadership and the development team.</p>
+    <p class="paws-intro">Use the structure below. Be specific — <strong>"it's confusing"</strong> doesn't help. <strong>"When I open the donor profile page, I have to click through three screens to find the weight field — I'd like it on the first screen"</strong> helps a lot.</p>
+
+    <div class="request-card">
+      <div class="request-num">Feature Request 1</div>
+      <label class="field-label">Which page or workflow in PAWS or FETCH?</label>
+      <input type="text" id="fr1_page" placeholder="e.g. Dog profile page, Appointment scheduling, Check-in flow" oninput="autoSave()">
+      <label class="field-label">What currently happens? (1–2 sentences)</label>
+      <textarea id="fr1_current" style="min-height:70px;" placeholder="Describe the current flow..." oninput="autoSave()"></textarea>
+      <label class="field-label">What would you like to see instead?</label>
+      <textarea id="fr1_request" style="min-height:70px;" placeholder="Describe your improvement..." oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="request-card">
+      <div class="request-num">Feature Request 2 (optional)</div>
+      <label class="field-label">Which page or workflow in PAWS or FETCH?</label>
+      <input type="text" id="fr2_page" placeholder="e.g. Dog profile page, Appointment scheduling, Check-in flow" oninput="autoSave()">
+      <label class="field-label">What currently happens? (1–2 sentences)</label>
+      <textarea id="fr2_current" style="min-height:70px;" placeholder="Describe the current flow..." oninput="autoSave()"></textarea>
+      <label class="field-label">What would you like to see instead?</label>
+      <textarea id="fr2_request" style="min-height:70px;" placeholder="Describe your improvement..." oninput="autoSave()"></textarea>
+    </div>
+
+    
+    <div class="request-card">
+      <div class="request-num">Feature Request 3 (optional)</div>
+      <label class="field-label">Which page or workflow in PAWS or FETCH?</label>
+      <input type="text" id="fr3_page" placeholder="e.g. Donor profile page, Appointment scheduling, Check-in flow" oninput="autoSave()">
+      <label class="field-label">What currently happens? (1–2 sentences)</label>
+      <textarea id="fr3_current" style="min-height:70px;" placeholder="Describe the current flow..." oninput="autoSave()"></textarea>
+      <label class="field-label">What would you like to see instead?</label>
+      <textarea id="fr3_request" style="min-height:70px;" placeholder="Describe your improvement..." oninput="autoSave()"></textarea>
+    </div>
+    <div class="paws-note">Your feature requests go directly to leadership and the development team. The more specific you are, the more useful it is. Screenshots are welcome — submit them separately to Jake directly.</div>
+  </div>
+
+  <div class="submit-section">
+    <h3>Done? Submit your Week 3 check-in.</h3>
+    <p>Takes 2 minutes. Includes your PAWS/FETCH feature requests.<br>This is the one thing from this week that Jake actually sees.</p>
+    <a class="submit-btn" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUMkdGN1U0VEIzNFc3WUJSQlU4VFlGSzc3QS4u" target="_blank">Submit Week 3 Check-In →</a>
+  </div>
+
+  <div class="back-to-hub">
+    <a class="back-link" href="https://navbbadmin.github.io/navbb-team-development/week3_hub.html">← Back to Week 3 Hub</a>
+  </div>
+</div>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+const fields=['location','a1before','a1after','a2before','a2after','a3before','a3after','reflection','fr1_page','fr1_current','fr1_request','fr2_page','fr2_current','fr2_request','fr3_page','fr3_current','fr3_request'];
+function autoSave(){
+  try{
+    const data={};
+    fields.forEach(f=>{const el=document.getElementById(f);if(el)data[f]=el.value;});
+    localStorage.setItem('ch3-applied',JSON.stringify(data));
+    document.getElementById('saveIndicator').textContent='✓ Saved.';
+    setTimeout(()=>document.getElementById('saveIndicator').textContent='',2000);
+  }catch(e){}
+}
+function loadSaved(){
+  try{
+    const raw=localStorage.getItem('ch3-applied');
+    if(!raw)return;
+    const data=JSON.parse(raw);
+    fields.forEach(f=>{const el=document.getElementById(f);if(el&&data[f])el.value=data[f];});
+  }catch(e){}
+}
+loadSaved();
+</script>
+</body>
+</html>
