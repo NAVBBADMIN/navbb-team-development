@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Week 3: Critical Thinking in the Field</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .hero{min-height:55vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;animation:fadeUp 0.7s ease 1.8s both;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+  .hero-nav{position:absolute;top:0;left:0;right:0;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}
+  .nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:8px;}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
+  .nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;letter-spacing:1px;}
+  .hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+  .hero-eyebrow::before{content:"";width:24px;height:2px;background:var(--red);}
+  .hero-title{font-size:clamp(32px,5vw,58px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;position:relative;z-index:2;}
+  .hero-title em{font-style:normal;color:var(--red);}
+  .hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:480px;line-height:1.6;position:relative;z-index:2;}
+  .content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}
+  .section-label{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:36px;}
+  .section-label::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+  p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}
+  p strong{color:var(--ink);font-weight:700;}
+  .patricia-moment{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .pm-header{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:52px;height:52px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title-text{font-size:18px;font-weight:800;color:var(--white);}
+  .pm-body{padding:28px 32px;}
+  .pm-body p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}
+  .pm-body p:last-child{margin-bottom:0;}
+  .green-moment{background:linear-gradient(135deg,#0a3d1f,#0f5c2e);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .gm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4ade80;margin-bottom:4px;}
+  .truth-bomb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;position:relative;overflow:hidden;}
+  .truth-bomb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}
+  .truth-bomb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+  .three-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:44px 0;}
+  .part-card{border-radius:16px;padding:28px 24px;border:1.5px solid var(--gray-mid);position:relative;overflow:hidden;}
+  .part-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--blue);}
+  .part-card:nth-child(2)::after{background:var(--red);}
+  .part-card:nth-child(3)::after{background:var(--blue-mid);}
+  .part-num{font-size:36px;font-weight:900;color:var(--gray-light);margin-bottom:12px;line-height:1;}
+  .part-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:8px;}
+  .part-desc{font-size:13px;color:var(--gray-text);line-height:1.6;}
+  .scenario{background:var(--gray-light);border-radius:16px;padding:32px 36px;margin:44px 0;}
+  .scenario-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:16px;}
+  .scenario p{font-size:16px;line-height:1.75;color:var(--ink);margin-bottom:14px;}
+  .scenario p:last-child{margin-bottom:0;}
+  .interactive{background:var(--white);border:2px solid var(--ink);border-radius:20px;padding:40px;margin:44px 0;box-shadow:8px 8px 0 rgba(1,86,152,0.08);}
+  .interactive-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;}
+  .interactive h3{font-size:22px;font-weight:800;margin-bottom:8px;}
+  .interactive .sub{font-size:14px;color:var(--gray-text);margin-bottom:32px;}
+  .slider-row{margin-bottom:28px;}
+  .slider-row label{display:block;font-size:14px;font-weight:600;margin-bottom:10px;color:var(--ink);}
+  .slider-val{font-weight:800;color:var(--red);}
+  .slider-row input[type=range]{width:100%;accent-color:var(--blue);height:6px;}
+  .slider-ends{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-text);margin-top:6px;}
+  .result-box{margin-top:20px;padding:20px 24px;background:var(--gray-light);border-left:3px solid var(--blue);border-radius:0 10px 10px 0;display:none;}
+  .result-box.visible{display:block;}
+  .result-box strong{display:block;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .result-box p{font-size:14px;color:var(--gray-text);margin:0;line-height:1.6;}
+  .reflect-label{display:block;font-size:14px;font-weight:700;margin:24px 0 10px;color:var(--ink);}
+  textarea{width:100%;min-height:90px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+  textarea:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  .meeting-prompt{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}
+  .mp2-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .mp2-label::before{content:"";width:20px;height:2px;background:var(--red);}
+  .mp2-title{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+  .mp2-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);transform:translateY(-2px);}
+  @media(max-width:600px){.hero{padding:0 24px 40px;}.hero-nav{padding:20px 24px;}.content{padding:48px 24px 80px;}.three-parts{grid-template-columns:1fr;}.pm-header,.pm-body{padding:20px 24px;}.interactive{padding:28px 20px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 3 &middot; Read</div><div class="loader-title">What Are You Actually <span>Looking At?</span></div></div>
+<section class="hero">
+  <div class="hero-grid"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+  <div class="hero-eyebrow">Chapter 3 of ongoing</div>
+  <h1 class="hero-title">What Are You Actually<br><em>Looking At?</em></h1>
+  <p class="hero-sub">Showing up is not the same as paying attention. Critical thinking in the field starts before you get in the car.</p>
+</section>
+<main class="content">
+  <div class="section-label">The Concept</div>
+  <p>There's a version of field recruiting that looks like work but isn't producing anything. You drive to the locations, you talk to the staff, you smile at the dogs. You check the box. You go home. And somehow the numbers don't move.</p>
+  <p>The gap isn't effort. It's <strong>observation</strong>. Most people see what's in front of them. The best recruiters are processing it — asking themselves why this dog is here, what this owner's schedule probably looks like, what this location's pattern has been over the last three weeks, and what one question would tell them the most in the least amount of time.</p>
+  <p>That's critical thinking in the field. Not a philosophy class. Not a personality trait. A habit — and one that can be built deliberately.</p>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title-text">Patricia arrives at a daycare she has visited fourteen times.</div></div>
+    </div>
+    <div class="pm-body">
+      <p>She walks in. She sees dogs. She counts them. She attempts to recruit the ones that are there. Three say no. Two are ineligible. She drives home and marks the visit complete.</p>
+      <p>Patricia has never once asked herself why this location seems to run light on Tuesdays. She has never noticed that the owner's golden retriever has been there every single visit and has never been pitched. She has never asked a staff member what the busiest day usually looks like.</p>
+      <p>Patricia is very thorough about doing the same thing fourteen times in a row and expecting a different result. Patricia considers this persistence.</p>
+    </div>
+  </div>
+
+  <div class="section-label">What Good Looks Like</div>
+  <p>Earlier this year, a recruiter on the team hit a wall. Low numbers, lots of drives, nothing changing. She decided to spend one Friday afternoon differently — not recruiting, just watching and asking.</p>
+
+  <div class="green-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-alert"></svg>
+      <div><div class="gm-label">Critical Thinking in Action</div><div class="pm-title-text">The Friday that changed how she works every week.</div></div>
+    </div>
+    <div class="pm-body">
+      <p>She didn't go in with a pitch. She went in with questions. <strong style="color:white;">What days are you usually busiest? Do you have regulars — dogs that come on a schedule? What's the mix usually like between daycare and boarding?</strong></p>
+      <p>By the end of that afternoon she had something she'd never had before — a mental model of each location. Not just "this place has dogs sometimes" but a picture of which dogs, which days, which owners were worth calling by name.</p>
+      <p>Her numbers changed the following week. Not because she worked harder. Because she finally knew what she was actually looking at.</p>
+    </div>
+  </div>
+
+  <div class="section-label">The Framework</div>
+  <p>Critical thinking in field recruiting breaks down into three habits. None of them require extra time — they require redirecting attention you're already spending.</p>
+
+  <div class="three-parts">
+    <div class="part-card">
+      <div class="part-num">01</div>
+      <div class="part-title">Ask one more question</div>
+      <p class="part-desc">Before you leave any location, ask one question you didn't come in planning to ask. Not about the dogs — about the patterns. "What's your busiest day?" "Do you have regulars?" "Has anyone ever donated before?" One question compounds over time.</p>
+    </div>
+    <div class="part-card">
+      <div class="part-num">02</div>
+      <div class="part-title">Name your assumptions</div>
+      <p class="part-desc">Before you arrive anywhere, say out loud what you expect to find. Then check it. This is the Ivy Lee principle applied to field work — clarity before action. You can't spot a wrong assumption if you never named it in the first place.</p>
+    </div>
+    <div class="part-card">
+      <div class="part-num">03</div>
+      <div class="part-title">Notice the pattern, not just the visit</div>
+      <p class="part-desc">One visit is a data point. Three visits is a pattern. Five visits is a relationship. If you've been somewhere more than twice and you still can't predict what you'll find when you arrive, you haven't been paying attention — you've been showing up.</p>
+    </div>
+  </div>
+
+  <div class="truth-bomb"><p>Showing up and paying attention are not the same thing. One of them fills your calendar. The other one fills your pipeline.</p></div>
+
+  <div class="section-label">The Ivy Lee Connection</div>
+  <p>Leadership noted the Ivy Lee method as something that's worked in past book club discussions. Here's why it's relevant here: Ivy Lee's core idea wasn't about working harder — it was about <strong>deciding in advance</strong> what actually matters before you start moving. He told Charles Schwab to write down six things the night before and work them in order. The insight wasn't the list. It was the act of deciding before the chaos of the day took over.</p>
+  <p>Applied to field recruiting: the recruiter who thinks before she drives — who asks "what do I actually expect to find, and what one question will tell me the most" — is doing Ivy Lee in the field. The recruiter who just shows up is letting the day decide for her.</p>
+  <p>Patricia does not write anything down the night before. Patricia considers this staying flexible.</p>
+
+  <div class="section-label">Check Yourself</div>
+  <div class="interactive">
+    <div class="interactive-label">Self-Check — The Patricia Scale, Week 3</div>
+    <h3>How much are you actually observing?</h3>
+    <p class="sub">Be honest about your last few field visits. Not your best day — your average one.</p>
+    <div class="slider-row"><label>Before I arrive somewhere, I can predict what I'll find there. <span class="slider-val" id="v1">3</span></label><input type="range" min="1" max="5" value="3" oninput="document.getElementById('v1').textContent=this.value"><div class="slider-ends"><span>Total mystery every time</span><span>Accurate picture every time</span></div></div>
+    <div class="slider-row"><label>I ask at least one question per visit that isn't directly about recruiting. <span class="slider-val" id="v2">3</span></label><input type="range" min="1" max="5" value="3" oninput="document.getElementById('v2').textContent=this.value"><div class="slider-ends"><span>Almost never</span><span>Every single visit</span></div></div>
+    <div class="slider-row"><label>I can describe the pattern of my top 3 locations without looking anything up. <span class="slider-val" id="v3">3</span></label><input type="range" min="1" max="5" value="3" oninput="document.getElementById('v3').textContent=this.value"><div class="slider-ends"><span>Not really</span><span>Cold — no problem</span></div></div>
+    <button onclick="showResult()" style="background:var(--blue);color:white;border:none;padding:12px 24px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px;">See where that lands</button>
+    <div class="result-box" id="resultBox"><strong id="resultTitle"></strong><p id="resultText"></p></div>
+    <label class="reflect-label">Think of one location you've visited at least three times. What's the pattern? What do you actually know about it — not from a single visit, but from paying attention over time?</label>
+    <textarea id="reflectionText" placeholder="Reflect here — this is just for you." oninput="autoSave()"></textarea>
+  </div>
+
+  <div class="meeting-prompt">
+    <div class="mp2-label">Bring This To Our Next Meeting</div>
+    <div class="mp2-title">Your one observation</div>
+    <p class="mp2-body">Name one thing you've noticed about a location that you've never acted on. Not a complaint — an observation. What's a pattern you've seen but never followed up on? That's this week's starting point. Patricia will not be sharing. Patricia has not noticed any patterns. Patricia considers every visit a fresh start.</p>
+  </div>
+
+  <div class="next-btn-wrap">
+    <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week3_case_study.html">Next: Case Study →</a>
+  </div>
+</main>
+<script>
+const p = `<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML = p;
+document.getElementById('patricia-alert').innerHTML = p;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function showResult(){
+  const avg=[1,2,3].reduce((s,i)=>s+parseInt(document.querySelectorAll('input[type=range]')[i-1].value),0)/3;
+  const box=document.getElementById('resultBox');
+  if(avg>=4){document.getElementById('resultTitle').textContent="You're actually paying attention.";document.getElementById('resultText').textContent="You don't just visit — you observe. The next level is turning those observations into conversations. The recruiter who knows the most about a location is the one the staff trusts most.";}
+  else if(avg>=2.5){document.getElementById('resultTitle').textContent="You're noticing things but not connecting them yet.";document.getElementById('resultText').textContent="You're picking up signals but they're not becoming patterns. Pick one location this week and commit to knowing it — really knowing it — by Friday.";}
+  else{document.getElementById('resultTitle').textContent="You're showing up. That's different from paying attention.";document.getElementById('resultText').textContent="You're doing the visits. The data is all around you. The shift this week is simple: before you leave your next visit, ask one question you didn't plan to ask. Just one.";}
+  box.classList.add('visible');
+}
+function autoSave(){try{localStorage.setItem('ch3-read-reflection',document.getElementById('reflectionText').value);}catch(e){}}
+function loadSaved(){try{const r=localStorage.getItem('ch3-read-reflection');if(r)document.getElementById('reflectionText').value=r;}catch(e){}}
+loadSaved();
+</script>
+</body>
+</html>
