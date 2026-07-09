@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Case Study: The Call She Didn't Have to Make</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:720px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.1;}
+  .meta{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:48px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .stage-counter{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);text-align:center;margin-bottom:10px;}
+  .progress-track{height:4px;background:var(--gray-light);border-radius:2px;margin-bottom:52px;overflow:hidden;}
+  .progress-track-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:14%;transition:width 0.5s ease;}
+  .scene{display:none;min-height:280px;animation:fadeUp 0.5s ease both;}
+  .scene.active{display:block;}
+  .scene-time{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .scene-time::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}
+  .scene-time.red{color:var(--red);}
+  .scene-time.red::before{background:var(--red);}
+  .scene-time.green{color:#16a34a;}
+  .scene-time.green::before{background:#16a34a;}
+  .scene h2{font-size:clamp(22px,3.5vw,30px);font-weight:900;margin-bottom:18px;letter-spacing:-0.5px;}
+  .scene p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:16px;}
+  .scene p em{font-style:normal;color:var(--ink);font-weight:600;}
+  .timeline{margin:20px 0;display:flex;flex-direction:column;gap:0;}
+  .tl-item{display:flex;gap:20px;padding-bottom:24px;position:relative;}
+  .tl-item::before{content:"";position:absolute;left:11px;top:24px;bottom:0;width:2px;background:var(--gray-mid);}
+  .tl-item:last-child::before{display:none;}
+  .tl-dot{width:24px;height:24px;border-radius:50%;background:var(--blue);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .tl-dot.red{background:var(--red);}
+  .tl-dot.green{background:#16a34a;}
+  .tl-dot svg{width:12px;height:12px;}
+  .tl-body{}
+  .tl-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-text);margin-bottom:4px;}
+  .tl-text{font-size:15px;color:var(--gray-text);line-height:1.6;}
+  .tl-text strong{color:var(--ink);}
+  .stat-callout{background:var(--blue-dark);border-radius:16px;padding:24px 28px;margin:24px 0;}
+  .stat-big{font-size:40px;font-weight:900;color:var(--red);display:block;margin-bottom:4px;}
+  .stat-label{font-size:14px;color:rgba(255,255,255,0.7);}
+  .patricia-contrast{background:var(--ink);border-radius:16px;padding:28px 32px;margin:24px 0;}
+  .pc-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+  .pc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;}
+  .reflection-block{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:36px;box-shadow:6px 6px 0 rgba(1,86,152,0.08);}
+  .reflection-block .rl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+  .reflection-block h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .reflection-block .hint{font-size:14px;color:var(--gray-text);margin-bottom:20px;line-height:1.6;}
+  textarea{width:100%;min-height:100px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:40px;}
+  .nav-btn{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+  .nav-btn.next{background:var(--blue);color:var(--white);}
+  .nav-btn.next:hover{background:var(--blue-dark);}
+  .nav-btn.prev{background:var(--gray-light);color:var(--ink);border:1.5px solid var(--gray-mid);}
+  .nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:32px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 4 &middot; Case Study</div><div class="loader-title">The Call She <span>Didn't Have to Make</span></div></div>
+<div class="wrap">
+  <div class="kicker">Case Study &middot; Week 4</div>
+  <h1>The Call She Didn't Have to Make</h1>
+  <div class="meta">~8 min &middot; Click through each scene, then answer one question.</div>
+  <div class="stage-counter" id="stageCounter">Scene 1 of 6</div>
+  <div class="progress-track"><div class="progress-track-fill" id="trackFill"></div></div>
+
+  <div class="scene active" data-scene="1">
+    <div class="scene-time">Four Months Ago</div>
+    <h2>A donor event. A brief conversation. Nothing that felt significant.</h2>
+    <p>It was a Thursday evening event, running from 4:30 to 6:30. A recruiter was working the room — introducing herself to owners, talking about the program, collecting intake forms. Standard evening.</p>
+    <p>At about 5:15 she ended up talking to the owner of a three-year-old lab mix named Biscuit. The conversation ran maybe eight minutes. The owner was interested but not ready to commit. She had questions about the process, the frequency, whether her dog would be okay. The recruiter answered them honestly, including the parts that weren't a guaranteed yes.</p>
+    <p>At the end she handed her a card and said: <em>"Take your time. There's no rush. If you want to ask more questions before deciding, just reach out."</em> And then she moved on.</p>
+  </div>
+
+  <div class="scene" data-scene="2">
+    <div class="scene-time">Two Weeks Later</div>
+    <h2>She followed up. Once. Without a pitch.</h2>
+    <p>She sent a single message — not a form email, not a pitch, not a link to a scheduling page. Just a one-line note: <em>"Hey — hope Biscuit is doing well. No pressure at all, just wanted to make sure you had what you needed if you had any more questions."</em></p>
+    <p>The owner replied with a few more questions. The recruiter answered them. No close attempt. No urgency. Just answers.</p>
+    <div class="patricia-contrast">
+      <div class="pc-label">Patricia's Version</div>
+      <p class="pc-body">Patricia also attended a donor event that month. Patricia has not followed up with a single owner from that event. Patricia meant to. Patricia is very busy. Patricia considers the event itself to have been the follow-up.</p>
+    </div>
+  </div>
+
+  <div class="scene" data-scene="3">
+    <div class="scene-time">The Next Two Months</div>
+    <h2>Nothing. And that was fine.</h2>
+    <p>She didn't hear from the owner. She didn't follow up again. She didn't reach back out after a month with another nudge. She let it sit.</p>
+    <p>This is the part that most recruiters get wrong. The impulse is to follow up again — to stay top of mind, to push a little. But there's a version of follow-up that tips into pressure, and owners can feel the difference. She had answered the questions. She had been easy to reach. She had made it clear there was no rush. That was enough.</p>
+    <div class="stat-callout">
+      <span class="stat-big">0</span>
+      <span class="stat-label">additional follow-up attempts after the initial message. She trusted the relationship she'd already built to do the work.</span>
+    </div>
+  </div>
+
+  <div class="scene" data-scene="4">
+    <div class="scene-time green">Four Months Later — A Tuesday Afternoon</div>
+    <h2>Her phone rang. It was the owner.</h2>
+    <p>The owner had thought about it. She'd talked to a friend who also donated. She'd decided she wanted to bring Biscuit in — and she also wanted to bring in her sister's golden retriever, who she thought might be a good candidate.</p>
+    <p>That's two dogs. Two completed intakes. Scheduled on the same day.</p>
+    <p>The recruiter didn't make this happen with a script or a pitch. She made it happen by being someone worth calling four months later. <em>That's professionalism working as a competitive advantage.</em></p>
+  </div>
+
+  <div class="scene" data-scene="5">
+    <div class="scene-time">What Built the Call</div>
+    <h2>It wasn't one thing. It was a sequence of small ones.</h2>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot green"><svg viewBox="0 0 12 12" fill="white"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="tl-body"><div class="tl-label">Donor Event</div><div class="tl-text"><strong>Honest conversation, no pressure close.</strong> She answered the hard questions including the ones without perfect answers.</div></div></div>
+      <div class="tl-item"><div class="tl-dot green"><svg viewBox="0 0 12 12" fill="white"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="tl-body"><div class="tl-label">Two Weeks Out</div><div class="tl-text"><strong>One personal follow-up, no pitch.</strong> She checked in on Biscuit by name. She didn't ask for a decision.</div></div></div>
+      <div class="tl-item"><div class="tl-dot green"><svg viewBox="0 0 12 12" fill="white"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="tl-body"><div class="tl-label">Months of Silence</div><div class="tl-text"><strong>She didn't push.</strong> She trusted that she'd done enough to be worth calling if the owner was ready.</div></div></div>
+      <div class="tl-item"><div class="tl-dot red"><svg viewBox="0 0 12 12" fill="white"><path d="M3 3l6 6M9 3l-6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="tl-body"><div class="tl-label">Result</div><div class="tl-text"><strong>Inbound call. Two donors. No chase.</strong></div></div></div>
+    </div>
+  </div>
+
+  <div class="scene" data-scene="6">
+    <div class="reflection-block">
+      <div class="rl">Your Turn</div>
+      <h3>Is there an owner in your territory who went quiet after showing initial interest?</h3>
+      <p class="hint">Not someone who said no — someone who was warm and then just... didn't move forward. What did your follow-up look like? Was it personal or transactional? Did you push or did you leave space? What would you do differently now?</p>
+      <textarea id="caseRef" placeholder="Type your answer here..." oninput="autoSave()"></textarea>
+    </div>
+    <div class="next-btn-wrap">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week4_self_assessment.html">Next: Self-Assessment →</a>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn prev" id="prevBtn" onclick="changeScene(-1)" disabled>← Back</button>
+    <button class="nav-btn next" id="nextBtn" onclick="changeScene(1)">Continue →</button>
+  </div>
+</div>
+<script>
+let current=1;const total=6;
+function renderScene(){
+  document.querySelectorAll('.scene').forEach(s=>s.classList.toggle('active',parseInt(s.dataset.scene)===current));
+  document.getElementById('stageCounter').textContent=current===total?'Your response':`Scene ${current} of ${total-1}`;
+  document.getElementById('trackFill').style.width=`${(current/total)*100}%`;
+  document.getElementById('prevBtn').disabled=current===1;
+  document.getElementById('nextBtn').style.display=current===total?'none':'inline-block';
+}
+function changeScene(d){const n=current+d;if(n<1||n>total)return;current=n;renderScene();}
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function autoSave(){try{localStorage.setItem('ch4-case-ref',document.getElementById('caseRef').value);}catch(e){}}
+function loadSaved(){try{const r=localStorage.getItem('ch4-case-ref');if(r)document.getElementById('caseRef').value=r;}catch(e){}}
+renderScene();loadSaved();
+</script>
+</body>
+</html>
