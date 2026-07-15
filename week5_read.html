@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Week 5: The Conversation vs. The Script</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .hero{min-height:55vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;animation:fadeUp 0.7s ease 1.8s both;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+  .hero-nav{position:absolute;top:0;left:0;right:0;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}
+  .nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:8px;}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
+  .nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+  .hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+  .hero-eyebrow::before{content:"";width:24px;height:2px;background:var(--red);}
+  .hero-title{font-size:clamp(32px,5vw,58px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;position:relative;z-index:2;}
+  .hero-title em{font-style:normal;color:var(--red);}
+  .hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:480px;line-height:1.6;position:relative;z-index:2;}
+  .content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}
+  .section-label{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:36px;}
+  .section-label::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+  p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}
+  p strong{color:var(--ink);font-weight:700;}
+  .patricia-moment{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .pm-header{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:52px;height:52px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title-text{font-size:18px;font-weight:800;color:var(--white);}
+  .pm-body{padding:28px 32px;}
+  .pm-body p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}
+  .pm-body p:last-child{margin-bottom:0;}
+  .green-moment{background:linear-gradient(135deg,#0a3d1f,#0f5c2e);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .gm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4ade80;margin-bottom:4px;}
+  .truth-bomb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}
+  .truth-bomb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}
+  .truth-bomb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+  .three-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:44px 0;}
+  .part-card{border-radius:16px;padding:28px 24px;border:1.5px solid var(--gray-mid);position:relative;overflow:hidden;}
+  .part-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--blue);}
+  .part-card:nth-child(2)::after{background:var(--red);}
+  .part-card:nth-child(3)::after{background:var(--blue-mid);}
+  .part-num{font-size:36px;font-weight:900;color:var(--gray-light);margin-bottom:12px;line-height:1;}
+  .part-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:8px;}
+  .part-desc{font-size:13px;color:var(--gray-text);line-height:1.6;}
+  .info-box{background:var(--gray-light);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--blue);}
+  .info-box-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+  .info-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}
+  .info-box p:last-child{margin-bottom:0;}
+  .meeting-prompt{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}
+  .mp-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .mp-label::before{content:"";width:20px;height:2px;background:var(--red);}
+  .mp-title{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+  .mp-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);transform:translateY(-2px);}
+  @media(max-width:600px){.hero{padding:0 24px 40px;}.content{padding:48px 24px 80px;}.three-parts{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 5 &middot; Read</div><div class="loader-title">The Conversation vs. <span>The Script</span></div></div>
+<section class="hero">
+  <div class="hero-grid"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+  <div class="hero-eyebrow">Chapter 5 of ongoing</div>
+  <h1 class="hero-title">The Conversation<br><em>vs. The Script</em></h1>
+  <p class="hero-sub">A script is what you say. A conversation is what you listen for. Only one of them actually gets dogs into the program.</p>
+</section>
+<main class="content">
+  <div class="section-label">The Concept</div>
+  <p>There's a version of field recruiting that sounds like a pitch. You walk in, you find a dog owner, and you say your thing. You cover the program, the benefits, the mission. You answer questions. You leave a flyer. You log the visit. You do it again tomorrow.</p>
+  <p>And the numbers don't move.</p>
+  <p>The problem isn't the information. The problem is that <strong>you're delivering it the same way to every person regardless of what they just told you, what their body language is, or what you already know about them from last time.</strong> That's a script. Scripts are efficient. They are not effective.</p>
+  <p>A conversation has a goal — but it gets there differently every time. It starts with what you already know, reads what's in front of you, and adjusts. The flyer comes out only if they need it. The full pitch happens only if they're actually listening. And the follow-up the next time you see them picks up exactly where it left off — not from the beginning.</p>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title-text">Patricia has a script. Patricia loves her script.</div></div>
+    </div>
+    <div class="pm-body">
+      <p>Patricia walks into every location and gives everyone the same speech. It is a good speech. Patricia practiced it. She delivers it to the person checking their phone. She delivers it to the person who is mid-sentence with someone else. She delivers it to the person who already said no last month.</p>
+      <p>Patricia hands everyone a flyer immediately. Patricia believes the flyer is doing a lot of work. The flyers are mostly in the bottom of bags within thirty seconds of her leaving.</p>
+      <p>Patricia considers herself consistent. Patricia's numbers consider her predictable.</p>
+    </div>
+  </div>
+
+  <div class="section-label">What Good Looks Like</div>
+  <p>A recruiter had a rough week. Her car stalled on the highway on the way to a recruiting event. She pulled over at an auto parts store, got it fixed as fast as she could, and arrived at the daycare forty minutes late — sweaty, frazzled, and behind schedule.</p>
+
+  <div class="green-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-green"></svg>
+      <div><div class="gm-label">The Conversation That Got a Yes</div><div class="pm-title-text">She walked in with almost no time — and still remembered.</div></div>
+    </div>
+    <div class="pm-body">
+      <p>The front desk person gave her a short list. Most of the dogs had already been through the program in some form. But one name on the list — Willow — rang a bell. She had met Willow's mom eight months earlier, when Willow was still a puppy and not yet eligible.</p>
+      <p>She didn't start with the program. She started with: <strong style="color:white;">"Hey — did Willow just turn one? I remember you telling me she was getting close."</strong></p>
+      <p>Mom lit up. They talked about Willow for two minutes before the program came up at all. Willow signed up that day. That one conversation — built entirely on something she remembered from eight months ago — was the only successful sign-up of a chaotic day. And it happened because she walked in with context, not a script.</p>
+    </div>
+  </div>
+
+  <div class="section-label">The Three Shifts</div>
+
+  <div class="three-parts">
+    <div class="part-card">
+      <div class="part-num">01</div>
+      <div class="part-title">Hold the flyer</div>
+      <p class="part-desc">The flyer pulls their eyes away from you the moment it's in their hands. Have it available — but earn the handoff. Give it to someone who asked a question, not to everyone who made eye contact. If they sign up, they don't need the flyer. If they don't, they'll throw it away anyway.</p>
+    </div>
+    <div class="part-card">
+      <div class="part-num">02</div>
+      <div class="part-title">Read the room before you open your mouth</div>
+      <p class="part-desc">Someone on their phone isn't necessarily unavailable — but someone mid-sentence with a staff member is. Someone whose dog just came out of the back isn't ready to talk about anything except their dog. Read the first five seconds before you decide when and how to start. Timing isn't a small thing. It's most of the thing.</p>
+    </div>
+    <div class="part-card">
+      <div class="part-num">03</div>
+      <div class="part-title">Pick up where you left off</div>
+      <p class="part-desc">Follow-up in the field doesn't mean calling or texting — you usually don't have their number. It means walking in next time and saying: "Hey — did you get a chance to talk to your wife about Rocky?" That's it. One sentence that tells them you were paying attention. Most recruiters don't do this. That's exactly why it works when you do.</p>
+    </div>
+  </div>
+
+  <div class="truth-bomb"><p>The person who gave you a maybe last month didn't forget. They're wondering if you remembered. Show them you did.</p></div>
+
+  <div class="info-box">
+    <div class="info-box-label">On the subject of flyers</div>
+    <p>Flyers are useful for one specific moment: when someone needs to go talk to someone else before they can say yes. A spouse, a vet, a roommate. In that case, hand them the flyer so they have something to reference in that conversation.</p>
+    <p>That's the only moment the flyer is doing real work. Every other time, you are the message. Your energy, your knowledge of their dog, your ability to read the moment — that's what gets them to say yes. No printed card can do that.</p>
+  </div>
+
+  <div class="section-label">On Reading Dog Owners Specifically</div>
+  <p>Dog owners picking up from daycare are in a specific mental state: they're transitioning. Their work brain is shutting off. Their dog brain is turning on. The thirty seconds when their dog comes out is the worst possible moment to pitch anything — they're not listening to you. They're watching their dog.</p>
+  <p>The best moment is just before — when they're waiting and have nothing to do. Or just after — when the dog has settled down and the owner is back in their body. Reading that window is a skill. It develops over time. But it starts with knowing the window exists.</p>
+  <p>Patricia pitches during the dog handoff. Patricia considers the excitement and chaos of that moment a sign that the owner is engaged. The owner is not engaged with Patricia. The owner is engaged with their dog. Patricia and the dog are not the same thing.</p>
+
+  <div class="meeting-prompt">
+    <div class="mp-label">Bring This To Our Next Meeting</div>
+    <div class="mp-title">One conversation that went differently</div>
+    <p class="mp-body">Think of a conversation with a dog owner where you used something you already knew — about their dog, their situation, where you'd left off last time. What did you say, and what happened? If you don't have one yet, your applied task this week is to make one happen before the meeting.</p>
+  </div>
+
+  <div class="next-btn-wrap">
+    <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week5_case_study.html">Next: Case Study →</a>
+  </div>
+</main>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+document.getElementById('patricia-green').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+</script>
+</body>
+</html>
