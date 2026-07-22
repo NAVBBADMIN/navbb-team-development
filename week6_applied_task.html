@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Week 6 Applied Task</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta-line{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .mission-card{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:20px;padding:40px;margin-bottom:40px;}
+  .mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+  .mc-title{font-size:24px;font-weight:900;color:var(--white);margin-bottom:12px;}
+  .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.75;}
+  .patricia-moment{background:var(--ink);border-radius:16px;overflow:hidden;margin:0 0 36px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:48px;height:48px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:15px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0;}
+  .cat-section{margin-bottom:36px;}
+  .cat-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+  .cat-badge{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+  .cat-badge.anchor{background:rgba(1,86,152,0.1);color:var(--blue);border:1.5px solid rgba(1,86,152,0.2);}
+  .cat-badge.developing{background:rgba(2,112,192,0.1);color:var(--blue-mid);border:1.5px solid rgba(2,112,192,0.2);}
+  .cat-badge.evaluate{background:rgba(237,45,43,0.08);color:var(--red);border:1.5px solid rgba(237,45,43,0.2);}
+  .cat-desc{font-size:13px;color:var(--gray-text);margin-bottom:16px;line-height:1.6;}
+  .loc-entry{background:var(--gray-light);border-radius:12px;padding:20px;margin-bottom:12px;}
+  .field-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;display:block;}
+  input[type=text]{width:100%;padding:11px 14px;border:1.5px solid var(--gray-mid);border-radius:8px;font-family:'Poppins',sans-serif;font-size:14px;color:var(--ink);margin-bottom:12px;}
+  input[type=text]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  textarea{width:100%;min-height:80px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+  textarea:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  .add-btn{background:var(--white);border:1.5px dashed var(--gray-mid);border-radius:10px;padding:12px;width:100%;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;color:var(--gray-text);cursor:pointer;margin-bottom:20px;transition:all 0.2s;}
+  .add-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .reflection-block{margin-bottom:36px;}
+  .reflection-block h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .reflection-block .hint{font-size:13px;color:var(--gray-text);margin-bottom:14px;line-height:1.6;}
+  .save-indicator{font-size:12px;color:var(--gray-text);height:16px;margin-top:6px;}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 6 &middot; Applied Task</div><div class="loader-title"><span>Map Your Territory</span></div></div>
+<div class="wrap">
+  <div class="kicker">Applied Task &middot; Week 6</div>
+  <h1>Map Your Territory</h1>
+  <p class="meta-line">Real work &middot; Do this before you plan next week &middot; Be honest.</p>
+
+  <div class="notice">
+    <div class="notice-label">Before You Start — Please Read</div>
+    <p><strong>Your responses here are stored only on your device and are never automatically submitted or shared.</strong> Leadership cannot see what you type in these fields.</p>
+    <p>Use this page to work through your territory map honestly.</p>
+    <p><strong>To be counted as complete for this week</strong>, scroll to the bottom and hit the <strong>Submit Week 6 Check-In</strong> button. That's the separate action leadership actually sees.</p>
+  </div>
+
+  <div class="mission-card">
+    <div class="mc-label">This Week's Task</div>
+    <div class="mc-title">Sort every location you visit into one of three categories.</div>
+    <p class="mc-body">No location gets to sit in the middle. Every place you visit is either an anchor, a developing location, or one you need to evaluate honestly. Sort them all. Then answer one question per category. The answers are private — but they'll change how you plan next week.</p>
+  </div>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title">Patricia mapped her territory.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia put every location in the Anchor column. Patricia has no developing locations because Patricia has not identified any locations that need development. Patricia has no evaluate locations because Patricia does not evaluate locations. Patricia is now done with the task. Patricia's territory looks exactly like it did last week.</p></div>
+  </div>
+
+  <!-- ANCHOR -->
+  <div class="cat-section">
+    <div class="cat-header"><span class="cat-badge anchor">Anchor</span></div>
+    <p class="cat-desc">Strong, consistent, you know it cold. Staff knows you. Numbers move when you're there.</p>
+    <div id="anchor-entries">
+      <div class="loc-entry">
+        <label class="field-label">Location name</label>
+        <input type="text" class="anchor-name" placeholder="Location name" oninput="autoSave()">
+        <label class="field-label">What makes it an anchor — and what would it take to lose that status?</label>
+        <textarea class="anchor-note" placeholder="What's working and what could erode it..." oninput="autoSave()"></textarea>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addEntry('anchor')">+ Add another anchor location</button>
+  </div>
+
+  <!-- DEVELOPING -->
+  <div class="cat-section">
+    <div class="cat-header"><span class="cat-badge developing">Developing</span></div>
+    <p class="cat-desc">Real potential, needs intentional work. The ingredients are there — the numbers aren't yet.</p>
+    <div id="developing-entries">
+      <div class="loc-entry">
+        <label class="field-label">Location name</label>
+        <input type="text" class="developing-name" placeholder="Location name" oninput="autoSave()">
+        <label class="field-label">What's specifically missing that would move this to anchor status?</label>
+        <textarea class="developing-note" placeholder="Not 'more visits' — what's the actual gap?" oninput="autoSave()"></textarea>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addEntry('developing')">+ Add another developing location</button>
+  </div>
+
+  <!-- EVALUATE -->
+  <div class="cat-section">
+    <div class="cat-header"><span class="cat-badge evaluate">Evaluate</span></div>
+    <p class="cat-desc">You keep going. The results don't justify it. Honest answer required.</p>
+    <div id="evaluate-entries">
+      <div class="loc-entry">
+        <label class="field-label">Location name</label>
+        <input type="text" class="evaluate-name" placeholder="Location name (or leave blank if none)" oninput="autoSave()">
+        <label class="field-label">Is the next six visits going to produce something different — and why or why not?</label>
+        <textarea class="evaluate-note" placeholder="Honest answer only..." oninput="autoSave()"></textarea>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addEntry('evaluate')">+ Add another evaluate location</button>
+  </div>
+
+  <!-- COMMITMENT -->
+  <div class="reflection-block">
+    <h3>Your developing location commitment</h3>
+    <p class="hint">Pick one developing location. What are you doing specifically and differently over the next four weeks to move it toward anchor status? Not a general intention — a specific action.</p>
+    <textarea id="commitment" placeholder="Location name + specific action..." oninput="autoSave()"></textarea>
+    <div class="save-indicator" id="saveIndicator"></div>
+  </div>
+
+  <div style="margin-top:40px;background:var(--blue-dark);border-radius:20px;padding:36px 40px;text-align:center;">
+    <h3 style="font-size:20px;font-weight:900;color:var(--white);margin-bottom:8px;">Done? Submit your Week 6 check-in.</h3>
+    <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6;">Takes 2 minutes. This is the one thing leadership actually sees.</p>
+    <a style="display:inline-block;background:var(--red);color:var(--white);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 40px;border-radius:12px;text-decoration:none;" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUMTc2MTY4SVhDRTFOVFhZRFZPN0FOUVY5Ry4u" target="_blank">Submit Week 6 Check-In &rarr;</a>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:16px;">
+    <a style="font-size:14px;color:var(--blue);text-decoration:none;font-weight:600;" href="https://navbbadmin.github.io/navbb-team-development/week6_hub.html">&larr; Back to Week 6 Hub</a>
+  </div>
+</div>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+
+function addEntry(cat){
+  const placeholders={
+    anchor:{name:'Location name',note:'What\'s working and what could erode it...'},
+    developing:{name:'Location name',note:'Not \'more visits\' — what\'s the actual gap?'},
+    evaluate:{name:'Location name',note:'Honest answer only...'}
+  };
+  const labelMap={
+    anchor:'What makes it an anchor — and what would it take to lose that status?',
+    developing:'What\'s specifically missing that would move this to anchor status?',
+    evaluate:'Is the next six visits going to produce something different — and why or why not?'
+  };
+  const div=document.createElement('div');
+  div.className='loc-entry';
+  div.innerHTML=`<label class="field-label">Location name</label><input type="text" class="${cat}-name" placeholder="${placeholders[cat].name}" oninput="autoSave()"><label class="field-label">${labelMap[cat]}</label><textarea class="${cat}-note" placeholder="${placeholders[cat].note}" oninput="autoSave()"></textarea>`;
+  document.getElementById(`${cat}-entries`).appendChild(div);
+}
+
+function autoSave(){
+  try{
+    const data={commitment:document.getElementById('commitment').value};
+    ['anchor','developing','evaluate'].forEach(cat=>{
+      const names=[...document.querySelectorAll('.${cat}-name')].map(e=>e.value);
+      const notes=[...document.querySelectorAll('.${cat}-note')].map(e=>e.value);
+      data[cat]={names,notes};
+    });
+    localStorage.setItem('ch6-applied',JSON.stringify(data));
+    document.getElementById('saveIndicator').textContent='✓ Saved.';
+    setTimeout(()=>document.getElementById('saveIndicator').textContent='',2000);
+  }catch(e){}
+}
+function loadSaved(){
+  try{
+    const raw=localStorage.getItem('ch6-applied');
+    if(!raw)return;
+    const data=JSON.parse(raw);
+    if(data.commitment)document.getElementById('commitment').value=data.commitment;
+    ['anchor','developing','evaluate'].forEach(cat=>{
+      if(!data[cat])return;
+      const names=data[cat].names||[];
+      const notes=data[cat].notes||[];
+      const container=document.getElementById(`${cat}-entries`);
+      const existing=container.querySelectorAll('.${cat}-name');
+      names.forEach((n,i)=>{
+        if(i>=existing.length)addEntry(cat);
+        container.querySelectorAll('.${cat}-name')[i].value=n;
+        container.querySelectorAll('.${cat}-note')[i].value=notes[i]||'';
+      });
+    });
+  }catch(e){}
+}
+loadSaved();
+</script>
+</body>
+</html>

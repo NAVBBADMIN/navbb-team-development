@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Case Study: Two Territories, Two Approaches</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:720px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.1;}
+  .meta{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:48px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .stage-counter{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);text-align:center;margin-bottom:10px;}
+  .progress-track{height:4px;background:var(--gray-light);border-radius:2px;margin-bottom:52px;overflow:hidden;}
+  .progress-track-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:14%;transition:width 0.5s ease;}
+  .scene{display:none;min-height:280px;animation:fadeUp 0.5s ease both;}
+  .scene.active{display:block;}
+  .scene-time{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .scene-time::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}
+  .scene-time.red{color:var(--red);}
+  .scene-time.red::before{background:var(--red);}
+  .scene h2{font-size:clamp(22px,3.5vw,30px);font-weight:900;margin-bottom:18px;letter-spacing:-0.5px;}
+  .scene p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:16px;}
+  .scene p em{font-style:normal;color:var(--ink);font-weight:600;}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+  .split-card{border-radius:12px;padding:20px;}
+  .split-card.bad{background:rgba(237,45,43,0.06);border:1.5px solid rgba(237,45,43,0.2);}
+  .split-card.good{background:rgba(1,86,152,0.06);border:1.5px solid rgba(1,86,152,0.2);}
+  .split-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+  .split-card.bad .split-label{color:var(--red);}
+  .split-card.good .split-label{color:var(--blue);}
+  .split-card p{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+  .stat-callout{background:var(--blue-dark);border-radius:16px;padding:24px 28px;margin:24px 0;}
+  .stat-big{font-size:36px;font-weight:900;color:var(--red);display:block;margin-bottom:6px;}
+  .stat-label{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.5;}
+  .loc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0;}
+  .loc-card{border-radius:10px;padding:14px;text-align:center;}
+  .loc-card.anchor{background:rgba(1,86,152,0.08);border:1.5px solid rgba(1,86,152,0.2);}
+  .loc-card.developing{background:rgba(2,112,192,0.08);border:1.5px solid rgba(2,112,192,0.2);}
+  .loc-card.evaluate{background:rgba(237,45,43,0.06);border:1.5px solid rgba(237,45,43,0.15);}
+  .loc-type{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+  .loc-card.anchor .loc-type{color:var(--blue);}
+  .loc-card.developing .loc-type{color:var(--blue-mid);}
+  .loc-card.evaluate .loc-type{color:var(--red);}
+  .loc-name{font-size:13px;font-weight:700;color:var(--ink);}
+  .loc-stat{font-size:11px;color:var(--gray-text);margin-top:4px;}
+  .reflection-block{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:36px;box-shadow:6px 6px 0 rgba(1,86,152,0.08);}
+  .reflection-block .rl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+  .reflection-block h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .reflection-block .hint{font-size:14px;color:var(--gray-text);margin-bottom:20px;line-height:1.6;}
+  textarea{width:100%;min-height:100px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:40px;}
+  .nav-btn{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+  .nav-btn.next{background:var(--blue);color:var(--white);}
+  .nav-btn.next:hover{background:var(--blue-dark);}
+  .nav-btn.prev{background:var(--gray-light);color:var(--ink);border:1.5px solid var(--gray-mid);}
+  .nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:32px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}.split{grid-template-columns:1fr;}.loc-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 6 &middot; Case Study</div><div class="loader-title">Two Territories, <span>Two Approaches</span></div></div>
+<div class="wrap">
+  <div class="kicker">Case Study &middot; Week 6</div>
+  <h1>Two Territories, Two Approaches</h1>
+  <div class="meta">~8 min &middot; Click through each scene &middot; One question at the end.</div>
+  <div class="stage-counter" id="stageCounter">Scene 1 of 6</div>
+  <div class="progress-track"><div class="progress-track-fill" id="trackFill"></div></div>
+
+  <div class="scene active" data-scene="1">
+    <div class="scene-time">Same Region. Same Pool of Locations.</div>
+    <h2>Two recruiters. Overlapping territories. Very different results.</h2>
+    <p>Recruiter A and Recruiter B both work in the same general region. They have access to many of the same daycares, similar dog populations, and similar schedule structures. Over a six-week period, their numbers diverge significantly — not because one works harder than the other, but because of how each one thinks about their territory.</p>
+    <p>Recruiter A visits 12 locations a week. Recruiter B visits 6. Recruiter B's sign-up rate is nearly double.</p>
+  </div>
+
+  <div class="scene" data-scene="2">
+    <div class="scene-time red">Recruiter A — The Coverage Approach</div>
+    <h2>Recruiter A is everywhere. And nowhere deeply.</h2>
+    <p>Recruiter A's weekly schedule looks impressive on paper. Twelve locations. Every day packed. She rarely misses a visit and she can tell you how many dogs were at each location on any given Tuesday.</p>
+    <div class="stat-callout">
+      <span class="stat-big">12 locations</span>
+      <span class="stat-label">visited per week &middot; average 45 minutes per location &middot; 4 locations with fewer than 5 active donors that have had fewer than 5 active donors for 3+ months &middot; 0 locations she'd describe as anchors</span>
+    </div>
+    <p>When a location has a bad week she moves on. When a location has a good week she comes back the same way she always does. She covers her territory. She does not manage it.</p>
+  </div>
+
+  <div class="scene" data-scene="3">
+    <div class="scene-time">Recruiter B — The Portfolio Approach</div>
+    <h2>Recruiter B knows exactly what she's working with.</h2>
+    <p>Before Recruiter B plans her week, she thinks about three categories. She has three anchor locations — places she knows cold, where the staff knows her, and where she can reliably produce. She has two developing locations she is deliberately building toward anchor status. And she has one location she is actively evaluating — deciding whether the next four visits will produce something different.</p>
+    <div class="loc-grid">
+      <div class="loc-card anchor"><div class="loc-type">Anchor</div><div class="loc-name">Location 1</div><div class="loc-stat">18 active donors</div></div>
+      <div class="loc-card anchor"><div class="loc-type">Anchor</div><div class="loc-name">Location 2</div><div class="loc-stat">14 active donors</div></div>
+      <div class="loc-card anchor"><div class="loc-type">Anchor</div><div class="loc-name">Location 3</div><div class="loc-stat">11 active donors</div></div>
+      <div class="loc-card developing"><div class="loc-type">Developing</div><div class="loc-name">Location 4</div><div class="loc-stat">6 active donors</div></div>
+      <div class="loc-card developing"><div class="loc-type">Developing</div><div class="loc-name">Location 5</div><div class="loc-stat">4 active donors</div></div>
+      <div class="loc-card evaluate"><div class="loc-type">Evaluate</div><div class="loc-name">Location 6</div><div class="loc-stat">2 active donors</div></div>
+    </div>
+    <p>Her three anchors account for 70% of her sign-ups. Her two developing locations get more intentional visits than they did six weeks ago. Her evaluate location is getting one more month before she decides.</p>
+  </div>
+
+  <div class="scene" data-scene="4">
+    <div class="scene-time">Week Three — A Cancellation</div>
+    <h2>A location cancels. Watch how each recruiter responds.</h2>
+    <p>On a Wednesday afternoon, a location calls to cancel its recruiting visit. Recruiter A marks the visit as canceled, adjusts the schedule, and calls it an early day. She had nothing else planned for that slot — she hadn't been thinking strategically enough about her territory to know immediately where to redirect the time.</p>
+    <p>Recruiter B gets the same cancellation. She knows exactly what to do. She calls a developing location — one she's been meaning to give a push — and asks if she can come for an impromptu recruiting event that evening. The staff says yes. She works a list of dogs, has real conversations, and leaves with four names to follow up on and one sign-up on the spot.</p>
+    <p><em>You can only pivot intelligently to a location you've already been thinking about strategically.</em> The pivot isn't spontaneous. It's the result of knowing your territory well enough to know where the opportunity is before you need it.</p>
+  </div>
+
+  <div class="scene" data-scene="5">
+    <div class="scene-time">Week Six — The Numbers</div>
+    <h2>Same region. Same time period. Very different results.</h2>
+    <div class="split">
+      <div class="split-card bad">
+        <div class="split-label">Recruiter A — 12 Locations</div>
+        <p>31 new sign-ups over six weeks. Four locations stuck at under 5 donors for the entire period. One location she visited 8 times that produced 1 donor. No sense of which locations are growing and which are stalled.</p>
+      </div>
+      <div class="split-card good">
+        <div class="split-label">Recruiter B — 6 Locations</div>
+        <p>47 new sign-ups over six weeks. Both developing locations moved up in donor count. Evaluate location gets one more month. Three anchors maintained and deepened. One opportunistic pivot that produced 4 follow-up conversations and 1 sign-up.</p>
+      </div>
+    </div>
+    <p>Recruiter A worked harder. Recruiter B worked smarter. The difference wasn't talent or personality — it was the decision, made before the week started, about what each location was worth and what it needed.</p>
+  </div>
+
+  <div class="scene" data-scene="6">
+    <div class="reflection-block">
+      <div class="rl">Your Turn</div>
+      <h3>Do you have anchor locations — or do you have a list?</h3>
+      <p class="hint">Think about your territory right now. Can you name three locations you'd consider anchors — places where you know the staff, the numbers move consistently, and you'd put in the top tier of your portfolio? If you can, what makes them anchors? If you can't name three, what's missing from the ones that are closest?</p>
+      <textarea id="caseRef" placeholder="Type your answer here..." oninput="autoSave()"></textarea>
+    </div>
+    <div class="next-btn-wrap">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week6_self_assessment.html">Next: Self-Assessment →</a>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn prev" id="prevBtn" onclick="changeScene(-1)" disabled>← Back</button>
+    <button class="nav-btn next" id="nextBtn" onclick="changeScene(1)">Continue →</button>
+  </div>
+</div>
+<script>
+let current=1;const total=6;
+function renderScene(){
+  document.querySelectorAll('.scene').forEach(s=>s.classList.toggle('active',parseInt(s.dataset.scene)===current));
+  document.getElementById('stageCounter').textContent=current===total?'Your response':`Scene ${current} of ${total-1}`;
+  document.getElementById('trackFill').style.width=`${(current/total)*100}%`;
+  document.getElementById('prevBtn').disabled=current===1;
+  document.getElementById('nextBtn').style.display=current===total?'none':'inline-block';
+}
+function changeScene(d){const n=current+d;if(n<1||n>total)return;current=n;renderScene();}
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function autoSave(){try{localStorage.setItem('ch6-case-ref',document.getElementById('caseRef').value);}catch(e){}}
+function loadSaved(){try{const r=localStorage.getItem('ch6-case-ref');if(r)document.getElementById('caseRef').value=r;}catch(e){}}
+renderScene();loadSaved();
+</script>
+</body>
+</html>
