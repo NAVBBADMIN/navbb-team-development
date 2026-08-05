@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 8 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--gold);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .patricia-moment{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:48px;height:48px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:16px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+  .q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+  .q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+  .q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+  .q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+  .opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+  .opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+  .opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+  .results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}
+  .results-panel.visible{display:block;}
+  .results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .results-panel .score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+  .score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+  .score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--gold));border-radius:4px;transition:width 1s ease;}
+  .dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+  .dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+  .dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+  .dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+  .results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+  .results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+  .score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+  .score-btn:hover{background:#c0201f;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 8 &middot; Self-Assessment</div><div class="loader-title">How Do You <span>Close?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 8</div>
+  <h1>How Do You Close?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private — your answers are not shared or tracked.</p>
+
+  <div class="notice">
+    <div class="notice-label">Before You Start — Please Read</div>
+    <p><strong>This self-assessment is completely private.</strong> Your answers are stored only on your device and are never submitted or shared. Leadership cannot see your responses or your score.</p>
+    <p>Answer based on what you actually do when someone says they'll think about it — not what you'd do on your best day.</p>
+    <p><strong>To be counted as complete for this week</strong>, scroll to the bottom after scoring and hit the <strong>Submit Week 8 Check-In</strong> button. That's the separate action leadership actually sees.</p>
+  </div>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title">Patricia is taking this self-assessment.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia gave herself a 4 on the cheerleader question because she knows who the long-term donors are at each location. Patricia has never introduced a donor owner to a hesitant parent. Patricia does not see why she would need to — that is what her pitch is for. Patricia's email follow-up list has 27 people on it. Patricia is very organized.</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 1 of 6 &middot; Trust-Building</div>
+    <div class="q-text">When someone says "I'll think about it," my first instinct is to try something beyond giving them a flyer or adding them to a follow-up list.</div>
+    <div class="q-sub">Not a different version of the same pitch — something that addresses the trust gap specifically.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I give them a flyer and add them to my follow-up list. That's the standard move and I stick with it.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I sometimes try to say more or answer more questions, but usually it ends with a flyer.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">I try different things depending on the situation, but I'm not always sure what the right move is.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">I usually read the situation and try to find the right closer — cheerleader, bypass, breadcrumb — before defaulting to the list.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">My first instinct when I hear "I'll think about it" is to identify what's actually blocking them and match the response to that specific thing.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 2 of 6 &middot; Trust-Building</div>
+    <div class="q-text">I can tell the difference between someone who needs more information and someone who needs peer confirmation before they'll commit.</div>
+    <div class="q-sub">These look the same on the surface. They are not the same thing, and they need different responses.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">I treat both the same — more information is usually the answer either way.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">I can sometimes tell the difference but I don't always know what to do differently about it.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">I'm getting better at reading this but it's not instinct yet.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">I usually know within a couple minutes whether they need information or a peer voice, and I adjust accordingly.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">Reading the type of hesitation is one of the first things I do. The response follows from what I read, not from a default script.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 3 of 6 &middot; Decision-Maker Identification</div>
+    <div class="q-text">When the person in front of me says they need to talk to their spouse, I try to reach the decision-maker directly rather than waiting for the message to be passed along.</div>
+    <div class="q-sub">Asking permission to email, calling on the spot, getting contact information — anything that removes the middleman.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I hand them a flyer and tell them to share it. I don't push past the defer.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I sometimes try to get contact information but I often feel awkward asking directly.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I try to get the email when I can but I don't always think to ask in the moment.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">When I hear "I need to ask my spouse" I almost always ask if I can reach out to them directly.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">A spouse defer triggers the bypass automatically. I ask for the contact before the conversation ends every time.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 4 of 6 &middot; Decision-Maker Identification</div>
+    <div class="q-text">Before I finish a conversation with a "maybe," I know whether the person I'm talking to is actually the one who will make the decision.</div>
+    <div class="q-sub">Sometimes the person picking up is fully in charge. Sometimes they're not. Knowing which is which changes what you do next.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">I talk to whoever's in front of me. I don't usually think about whether they're the decision-maker.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I sometimes realize after the fact that the person I was talking to wasn't the one deciding.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I usually figure it out during the conversation, but not always early enough to change what I do.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I typically know by the middle of the conversation whether I'm talking to the decision-maker and adjust from there.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">One of the first things I establish in any conversation is whether this person is making the call or carrying information to someone who will.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 5 of 6 &middot; Cheerleader Use</div>
+    <div class="q-text">I know who the Murphy is at each of my locations — an existing donor owner who, if asked, would talk to a hesitant parent.</div>
+    <div class="q-sub">Not just that they're a long-term donor — that they're the kind of person who would be happy to say "here's what it's actually like" to a stranger in the lobby.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I know who the long-term donors are but I haven't thought about them as potential closers.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I can think of one or two people at some locations who might do this, but I've never confirmed it.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I have a sense of who would be good at this at my anchor locations but it's not something I actively use.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">I know who my Murphy is at most locations and I've used them at least once to close a hesitant parent.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">Identifying and using Murphys is part of my standard approach. It's the first thing I think of when I see a maybe and a cheerleader in the same lobby.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 6 of 6 &middot; Cheerleader Use</div>
+    <div class="q-text">I've made a direct introduction between a hesitant parent and an existing donor owner — and it moved the needle.</div>
+    <div class="q-sub">Not just mentioning that other dogs do it — actually facilitating a real conversation between a maybe and a Murphy.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I haven't done this. It hasn't occurred to me or I haven't had the opportunity.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I've mentioned other donors in conversation but haven't facilitated an actual introduction.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I've done it once or twice but it felt awkward and I'm not sure I read the situation right.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I've made introductions that worked and I know roughly what makes a good one vs. a clunky one.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">I've done this multiple times and it's one of my highest-conversion moves. When the moment is right, it closes faster than anything else I do.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="resultsPanel">
+    <h2 id="resultsHeadline"></h2>
+    <p class="score-line" id="scoreLine"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreBarFill" style="width:0%"></div></div>
+    <div id="dimensionsBlock"></div>
+    <div class="results-cta"><p id="resultsCTA"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week8_applied_task.html">Next: Applied Task →</a>
+    </div>
+  </div>
+</div>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  const qs=['q1','q2','q3','q4','q5','q6'];
+  let scores=[];
+  for(const q of qs){const v=document.querySelector(`input[name="${q}"]:checked`);if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  const total=scores.reduce((a,b)=>a+b,0);
+  const pct=Math.round((total/30)*100);
+  const trust=Math.round((scores[0]+scores[1])/2);
+  const dm=Math.round((scores[2]+scores[3])/2);
+  const cheer=Math.round((scores[4]+scores[5])/2);
+  let headline,cta;
+  if(pct>=80){headline="You close with more than information.";cta="Your instincts are good and you're using the tools. The applied task this week is the next level: a deliberate Murphy deployment, planned before you walk in. Who is it and when are you going?";}
+  else if(pct>=55){headline="You're reading the room. You're not yet using what you see.";cta="You know what's blocking people. The gap is in using that knowledge to route them to the right closer instead of defaulting to the list. Your applied task will give you one real rep this week.";}
+  else{headline="You have good conversations. They're ending too early.";cta="The maybe is not the end of the conversation — it's a signal that the information approach isn't the right one. The applied task this week asks you to make one Murphy introduction. One. See what happens.";}
+  document.getElementById('resultsHeadline').textContent=headline;
+  document.getElementById('scoreLine').textContent=`${total} out of 30 points (${pct}%)`;
+  setTimeout(()=>{document.getElementById('scoreBarFill').style.width=pct+'%';},100);
+  const dims=[
+    {label:'Trust-Building',score:trust,desc:trust>=4?'Strong — you diagnose the type of hesitation and respond to it specifically.':trust>=3?'Developing — you sometimes try different things but default to the list more than you should.':'Early stage — more information is not always the answer. This week\'s applied task will show you what is.'},
+    {label:'Decision-Maker ID',score:dm,desc:dm>=4?'Strong — you know who\'s deciding before the conversation ends.':dm>=3?'Developing — you figure it out but not always early enough to use it.':'Early stage — ask early whether the person in front of you is making the call. It changes everything that follows.'},
+    {label:'Cheerleader Use',score:cheer,desc:cheer>=4?'Strong — you know your Murphys and you use them.':cheer>=3?'Developing — you know who they are but haven\'t made it a deliberate move.':'Early stage — your most powerful closer is already in the lobby. You just haven\'t activated them yet.'}
+  ];
+  document.getElementById('dimensionsBlock').innerHTML=dims.map(d=>`<div class="dimension"><div class="dim-label">${d.label} — ${d.score}/5</div><div class="dim-title">${d.score>=4?'Strong':d.score>=3?'Developing':'Building'}</div><div class="dim-desc">${d.desc}</div></div>`).join('');
+  document.getElementById('resultsCTA').textContent=cta;
+  const rp=document.getElementById('resultsPanel');
+  rp.classList.add('visible');
+  setTimeout(()=>rp.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+</script>
+</body>
+</html>
