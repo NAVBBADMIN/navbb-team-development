@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 9 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--gold);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .patricia-moment{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:48px;height:48px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:16px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+  .q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+  .q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+  .q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+  .q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+  .opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+  .opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+  .opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+  .results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}
+  .results-panel.visible{display:block;}
+  .results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .results-panel .score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+  .score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+  .score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--gold));border-radius:4px;transition:width 1s ease;}
+  .dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+  .dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+  .dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+  .dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+  .results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+  .results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+  .score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+  .score-btn:hover{background:#c0201f;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 9 &middot; Self-Assessment</div><div class="loader-title">Are You Ready<br>to <span>Run This?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 9</div>
+  <h1>Are You Ready to Run This?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private — your answers are not shared or tracked.</p>
+  <div class="notice">
+    <div class="notice-label">Before You Start — Please Read</div>
+    <p><strong>This self-assessment is completely private.</strong> Your answers are stored only on your device and are never submitted or shared. Leadership cannot see your responses or your score.</p>
+    <p>Answer based on where you actually are right now — not where you'll be after this week.</p>
+    <p><strong>To be counted as complete for this week</strong>, scroll to the bottom after scoring and hit the <strong>Submit Week 9 Check-In</strong> button. That's the separate action leadership actually sees.</p>
+  </div>
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title">Patricia scored herself a 4 on location knowledge.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia knows which locations she visits. Patricia gave herself a 4 because she has been to all of them. Patricia cannot name the current active donor count at either of her two selected challenge locations without looking it up. Patricia also cannot explain the scoring in under 60 seconds — she got to the boarding dog question and said she would follow up. Patricia has not followed up. Patricia considers herself well-prepared.</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 1 of 6 &middot; Location Knowledge</div>
+    <div class="q-text">I know the current active donor count at both of my challenge locations without looking it up.</div>
+    <div class="q-sub">Not an approximation — the actual number, close enough that either location manager would trust it.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I don't know the numbers for either location off the top of my head.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I have a rough sense for one of them but not both.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">I know approximate numbers for both but I'd want to verify before quoting them to a manager.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">I know both counts well enough to give each location a specific starting point for the challenge.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">I know the counts cold — active donors, pending donors, and how each location compares to where they were three months ago.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 2 of 6 &middot; Location Knowledge</div>
+    <div class="q-text">I know which of my two locations has more competitive instinct — and which one will need more energy from me to stay in it.</div>
+    <div class="q-sub">Not a guess — something specific about each manager or staff contact that tells you which angle will land.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">I haven't thought about this. I'd pitch them the same way.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">I have a general feel but nothing specific I could point to.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">I know one of them well but I'm less sure about the other.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">I know both contacts well enough to pitch them differently and explain why I'd use a different angle for each.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">I could tell you exactly what motivates each manager and exactly what would make each one disengage mid-challenge.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 3 of 6 &middot; Pitch Clarity</div>
+    <div class="q-text">I can explain the scoring — 2 points for new approved donors, 1 point per donation-day appearance capped once per dog per month, eligible dogs 50 lbs and over ages 1–7 — in under 60 seconds without notes.</div>
+    <div class="q-sub">And the location's staff contact could repeat it back accurately before you leave.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I'd need to refer to the document. I'm not confident I have it clean enough to pitch off the top of my head.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I have most of it but I'd probably fumble the eligibility requirements.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I think I could do it but I haven't practiced saying it out loud and I'm not sure how tight it would be.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">I could explain it clearly in under 60 seconds and handle most follow-up questions without hesitation.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">I've got it cold. I can explain it, answer every eligibility question, and have the contact repeat it back to me accurately before I leave.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 4 of 6 &middot; Pitch Clarity</div>
+    <div class="q-text">I know what I'd say to plant the FOMO seed at each location — specifically naming that the other location is in the program and has momentum.</div>
+    <div class="q-sub">Not a general competitive comment — a specific sentence you'd say to each manager.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">I hadn't planned to use that angle. I'd just explain the program and the scoring.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I know the concept but I'd probably improvise it in the moment rather than having something planned.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I have a general idea of what I'd say but it's not a specific sentence yet.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I know what I'd say to each location and I know which one it'll hit harder with.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">I have a specific FOMO sentence for each location, timed to both the launch and the midpoint.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 5 of 6 &middot; Sustained Engagement</div>
+    <div class="q-text">I have a specific plan for the midpoint — not just the launch and the close.</div>
+    <div class="q-sub">What you're doing at the halfway mark to keep both locations in it. Not "I'll visit them" — what specifically you'll say and what you'll bring.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I was planning to launch and then check back at the end. I hadn't thought about the middle.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I know I should visit at the midpoint but I don't have a specific plan for what happens during that visit.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I plan to give both locations a score update at the midpoint but haven't mapped out what I'd do differently based on who's ahead.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">I have a midpoint plan — score update for both locations, specific encouragement for the trailing one, and a push for the leading one to protect their position.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">My midpoint visit is already planned out — what I'm saying to each location, how I'm using the gap to motivate both, and what I'm doing between visits to keep the energy alive.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 6 of 6 &middot; Sustained Engagement</div>
+    <div class="q-text">I have a plan for how I'll close the challenge so that both locations — winner and runner-up — come out with the relationship stronger.</div>
+    <div class="q-sub">Not just announcing a winner. What you're doing so the runner-up wants to go again.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I'd announce the winner and thank both locations. I haven't thought beyond that.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I know I should do something for the runner-up but I haven't figured out what.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I'd visit both locations at the close and give them each some feedback but I don't have a specific plan for either.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I know what I'd say to the winner and I know how I'd frame the close for the runner-up so they want to do it again.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">Both locations will come out of this challenge feeling like they won something — the winner gets recognition, the runner-up gets a specific roadmap for next time. I have both planned.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="resultsPanel">
+    <h2 id="resultsHeadline"></h2>
+    <p class="score-line" id="scoreLine"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreBarFill" style="width:0%"></div></div>
+    <div id="dimensionsBlock"></div>
+    <div class="results-cta"><p id="resultsCTA"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week9_applied_task.html">Next: Applied Task →</a>
+    </div>
+  </div>
+</div>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  const qs=['q1','q2','q3','q4','q5','q6'];
+  let scores=[];
+  for(const q of qs){const v=document.querySelector(`input[name="${q}"]:checked`);if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  const total=scores.reduce((a,b)=>a+b,0);
+  const pct=Math.round((total/30)*100);
+  const knowledge=Math.round((scores[0]+scores[1])/2);
+  const pitch=Math.round((scores[2]+scores[3])/2);
+  const sustained=Math.round((scores[4]+scores[5])/2);
+  let headline,cta;
+  if(pct>=80){headline="You're ready to launch. Go do it.";cta="Your location knowledge is solid, your pitch is clear, and you have a plan beyond the launch. The applied task this week is the last step — write your pitch for each location and your midpoint plan, then bring them to the meeting ready to go.";}
+  else if(pct>=55){headline="You're ready to plan. You're not quite ready to launch.";cta="The gaps are in pitch clarity and sustained engagement — the two things that actually determine whether the challenge runs or quietly dies. Your applied task this week will close those gaps. Write the pitch for each location before you walk in and map out what you're doing at the midpoint.";}
+  else{headline="Do the applied task before you do anything else.";cta="You've got the instinct for this — the applied task will build the plan. Write your two locations, your pitch for each, and your midpoint plan before the next meeting. Don't launch until those three things are in writing.";}
+  document.getElementById('resultsHeadline').textContent=headline;
+  document.getElementById('scoreLine').textContent=`${total} out of 30 points (${pct}%)`;
+  setTimeout(()=>{document.getElementById('scoreBarFill').style.width=pct+'%';},100);
+  const dims=[
+    {label:'Location Knowledge',score:knowledge,desc:knowledge>=4?'Strong — you know both locations well enough to pitch and run this confidently.':knowledge>=3?'Developing — you know one location better than the other. Get the counts before you launch.':'Early stage — pull the active donor numbers for both locations before you do anything else.'},
+    {label:'Pitch Clarity',score:pitch,desc:pitch>=4?'Strong — you can explain the scoring and plant the FOMO seed at both locations.':pitch>=3?'Developing — you have the concept but the pitch needs to be tighter before you walk in.':'Early stage — practice the scoring explanation out loud before your launch visits. Time yourself.'},
+    {label:'Sustained Engagement',score:sustained,desc:sustained>=4?'Strong — you have a plan for the full arc, not just the launch.':sustained>=3?'Developing — you know you need a midpoint plan but it isn\'t specific yet. The applied task this week fixes that.':'Early stage — the midpoint is where most challenges die. Map it out before you launch.'}
+  ];
+  document.getElementById('dimensionsBlock').innerHTML=dims.map(d=>`<div class="dimension"><div class="dim-label">${d.label} — ${d.score}/5</div><div class="dim-title">${d.score>=4?'Strong':d.score>=3?'Developing':'Building'}</div><div class="dim-desc">${d.desc}</div></div>`).join('');
+  document.getElementById('resultsCTA').textContent=cta;
+  const rp=document.getElementById('resultsPanel');
+  rp.classList.add('visible');
+  setTimeout(()=>rp.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+</script>
+</body>
+</html>
