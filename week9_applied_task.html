@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 9 Applied Task</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--gold);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta-line{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .mission-card{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:20px;padding:40px;margin-bottom:40px;}
+  .mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+  .mc-title{font-size:22px;font-weight:900;color:var(--white);margin-bottom:12px;}
+  .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.75;}
+  .patricia-moment{background:var(--ink);border-radius:16px;overflow:hidden;margin:0 0 36px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:48px;height:48px;flex-shrink:0;}
+  .pm-label-red{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:15px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0;}
+  .task-section{margin-bottom:32px;}
+  .task-section h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .task-section .hint{font-size:13px;color:var(--gray-text);margin-bottom:14px;line-height:1.6;}
+  .location-block{background:var(--gray-light);border-radius:14px;padding:24px;margin-bottom:20px;}
+  .loc-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+  .loc-label.red{color:var(--red);}
+  .field-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;display:block;}
+  input[type=text]{width:100%;padding:11px 14px;border:1.5px solid var(--gray-mid);border-radius:8px;font-family:'Poppins',sans-serif;font-size:14px;color:var(--ink);margin-bottom:14px;}
+  input[type=text]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  textarea{width:100%;min-height:80px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+  textarea:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  .save-indicator{font-size:12px;color:var(--gray-text);height:16px;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 9 &middot; Applied Task</div><div class="loader-title">Write Your Pitch<br><span>Before You Walk In</span></div></div>
+<div class="wrap">
+  <div class="kicker">Applied Task &middot; Week 9</div>
+  <h1>Write Your Pitch Before You Walk In</h1>
+  <p class="meta-line">Real work &middot; Complete before the next meeting &middot; Come ready to share all three parts.</p>
+
+  <div class="notice">
+    <div class="notice-label">Before You Start — Please Read</div>
+    <p><strong>Your responses here are stored only on your device and are never automatically submitted or shared.</strong> Leadership cannot see what you type in these fields.</p>
+    <p><strong>To be counted as complete for this week</strong>, scroll to the bottom and hit the <strong>Submit Week 9 Check-In</strong> button. That's the separate action leadership actually sees.</p>
+  </div>
+
+  <div class="mission-card">
+    <div class="mc-label">Three Things to Complete This Week</div>
+    <div class="mc-title">Your locations. Your pitches. Your midpoint plan.</div>
+    <p class="mc-body">Before the next meeting you need three things in writing: the two locations you're running the challenge with and why you picked them, a specific pitch for each location (not the same pitch — what gets Location A engaged may not be what gets Location B engaged), and your midpoint plan. All three get shared at the meeting.</p>
+  </div>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label-red">A Patricia Moment</div><div class="pm-title">Patricia completed this task.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia wrote down two locations. Patricia wrote the same pitch for both of them. Patricia's midpoint plan says "visit both locations." Patricia considers this thorough. Patricia has not practiced saying the scoring out loud. Patricia is confident she can explain it when the moment comes. The moment will come. Patricia will say she'll follow up on the boarding dog question.</p></div>
+  </div>
+
+  <div class="task-section">
+    <h3>Part 1 — Your Two Locations</h3>
+    <div class="location-block">
+      <div class="loc-label">Location A</div>
+      <label class="field-label">Location name</label>
+      <input type="text" id="loc_a_name" placeholder="Location name..." oninput="autoSave()">
+      <label class="field-label">Current active donor count (look it up before you write it)</label>
+      <input type="text" id="loc_a_count" placeholder="Current active donors..." oninput="autoSave()">
+      <label class="field-label">Why did you pick this location for the challenge?</label>
+      <textarea id="loc_a_why" placeholder="What makes it a good fit — potential, relationship, competitive manager, something else..." oninput="autoSave()"></textarea>
+    </div>
+    <div class="location-block">
+      <div class="loc-label red">Location B</div>
+      <label class="field-label">Location name</label>
+      <input type="text" id="loc_b_name" placeholder="Location name..." oninput="autoSave()">
+      <label class="field-label">Current active donor count</label>
+      <input type="text" id="loc_b_count" placeholder="Current active donors..." oninput="autoSave()">
+      <label class="field-label">Why did you pick this location?</label>
+      <textarea id="loc_b_why" placeholder="What makes it a good fit..." oninput="autoSave()"></textarea>
+    </div>
+  </div>
+
+  <div class="task-section">
+    <h3>Part 2 — Your Pitch to Each Location</h3>
+    <p class="hint">Not the same pitch to both. Write what you'd actually say to each manager to get them genuinely excited — two to three sentences per location. If you'd use FOMO, write the specific sentence. If you'd lead with community or mission, write that instead.</p>
+    <div class="location-block">
+      <div class="loc-label">Your pitch to Location A</div>
+      <textarea id="pitch_a" placeholder="What you'd say to get Location A excited and invested — specific to this manager and this location..." oninput="autoSave()"></textarea>
+    </div>
+    <div class="location-block">
+      <div class="loc-label red">Your pitch to Location B</div>
+      <textarea id="pitch_b" placeholder="What you'd say to get Location B excited — different from Location A because this is a different manager with different motivations..." oninput="autoSave()"></textarea>
+    </div>
+  </div>
+
+  <div class="task-section">
+    <h3>Part 3 — Your Midpoint Plan</h3>
+    <p class="hint">Not "visit both locations." What specifically are you doing at the midpoint visit to keep both locations in it? What are you saying to the location that's ahead? What are you saying to the location that's behind? How are you using the gap — or the closeness — to motivate both?</p>
+    <textarea id="midpoint" placeholder="Your specific midpoint plan for each location..." oninput="autoSave()"></textarea>
+    <div class="save-indicator" id="saveIndicator"></div>
+  </div>
+
+  <div style="margin-top:40px;background:var(--blue-dark);border-radius:20px;padding:36px 40px;text-align:center;">
+    <h3 style="font-size:20px;font-weight:900;color:var(--white);margin-bottom:8px;">Done? Submit your Week 9 check-in.</h3>
+    <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6;">Takes 2 minutes. This is the one thing leadership actually sees.</p>
+    <a style="display:inline-block;background:var(--red);color:var(--white);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 40px;border-radius:12px;text-decoration:none;" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUMzE2SU9CMDJHNEhEOTg5SUo1MktMWElKOS4u" target="_blank">Submit Week 9 Check-In &rarr;</a>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:16px;">
+    <a style="font-size:14px;color:var(--blue);text-decoration:none;font-weight:600;" href="https://navbbadmin.github.io/navbb-team-development/week9_hub.html">&larr; Back to Week 9 Hub</a>
+  </div>
+</div>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+const fields=['loc_a_name','loc_a_count','loc_a_why','loc_b_name','loc_b_count','loc_b_why','pitch_a','pitch_b','midpoint'];
+function autoSave(){
+  try{const data={};fields.forEach(f=>{const el=document.getElementById(f);if(el)data[f]=el.value;});
+  localStorage.setItem('ch9-applied',JSON.stringify(data));
+  document.getElementById('saveIndicator').textContent='✓ Saved.';
+  setTimeout(()=>document.getElementById('saveIndicator').textContent='',2000);}catch(e){}
+}
+function loadSaved(){
+  try{const raw=localStorage.getItem('ch9-applied');if(!raw)return;const data=JSON.parse(raw);
+  fields.forEach(f=>{const el=document.getElementById(f);if(el&&data[f])el.value=data[f];});}catch(e){}
+}
+loadSaved();
+</script>
+</body>
+</html>
