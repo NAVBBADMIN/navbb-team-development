@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 10: The Emotional Pitch</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .hero{min-height:55vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;animation:fadeUp 0.7s ease 1.8s both;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+  .hero-nav{position:absolute;top:0;left:0;right:0;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}
+  .nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:8px;}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
+  .nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+  .hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+  .hero-eyebrow::before{content:"";width:24px;height:2px;background:var(--red);}
+  .hero-title{font-size:clamp(32px,5vw,56px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;position:relative;z-index:2;}
+  .hero-title em{font-style:normal;color:var(--red);}
+  .hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:480px;line-height:1.6;position:relative;z-index:2;}
+  .content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}
+  .section-label{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:36px;}
+  .section-label::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+  p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}
+  p strong{color:var(--ink);font-weight:700;}
+  .patricia-moment{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .pm-header{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:52px;height:52px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title-text{font-size:18px;font-weight:800;color:var(--white);}
+  .pm-body{padding:28px 32px;}
+  .pm-body p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}
+  .pm-body p:last-child{margin-bottom:0;}
+  .biscuit-moment{background:linear-gradient(135deg,#1a3a00,#2a5a00);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .bm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4ade80;margin-bottom:4px;}
+  .truth-bomb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}
+  .truth-bomb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}
+  .truth-bomb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:44px 0;}
+  .col-card{border-radius:16px;padding:28px 22px;border:1.5px solid var(--gray-mid);}
+  .col-card.red-side{border-color:rgba(237,45,43,0.3);background:rgba(237,45,43,0.04);}
+  .col-card.blue-side{border-color:rgba(1,86,152,0.3);background:rgba(1,86,152,0.04);}
+  .col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+  .col-card.red-side .col-label{color:var(--red);}
+  .col-card.blue-side .col-label{color:var(--blue);}
+  .col-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:10px;}
+  .col-desc{font-size:13px;color:var(--gray-text);line-height:1.6;}
+  .dropin-box{background:var(--gray-light);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--blue-mid);}
+  .dropin-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue-mid);margin-bottom:12px;}
+  .dropin-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}
+  .dropin-box p:last-child{margin-bottom:0;}
+  .turnover-box{background:rgba(196,154,48,0.08);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--gold);}
+  .turnover-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+  .turnover-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}
+  .turnover-box p:last-child{margin-bottom:0;}
+  .meeting-prompt{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}
+  .mp-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .mp-label::before{content:"";width:20px;height:2px;background:var(--red);}
+  .mp-title{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+  .mp-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);transform:translateY(-2px);}
+  @media(max-width:600px){.hero{padding:0 24px 40px;}.content{padding:48px 24px 80px;}.two-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 10 &middot; Read</div><div class="loader-title">The Emotional Pitch:<br><span>Moving People, Not Just Informing Them</span></div></div>
+<section class="hero">
+  <div class="hero-grid"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+  <div class="hero-eyebrow">Chapter 10 of ongoing</div>
+  <h1 class="hero-title">The Emotional Pitch:<br><em>Moving People,<br>Not Just Informing Them</em></h1>
+  <p class="hero-sub">People don't sign up because they understand the program. They sign up because they felt something. Understanding is the entry. Feeling is the close.</p>
+</section>
+<main class="content">
+  <div class="section-label">The Concept</div>
+  <p>You have given a lot of pitches. You know the program inside out. You can explain eligibility requirements, describe what a donation day looks like, answer questions about the happy visit process. You are well-informed. And sometimes, despite all of that, people smile and say "that sounds great" and walk out the door with their dog and never sign up.</p>
+  <p>The information wasn't the problem. The feeling wasn't there.</p>
+  <p><strong>People make decisions emotionally and justify them rationally afterward.</strong> That's not an opinion — it's one of the most researched findings in behavioral psychology, and it's been documented extensively in the fundraising world. The most successful animal welfare campaign in history has been running essentially unchanged for over twenty years because the organization behind it discovered that the moment they showed healthy, happy animals, donations dropped. When viewers saw animals that were fine, they felt no urgency. When they saw animals in need, they acted.</p>
+  <p>The same dynamic plays out in your lobby every day. When you lead with the happy visit, the comfortable donation process, the fact that most dogs are totally fine — you are removing urgency. You're telling parents this dog will be great. Which is true. But it's not what moves them.</p>
+
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title-text">Patricia shows everyone a picture of a happy donor dog.</div></div>
+    </div>
+    <div class="pm-body">
+      <p>Patricia's pitch leads with what a great experience it is. She describes how the dog gets to come in, gets lots of attention, gets a treat, everyone loves it. She shows a picture of a donor dog looking comfortable and healthy. Parents smile and say that sounds really nice.</p>
+      <p>Patricia considers this a successful conversation. Patricia has twelve of these every week. None of them result in a registration. Patricia is considering a different picture.</p>
+      <p>Patricia has not yet considered that the picture of the happy, healthy dog is doing the opposite of what she intends. When people see a healthy dog, they think: this dog doesn't need anything. There's no reason to act today.</p>
+    </div>
+  </div>
+
+  <div class="section-label">Urgency vs. Information</div>
+  <p>The difference between a conversation that gets a yes and one that gets a "I'll think about it" is almost always emotional, not informational. The parent who signs up isn't the one who learned the most. It's the one who felt something they couldn't walk away from.</p>
+
+  <div class="two-col">
+    <div class="col-card red-side">
+      <div class="col-label">Information-Led Pitch</div>
+      <div class="col-title">What it is and how it works</div>
+      <p class="col-desc">Covers the program mechanics, the eligibility requirements, what a donation day looks like, the happy visit, the health screening. Accurate. Complete. Leaves the parent feeling informed. Does not create urgency. The decision to act gets deferred because there's no reason not to defer it.</p>
+    </div>
+    <div class="col-card blue-side">
+      <div class="col-label">Urgency-Led Pitch</div>
+      <div class="col-title">What happens when there isn't enough</div>
+      <p class="col-desc">Starts with the need. Dogs in emergency situations that require a transfusion. The difference between a hospital having blood available and not. The fact that your dog — healthy, eligible, capable — could be the reason another dog survives. The mechanics come after. The feeling comes first.</p>
+    </div>
+  </div>
+
+  <div class="truth-bomb"><p>When a parent sees a healthy dog, they think: this is fine, nothing needs to happen. Your job is to help them see the dog that isn't there yet &mdash; the one that will need what their dog can provide.</p></div>
+
+  <div class="section-label">Biscuit's Owner Understands This</div>
+
+  <div class="biscuit-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" width="52" height="57" id="biscuit-svg" style="flex-shrink:0"></svg>
+      <div><div class="bm-label">What Actually Moves People</div><div class="pm-title-text" style="color:white;">Biscuit's owner doesn't explain the program. She tells the story.</div></div>
+    </div>
+    <div class="pm-body">
+      <p>Biscuit had a transfusion two years ago. His owner almost lost him. The blood came from a dog just like him — a healthy donor at a local daycare whose owner had signed up six months earlier. Biscuit's owner knows this. When she talks to other parents in the lobby about the program, she doesn't describe the logistics. She says: "Biscuit is alive because someone else did this."</p>
+      <p>That sentence closes more sign-ups than any pitch. Not because it has more information. Because it makes the abstract real. Suddenly the parent isn't being asked to participate in a program. They're being asked to be the reason some other dog makes it home.</p>
+      <p><strong style="color:white;">You don't need Biscuit's exact story. You need the equivalent — a moment that makes the need feel real to the person standing in front of you.</strong></p>
+    </div>
+  </div>
+
+  <div class="section-label">The Cold Drop-In</div>
+  <div class="dropin-box">
+    <div class="dropin-label">When Email and Phone Aren't Working</div>
+    <p>If you've emailed a location twice, called once, and haven't heard back — you have not exhausted your options. You've exhausted the options that require the location to take an action. The only option that requires action from you is showing up.</p>
+    <p>Daycares are passionate about what they do. They're focused on their dogs and their clients every moment they're open. They're not ignoring you personally — they're just absorbed in the thing they care most about. The only thing that cuts through that is a real human being standing at their front desk.</p>
+    <p>The framing that removes the awkwardness: "I was in the area visiting one of our other partners nearby and just wanted to stop in and introduce myself." That sentence tells them you're already in their world, you're not starting from zero, and this isn't an unexpected intrusion — you were going to be here anyway. Leave something meaningful even if the decision-maker isn't there. Ask for their name. Ask when a good time to come back would be. Make the front desk person feel important instead of like a gatekeeper.</p>
+    <p>The recruiter who shows up gets the relationship. The recruiter who waits for a response is waiting for a response.</p>
+  </div>
+
+  <div class="section-label">Your Cheerleader Is a Person, Not a Location</div>
+  <div class="turnover-box">
+    <div class="turnover-label">What Staff Turnover Does to Your Relationships</div>
+    <p>Every relationship you have at a partner location lives in a person. When that person leaves — and staff turnover in pet care is high — your relationship doesn't transfer automatically. The new front desk person doesn't know you. The new manager didn't see you build what you built. You're starting from nothing with them even though the location is an anchor.</p>
+    <p>This is why showing up consistently matters beyond just the recruiting numbers. Every visit where you talk to staff — not just to dog owners — is a deposit in a relationship that may outlast any individual person. The goal isn't to have one champion at a location. It's to be known well enough that when the champion leaves, two other people there would say "oh, I know her" when your name comes up.</p>
+    <p>Ask for names. Remember them. Use them next time. The staff who feel recognized become advocates. The staff who feel like they're one of ten identical stops on a route become gatekeepers.</p>
+  </div>
+
+  <div class="meeting-prompt">
+    <div class="mp-label">Bring This To Our Next Meeting</div>
+    <div class="mp-title">Your urgency sentence &mdash; written, used, and reported</div>
+    <p class="mp-body">Write one sentence this week that communicates the urgency of the program in human terms. Not what the program offers — what happens when there isn't enough. Use it in at least one conversation this week. Come to the meeting with the sentence and what happened when you said it. Patricia will not be sharing. Patricia told twelve people about the happy visit this week. Patricia has a great picture of a healthy donor dog on her phone.</p>
+  </div>
+
+  <div class="next-btn-wrap">
+    <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week10_case_study.html">Next: Case Study →</a>
+  </div>
+</main>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+const B=`<ellipse cx="50" cy="80" rx="35" ry="22" fill="#c49a30"/><ellipse cx="50" cy="82" rx="27" ry="16" fill="#e8c060"/><circle cx="50" cy="52" r="24" fill="#c49a30"/><ellipse cx="34" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(-15 34 38)"/><ellipse cx="66" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(15 66 38)"/><circle cx="43" cy="50" r="4.5" fill="#1f1a10"/><circle cx="57" cy="50" r="4.5" fill="#1f1a10"/><circle cx="44" cy="48" r="1.5" fill="white"/><circle cx="58" cy="48" r="1.5" fill="white"/><ellipse cx="50" cy="62" rx="10" ry="7" fill="#e8c060"/><ellipse cx="50" cy="60" rx="5" ry="4" fill="#c47050"/><path d="M44 68 Q50 73 56 68" stroke="#1f1a10" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(-10 38 95)"/><ellipse cx="62" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(10 62 95)"/><path d="M72 75 Q88 65 85 80 Q82 90 72 88" stroke="#c49a30" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="38" y="55" width="24" height="10" rx="3" fill="#015698"/><text x="50" y="63" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5" font-weight="700" fill="white">BISCUIT</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+document.getElementById('biscuit-svg').innerHTML=B;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+</script>
+</body>
+</html>
