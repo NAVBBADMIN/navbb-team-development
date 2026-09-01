@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 11 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta{font-size:13px;color:var(--gray-text);font-weight:500;margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .patricia-moment{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-header svg{width:48px;height:48px;flex-shrink:0;}
+  .pm-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:16px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+  .q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+  .q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+  .q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+  .q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+  .opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+  .opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+  .opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+  .results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}
+  .results-panel.visible{display:block;}
+  .results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .results-panel .score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+  .score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+  .score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--red));border-radius:4px;transition:width 1s ease;}
+  .dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+  .dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+  .dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+  .dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+  .results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+  .results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+  .score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+  .score-btn:hover{background:#c0201f;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+<div class="loader"><div class="loader-label">Week 11 &middot; Self-Assessment</div><div class="loader-title">When Do You<br><span>Say Something?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 11</div>
+  <h1>When Do You Say Something?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private — your answers are not shared or tracked.</p>
+  <div class="notice">
+    <div class="notice-label">Before You Start — Please Read</div>
+    <p><strong>This self-assessment is completely private.</strong> Your answers are stored only on your device and are never submitted or shared. Leadership cannot see your responses or your score.</p>
+    <p>Answer based on what you actually do — not what you'd do in an ideal version of yourself.</p>
+    <p><strong>To be counted as complete for this week</strong>, scroll to the bottom after scoring and hit the <strong>Submit Week 11 Check-In</strong> button. That's the separate action leadership actually sees.</p>
+  </div>
+  <div class="patricia-moment">
+    <div class="pm-header">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="patricia-svg"></svg>
+      <div><div class="pm-label">A Patricia Moment</div><div class="pm-title">Patricia scored herself a 4 on upward communication.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia believes she communicates well with leadership. Patricia sends thorough, well-framed emails. Patricia sent one such email last month about something she noticed. The email was four paragraphs. The key point was in paragraph three. Patricia has not yet confirmed whether the email was read. Patricia considers this a strong communication record.</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 1 of 6 &middot; Upward Communication</div>
+    <div class="q-text">When I notice something is off — a gap, an error, something missing — I flag it to leadership the same day, even if it might already be handled.</div>
+    <div class="q-sub">Not after confirming it's a real issue, not after seeing if anyone else raises it — same day, quick flag.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I usually wait to see if it resolves itself or if someone else brings it up first.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I'll flag it eventually but I often spend time making sure I have the full picture before I say anything.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">It depends on how confident I am that it's actually a problem. If I'm unsure, I tend to hold it.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">I usually flag things quickly. I'd rather say something that turns out to be unnecessary than hold it and have it matter.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">Same day, every time. I don't wait for certainty. I flag what I notice and let leadership decide what to do with it.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 2 of 6 &middot; Upward Communication</div>
+    <div class="q-text">When I bring something to my manager's attention, I keep it simple — one or two sentences — rather than building a full case first.</div>
+    <div class="q-sub">The instinct to over-explain or perfectly frame a concern before raising it often delays the message and buries the point.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">I spend a lot of time on framing. I want to make sure the message is received the right way before I send it.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">I know I over-explain sometimes. I'm working on getting to the point faster.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">It depends on the topic. Sensitive things get more framing. Straightforward things get less.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">I usually keep it short. I say what I noticed and let the other person respond. I can always add context if they ask.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">I've trained myself to lead with the observation in one sentence. Everything else is optional. The goal is to get the information across, not to perfectly manage how it lands.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 3 of 6 &middot; Lateral Communication</div>
+    <div class="q-text">When something a peer is doing — or not doing — affects my work, I say something to them directly rather than working around it or going to a manager first.</div>
+    <div class="q-sub">The direct conversation, not the workaround or the escalation.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I usually just work around it. I don't like the friction of a direct conversation with a peer.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I'll sometimes bring it up with a manager rather than the peer directly. It feels less awkward that way.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I try to say something directly but I don't always follow through. It's easier in my head than in practice.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">I go to the peer first, almost always. Escalation is a last resort, not a first move.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">Direct is always my first move with peers. It's faster, it's cleaner, and it respects the other person more than working around them or going above them.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 4 of 6 &middot; Lateral Communication</div>
+    <div class="q-text">When a peer's work is affecting the team's output — not just mine — I say something, even if it means a mildly uncomfortable conversation.</div>
+    <div class="q-sub">Not just when it directly impacts you — when you can see it affecting the team.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">If it doesn't directly affect my work, I leave it alone. It's not my place to comment on how others are doing theirs.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I notice but I'm reluctant to say anything unless it becomes a clear problem that involves me.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I'll usually mention it if the impact is significant. Small things I let go.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I'll say something if I can see it affecting team outcomes, even if it's not directly my issue. I try to be constructive about it.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">I feel a sense of ownership for team outcomes, not just my own work. If something's affecting the team, it's my business too — and I'll say so, carefully but clearly.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 5 of 6 &middot; Proactive Flagging</div>
+    <div class="q-text">When I notice something that isn't my direct responsibility — something missing, something wrong, something unclear — I flag it rather than assuming someone else will.</div>
+    <div class="q-sub">The thing that isn't technically yours to notice but that you noticed anyway.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I stay in my lane. If something isn't mine to handle, I don't get involved.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I notice things but I'm not sure it's my place to say something when it's outside my direct role.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">It depends on how significant it is. Big things I flag. Small things I leave alone.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">I generally flag things I notice, even when they're not technically mine. A quick message costs almost nothing and might matter.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">I flag things outside my lane regularly. "Not my job" has never seemed like a good reason to let something go unaddressed when I can say something in thirty seconds.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 6 of 6 &middot; Proactive Flagging</div>
+    <div class="q-text">I check in proactively with leadership and peers — not just when something's wrong, but to keep communication channels warm and normal.</div>
+    <div class="q-sub">The Chippendale principle. Consistent presence communicates investment. It also makes raising a real issue feel natural when one comes up.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I communicate when there's something to communicate. I don't check in just for the sake of it.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I know I should check in more. I tend to go quiet when things are going fine.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I check in sometimes but it's not a consistent habit — it depends on the week.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I make a point of touching base even when things are fine. It keeps the relationship warm and makes the harder conversations easier.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">Consistent proactive communication is part of how I work. I'm not waiting for something to go wrong to reach out. Presence is its own form of communication.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="resultsPanel">
+    <h2 id="resultsHeadline"></h2>
+    <p class="score-line" id="scoreLine"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreBarFill" style="width:0%"></div></div>
+    <div id="dimensionsBlock"></div>
+    <div class="results-cta"><p id="resultsCTA"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week11_applied_task.html">Next: Applied Task →</a>
+    </div>
+  </div>
+</div>
+<script>
+const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
+document.getElementById('patricia-svg').innerHTML=P;
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  const qs=['q1','q2','q3','q4','q5','q6'];
+  let scores=[];
+  for(const q of qs){const v=document.querySelector(`input[name="${q}"]:checked`);if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  const total=scores.reduce((a,b)=>a+b,0);
+  const pct=Math.round((total/30)*100);
+  const upward=Math.round((scores[0]+scores[1])/2);
+  const lateral=Math.round((scores[2]+scores[3])/2);
+  const proactive=Math.round((scores[4]+scores[5])/2);
+  let headline,cta;
+  if(pct>=80){headline="You say things. You say them quickly. You say them to the right person.";cta="The applied task this week is less about building a new habit and more about identifying the one thing you've been holding. There's usually one. Name it. Say it.";}
+  else if(pct>=55){headline="You know when to say something. You don't always do it.";cta="The gap is usually in the moment of hesitation — the thirty seconds where you talk yourself into waiting. The applied task this week will give you one concrete rep at doing the thing instead of holding it.";}
+  else{headline="You're protecting the framing more than you're communicating.";cta="The instinct to get everything right before saying something is understandable. It also costs you — and your team — time and momentum. The applied task asks you to say one thing this week that you've been holding. Just one. See what happens.";}
+  document.getElementById('resultsHeadline').textContent=headline;
+  document.getElementById('scoreLine').textContent=`${total} out of 30 points (${pct}%)`;
+  setTimeout(()=>{document.getElementById('scoreBarFill').style.width=pct+'%';},100);
+  const dims=[
+    {label:'Upward Communication',score:upward,desc:upward>=4?'Strong — you flag things quickly and simply.':upward>=3?'Developing — you flag things eventually, but the framing process slows you down.':'Early stage — the delay in raising things upward is creating gaps. Quick and imperfect beats slow and polished almost every time.'},
+    {label:'Lateral Communication',score:lateral,desc:lateral>=4?'Strong — you go to peers directly and you speak up when team outcomes are affected.':lateral>=3?'Developing — you do it sometimes but it\'s not yet instinct.':'Early stage — working around a peer is always more expensive than the direct conversation, even when the conversation is uncomfortable.'},
+    {label:'Proactive Flagging',score:proactive,desc:proactive>=4?'Strong — you flag things outside your lane and you stay present when things are going well.':proactive>=3?'Developing — you know this matters but it\'s not yet consistent.':'Early stage — proactive communication is what prevents the one-week gaps. It\'s a habit, not a personality trait. You can build it.'}
+  ];
+  document.getElementById('dimensionsBlock').innerHTML=dims.map(d=>`<div class="dimension"><div class="dim-label">${d.label} — ${d.score}/5</div><div class="dim-title">${d.score>=4?'Strong':d.score>=3?'Developing':'Building'}</div><div class="dim-desc">${d.desc}</div></div>`).join('');
+  document.getElementById('resultsCTA').textContent=cta;
+  const rp=document.getElementById('resultsPanel');
+  rp.classList.add('visible');
+  setTimeout(()=>rp.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+</script>
+</body>
+</html>
