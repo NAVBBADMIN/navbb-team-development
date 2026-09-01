@@ -40,22 +40,12 @@
   main{max-width:860px;margin:0 auto;padding:72px 40px 100px;}
   .section-label{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:32px;}
   .section-label::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
-  .context-card{background:var(--ink);border-radius:20px;padding:36px;margin-bottom:44px;}
-  .cc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
-  .cc-body{font-size:16px;color:rgba(255,255,255,0.8);line-height:1.75;}
-  .cc-body strong{color:var(--white);font-weight:700;}
-  .three-directions{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:44px;}
-  .dir-card{border-radius:14px;padding:22px 20px;border:1.5px solid var(--gray-mid);position:relative;overflow:hidden;}
-  .dir-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;}
-  .dir-card:nth-child(1)::after{background:var(--blue);}
-  .dir-card:nth-child(2)::after{background:var(--gold);}
-  .dir-card:nth-child(3)::after{background:var(--red);}
-  .dir-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
-  .dir-card:nth-child(1) .dir-label{color:var(--blue);}
-  .dir-card:nth-child(2) .dir-label{color:var(--gold);}
-  .dir-card:nth-child(3) .dir-label{color:var(--red);}
-  .dir-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;}
-  .dir-desc{font-size:13px;color:var(--gray-text);line-height:1.55;}
+  .mission-quote{background:var(--ink);border-radius:20px;padding:40px;margin-bottom:44px;}
+  .mq-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:16px;}
+  .mq-words{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+  .mq-word{padding:8px 18px;border-radius:20px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);font-size:13px;font-weight:700;color:rgba(255,255,255,0.7);}
+  .mq-word.highlight{background:rgba(237,45,43,0.2);border-color:rgba(237,45,43,0.4);color:var(--white);}
+  .mq-foot{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6;font-style:italic;}
   .pieces{display:flex;flex-direction:column;gap:14px;margin-bottom:52px;}
   .piece-card{display:flex;align-items:center;text-decoration:none;border:1.5px solid var(--gray-mid);border-radius:16px;overflow:hidden;background:var(--white);transition:all 0.25s;}
   .piece-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(1,86,152,0.12);transform:translateY(-3px);}
@@ -95,14 +85,14 @@
   .prog-week.active .pw-title{color:var(--white);}
   .pw-status{font-size:7px;color:var(--gray-text);margin-top:2px;}
   .prog-week.active .pw-status{color:var(--red);}
-  @media(max-width:640px){.hero{padding:0 24px 48px;}.hero-nav{padding:20px 24px;}.participation-banner{padding:14px 24px;}.mascots{right:10px;bottom:36px;}.survey-card{flex-direction:column;}.three-directions{grid-template-columns:1fr;}.prog-weeks{grid-template-columns:repeat(4,1fr);}}
+  @media(max-width:640px){.hero{padding:0 24px 48px;}.hero-nav{padding:20px 24px;}.participation-banner{padding:14px 24px;}.mascots{right:10px;bottom:36px;}.survey-card{flex-direction:column;}.prog-weeks{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
 <div class="loader">
   <div class="loader-label">Team Development Series</div>
   <div class="loader-week">Week 11 of ongoing</div>
-  <div class="loader-title">Say Something:<br><span>How This Team Communicates</span></div>
+  <div class="loader-title">Remember the Mission:<br><span>Why the Hard Days Are Worth It</span></div>
 </div>
 <section class="hero">
   <div class="hero-bg"></div>
@@ -112,8 +102,8 @@
     <div class="patricia-float"><svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" width="78" height="94" id="patricia-hero"><ellipse cx="50" cy="115" rx="24" ry="5" fill="rgba(0,0,0,0.2)"/></svg></div>
   </div>
   <div class="hero-eyebrow">Week 11 of ongoing</div>
-  <h1>Say Something:<br><em>How This Team Communicates</em></h1>
-  <p class="hero-sub">Good teams don't wait for the right moment to raise something. They say it when they notice it &mdash; even when it's small, even when they're not sure it's their place. The cost of silence is almost always higher than the cost of the conversation that didn't happen.</p>
+  <h1>Remember the Mission:<br><em>Why the Hard Days Are Worth It</em></h1>
+  <p class="hero-sub">Recruiting can feel like a grind. The thing that keeps the work meaningful on the slow weeks isn't the metrics &mdash; it's the reason behind them. This week is about reconnecting to why the program exists and how that changes the way you work.</p>
   <div class="hero-meta">
     <div class="meta-item"><div class="meta-label">This Week</div><div class="meta-val">4 pieces, your pace</div></div>
     <div class="meta-item"><div class="meta-label">Total Time</div><div class="meta-val">~35 min</div></div>
@@ -121,50 +111,42 @@
   </div>
 </section>
 <div class="participation-banner">
-  <p>&#9888; At our next meeting you'll share what you said something about this week &mdash; and what happened when you did.</p>
+  <p>&#9888; At our next meeting you'll share your one sentence &mdash; why you do this &mdash; and one decision you're going to make differently because of it.</p>
 </div>
 <main>
-  <div class="context-card">
-    <div class="cc-label">Why This Week Exists</div>
-    <p class="cc-body">The interactive piece for Week 11 was missed. <strong>No one flagged it for a week.</strong> That's not a failure of any one person &mdash; it's a communication pattern worth examining together. Leadership can miss things. So can teammates. The question this week isn't who dropped the ball. It's: <strong>when you notice something is off, do you say something?</strong> This week is about building the kind of team where the answer is always yes.</p>
-  </div>
-  <div class="three-directions">
-    <div class="dir-card">
-      <div class="dir-label">Direction 1</div>
-      <div class="dir-title">Raising Something Up</div>
-      <p class="dir-desc">How to bring something to your manager's attention without it feeling like a complaint. The difference between "I noticed something" and "I have a problem with something."</p>
+  <div class="mission-quote">
+    <div class="mq-label">Seven Words of Advice &mdash; For Everyone</div>
+    <div class="mq-words">
+      <div class="mq-word">Persistence</div>
+      <div class="mq-word">Relationships first</div>
+      <div class="mq-word">Pivot &amp; adapt</div>
+      <div class="mq-word">Be yourself</div>
+      <div class="mq-word">Team</div>
+      <div class="mq-word">Trust your instincts</div>
+      <div class="mq-word highlight">Remember the mission</div>
     </div>
-    <div class="dir-card">
-      <div class="dir-label">Direction 2</div>
-      <div class="dir-title">Raising Something Lateral</div>
-      <p class="dir-desc">Peer to peer. When something a teammate is doing affects your work or the team's output, saying it directly &mdash; not going around, not going silent.</p>
-    </div>
-    <div class="dir-card">
-      <div class="dir-label">Direction 3</div>
-      <div class="dir-title">Raising Something You Noticed</div>
-      <p class="dir-desc">The hardest one. When something is missing or wrong and it's not technically your responsibility &mdash; but you noticed it. This is the one that changes team culture.</p>
-    </div>
+    <p class="mq-foot">These aren't just advice for someone new. They're the full philosophy of this role &mdash; written down in one meeting. The last one is what makes all the others make sense on the days when they're hard to follow.</p>
   </div>
   <div class="section-label">This Week's Content</div>
   <div class="pieces">
     <a class="piece-card" href="https://navbbadmin.github.io/navbb-team-development/week11_read.html">
       <div class="piece-num-wrap"><div class="piece-num">1</div></div>
-      <div class="piece-body"><div class="piece-kind">Read</div><p class="piece-title">Say Something</p><p class="piece-desc">Three situations, three directions. Why silence feels safer but costs more. How to raise something without it becoming a complaint. Patricia's email that nobody read. The one-week gap.</p></div>
+      <div class="piece-body"><div class="piece-kind">Read</div><p class="piece-title">Why You're Really Here</p><p class="piece-desc">What happens when you lose sight of the mission &mdash; and what changes when you reconnect to it. How the reason behind the work makes the urgency pitch natural, the cold visit worth it, and the rejection easier to release.</p></div>
       <div class="piece-right"><span class="piece-time">~7 min</span><div class="piece-arrow">&#8594;</div></div>
     </a>
     <a class="piece-card alt" href="https://navbbadmin.github.io/navbb-team-development/week11_case_study.html">
       <div class="piece-num-wrap"><div class="piece-num">2</div></div>
-      <div class="piece-body"><div class="piece-kind">Case Study</div><p class="piece-title">The Thing Nobody Said</p><p class="piece-desc">A team where something is visibly off. Six scenes showing who notices, who waits, who says something, and what the outcome is in each version. Patricia waits to see if anyone else brings it up.</p></div>
+      <div class="piece-body"><div class="piece-kind">Case Study</div><p class="piece-title">Two Recruiters, Same Tough Week</p><p class="piece-desc">Both have a week where nothing goes right. One grinds harder. One steps back, reconnects to the mission, and returns differently. Same effort level. Very different outcomes.</p></div>
       <div class="piece-right"><span class="piece-time">~8 min</span><div class="piece-arrow">&#8594;</div></div>
     </a>
     <a class="piece-card" href="https://navbbadmin.github.io/navbb-team-development/week11_self_assessment.html">
       <div class="piece-num-wrap"><div class="piece-num">3</div></div>
-      <div class="piece-body"><div class="piece-kind">Self-Assessment</div><p class="piece-title">When Do You Say Something?</p><p class="piece-desc">Six questions scored across upward communication, lateral communication, and proactive flagging. When you notice something that isn't your direct responsibility, what's your first instinct?</p></div>
+      <div class="piece-body"><div class="piece-kind">Self-Assessment</div><p class="piece-title">What Are You Actually Working Toward?</p><p class="piece-desc">Six questions across mission clarity, strategic vs. reactive decision-making, and resilience. When the numbers aren't moving, what's your first instinct &mdash; more activity, or different activity?</p></div>
       <div class="piece-right"><span class="piece-time">~10 min</span><div class="piece-arrow">&#8594;</div></div>
     </a>
     <a class="piece-card alt" href="https://navbbadmin.github.io/navbb-team-development/week11_applied_task.html">
       <div class="piece-num-wrap"><div class="piece-num">4</div></div>
-      <div class="piece-body"><div class="piece-kind">Applied Task</div><p class="piece-title">Say the Thing</p><p class="piece-desc">Name one thing you've been meaning to raise &mdash; with leadership, with a peer, or about something you noticed &mdash; that you haven't said yet. Write it down. Say it this week. Report what happened.</p></div>
+      <div class="piece-body"><div class="piece-kind">Applied Task</div><p class="piece-title">Your One Sentence</p><p class="piece-desc">Write why you do this job in one sentence. Then identify one recent decision you made reactively rather than strategically &mdash; and write what the strategic version would have looked like.</p></div>
       <div class="piece-right"><span class="piece-time">Real work</span><div class="piece-arrow">&#8594;</div></div>
     </a>
   </div>
@@ -174,12 +156,12 @@
       <h3>Complete the Week 11 Check-In</h3>
       <p>This is the one thing leadership actually sees. Takes 2 minutes. Do the pieces first &mdash; then submit before your next meeting.</p>
     </div>
-    <a class="survey-btn" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUOEJWVEYwNjBUTVMzWENBUjZOVEg3MzlFMS4u" target="_blank">Submit Check-In &#8594;</a>
+    <a class="survey-btn" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUNEtCOElZUDFGNFhSN1U0RURDODkwWUNZQS4u" target="_blank">Submit Check-In &#8594;</a>
   </div>
   <div class="sync-section">
     <div class="sync-label">10 Min &middot; Next Meeting</div>
     <h3>What you'll bring</h3>
-    <p>One thing you said something about this week &mdash; what it was, who you said it to, and what happened when you did. Patricia will not be sharing. Patricia noticed something a week ago. Patricia wasn't sure if it was her place. Patricia decided to wait and see if anyone else brought it up. Nobody did. Patricia is still deciding whether to mention it.</p>
+    <p>Your one sentence &mdash; why you do this job, in your own words &mdash; and one decision you're going to approach differently because of it. Patricia will not be sharing. Patricia has added four locations to her schedule this week. Patricia considers this progress. Patricia has not thought about why the program matters in approximately six weeks. Patricia calls this a numbers problem.</p>
   </div>
   <div>
     <div class="prog-label">Recent Series Progress</div>
@@ -189,13 +171,13 @@
       <div class="prog-week done"><div class="pw-num">W8</div><div class="pw-title">Murphy</div><div class="pw-status">&#10003;</div></div>
       <div class="prog-week done"><div class="pw-num">W9</div><div class="pw-title">Challenge</div><div class="pw-status">&#10003;</div></div>
       <div class="prog-week done"><div class="pw-num">W10</div><div class="pw-title">Feel It</div><div class="pw-status">&#10003;</div></div>
-      <div class="prog-week active"><div class="pw-num">W11</div><div class="pw-title">Say Something</div><div class="pw-status">&#8592; Here</div></div>
+      <div class="prog-week active"><div class="pw-num">W11</div><div class="pw-title">Mission</div><div class="pw-status">&#8592; Here</div></div>
     </div>
   </div>
 </main>
 <script>
-const P=`<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>`;
-const B=`<ellipse cx="50" cy="80" rx="35" ry="22" fill="#c49a30"/><ellipse cx="50" cy="82" rx="27" ry="16" fill="#e8c060"/><circle cx="50" cy="52" r="24" fill="#c49a30"/><ellipse cx="34" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(-15 34 38)"/><ellipse cx="66" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(15 66 38)"/><circle cx="43" cy="50" r="4.5" fill="#1f1a10"/><circle cx="57" cy="50" r="4.5" fill="#1f1a10"/><circle cx="44" cy="48" r="1.5" fill="white"/><circle cx="58" cy="48" r="1.5" fill="white"/><ellipse cx="50" cy="62" rx="10" ry="7" fill="#e8c060"/><ellipse cx="50" cy="60" rx="5" ry="4" fill="#c47050"/><path d="M44 68 Q50 73 56 68" stroke="#1f1a10" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(-10 38 95)"/><ellipse cx="62" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(10 62 95)"/><path d="M72 75 Q88 65 85 80 Q82 90 72 88" stroke="#c49a30" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="38" y="55" width="24" height="10" rx="3" fill="#015698"/><text x="50" y="63" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5" font-weight="700" fill="white">BISCUIT</text>`;
+const P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';
+const B='<ellipse cx="50" cy="80" rx="35" ry="22" fill="#c49a30"/><ellipse cx="50" cy="82" rx="27" ry="16" fill="#e8c060"/><circle cx="50" cy="52" r="24" fill="#c49a30"/><ellipse cx="34" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(-15 34 38)"/><ellipse cx="66" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(15 66 38)"/><circle cx="43" cy="50" r="4.5" fill="#1f1a10"/><circle cx="57" cy="50" r="4.5" fill="#1f1a10"/><circle cx="44" cy="48" r="1.5" fill="white"/><circle cx="58" cy="48" r="1.5" fill="white"/><ellipse cx="50" cy="62" rx="10" ry="7" fill="#e8c060"/><ellipse cx="50" cy="60" rx="5" ry="4" fill="#c47050"/><path d="M44 68 Q50 73 56 68" stroke="#1f1a10" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(-10 38 95)"/><ellipse cx="62" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(10 62 95)"/><path d="M72 75 Q88 65 85 80 Q82 90 72 88" stroke="#c49a30" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="38" y="55" width="24" height="10" rx="3" fill="#015698"/><text x="50" y="63" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5" font-weight="700" fill="white">BISCUIT</text>';
 document.getElementById('patricia-hero').innerHTML+=P;
 document.getElementById('biscuit-hero').innerHTML+=B;
 </script>
