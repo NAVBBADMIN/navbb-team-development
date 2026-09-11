@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 12 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--gold);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta{font-size:13px;color:var(--gray-text);margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .pm-block{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.2);flex-shrink:0;}
+  .pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:16px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+  .q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+  .q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+  .q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+  .q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+  .opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+  .opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+  .opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+  .results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}
+  .results-panel.visible{display:block;}
+  .results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+  .score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+  .score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 1s ease;}
+  .dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+  .dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+  .dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+  .dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+  .results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+  .results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+  .score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+  .score-btn:hover{background:#c0201f;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 12 &middot; Self-Assessment</div><div class="loader-title">Who Would<br><span>Call You?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 12</div>
+  <h1>Who Would Call You?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private &mdash; your answers are not shared or tracked.</p>
+  <div class="notice">
+    <div class="notice-label">Before You Start &mdash; Please Read</div>
+    <p><strong>This self-assessment is completely private.</strong> Your answers are stored only on your device and are never submitted or shared. Leadership cannot see your responses or your score.</p>
+    <p>Answer based on your territory right now &mdash; not your best location or your best week.</p>
+    <p><strong>To be counted as complete for this week</strong>, scroll to the bottom after scoring and hit <strong>Submit Week 12 Check-In</strong>.</p>
+  </div>
+  <div class="pm-block">
+    <div class="pm-header">
+      <img class="pm-img" src="https://navbbadmin.github.io/navbb-team-development/Patricia1.jpg" alt="Patricia">
+      <div><div class="pm-lbl">A Patricia Moment</div><div class="pm-title">Patricia scored herself a 4 on relationship depth.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia has been to each of her seventeen locations at least five times. Patricia knows the name of the front desk staff at eleven of them. Patricia gave herself a 4 because she considers this strong relationship knowledge. Patricia cannot name a single parent. Patricia has never been contacted by a parent between visits. Patricia wonders why her referral count is zero. Patricia is adding two more locations next month.</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 1 of 6 &middot; Relationship Depth</div>
+    <div class="q-text">At my anchor locations, I can name at least one parent &mdash; not a manager or staff member, a parent &mdash; who would recognize my name if the daycare mentioned it.</div>
+    <div class="q-sub">Not someone I talked to once. Someone who knows who I am and what I do.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I know the staff well at my locations but I don't have real relationships with specific parents yet.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I can think of one or two parents across my whole territory who might recognize my name.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">At my best location, yes. At most of my locations, not really.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">At the majority of my anchor locations I can name at least one parent who knows me.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">At every active location I have at least one parent who would recognize my name and who I could contact directly without going through the daycare.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 2 of 6 &middot; Relationship Depth</div>
+    <div class="q-text">In the last month, I have been contacted by a parent who initiated the conversation &mdash; not because I followed up first, but because something came up and they thought of me.</div>
+    <div class="q-sub">A text, a call, a message through the daycare. Something they sent without being prompted.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">No. All of my contact with parents is initiated by me.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">Not in the last month, but it has happened before occasionally.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">Once, from one parent at one location.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">A couple of times from a couple of different people.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">Yes, multiple times. I have parents and staff who contact me directly when something comes up that seems relevant to the program.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 3 of 6 &middot; Individual Connection</div>
+    <div class="q-text">When I visit a location, I spend time in conversation with at least one parent per visit &mdash; not pitching, just talking about their dog, their situation, something personal.</div>
+    <div class="q-sub">The conversation that builds the relationship, not the conversation that closes the sign-up.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">My visits are mostly with staff. I pitch to parents when the opportunity comes up but I don't seek out individual conversations.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">Sometimes. Depends on who's there and how busy the location is.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">At my best locations, yes. At others, I focus more on the logistics and staff relationships.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">Most visits I have at least one real conversation with a parent where we talked about something beyond the program pitch.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">Every visit. I prioritize parent conversations over staff time because that's where the relationships that produce referrals actually form.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 4 of 6 &middot; Individual Connection</div>
+    <div class="q-text">I follow up with specific parents by name after conversations, not just with locations in general.</div>
+    <div class="q-sub">"Hey Sarah, following up on what we talked about last Tuesday about Max" &mdash; not "following up on my visit to Camp Bow Wow."</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">My follow-ups go to the location or the manager. I don't have direct contact with specific parents.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I have done this occasionally when I got a parent's contact information directly, but it's not my normal approach.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I do this at my stronger locations where I have direct contact info for a few parents.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I regularly follow up with specific parents by name. Most of my follow-up activity is person-to-person, not location-to-location.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">Personal follow-up is the foundation of how I work. The location is the entry point. The parent is the relationship I'm building.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 5 of 6 &middot; Strategic Territory</div>
+    <div class="q-text">I can honestly assess which locations on my schedule are worth continued investment and which ones have been giving me a polite no for months.</div>
+    <div class="q-sub">Not which ones you hope will come around. Which ones the evidence says are actually open.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I keep visiting all my locations consistently. I don't like to give up on any of them.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I know some locations are more responsive than others but I haven't made deliberate decisions about where to reduce time.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I have a sense of which locations are stronger but I haven't explicitly adjusted my schedule based on it.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">I've identified my closed-door locations and have either reduced my visit frequency or had an honest conversation about timing with the manager.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">I actively manage my territory based on evidence. Closed doors get a lower frequency visit or a pause. Open doors get the time I reclaim. I can tell the difference between "not yet" and "polite no."</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 6 of 6 &middot; Strategic Territory</div>
+    <div class="q-text">I know the quality of each location in my territory &mdash; not just the count of locations, but which ones are actively producing relationships vs. which ones are just familiar stops on a route.</div>
+    <div class="q-sub">The distinction between a location that's in your schedule and a location that's in your program.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I track how many locations I have and how often I visit. I don't have a clear picture of which ones are actually producing.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I know my best and worst locations but the middle of my territory is less clear to me.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I have a general sense of territory quality but I haven't mapped it out explicitly.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I know which locations are active relationships and which are familiar stops. That distinction drives my visit prioritization.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">I can tell you exactly which locations in my territory are building real relationships and which are maintenance visits. That picture drives every scheduling decision I make.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="rp">
+    <h2 id="rh"></h2>
+    <p class="score-line" id="sl"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="sbf" style="width:0%"></div></div>
+    <div id="db"></div>
+    <div class="results-cta"><p id="rc"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week12_applied_task.html">Next: Applied Task &rarr;</a>
+    </div>
+  </div>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  const qs=['q1','q2','q3','q4','q5','q6'];let scores=[];
+  for(const q of qs){const v=document.querySelector('input[name="'+q+'"]:checked');if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  const total=scores.reduce((a,b)=>a+b,0);const pct=Math.round(total/30*100);
+  const depth=Math.round((scores[0]+scores[1])/2);const connection=Math.round((scores[2]+scores[3])/2);const strategic=Math.round((scores[4]+scores[5])/2);
+  let h,c;
+  if(pct>=80){h="You have people working for you when you're not there.";c="The applied task this week is about naming them specifically and identifying any locations where that relationship hasn't formed yet. You probably already know which ones.";}
+  else if(pct>=55){h="You have the foundation. The individual relationships need to go deeper.";c="You know your locations well. The next step is knowing specific parents at each one &mdash; not just the staff. The applied task will surface where that work still needs to happen.";}
+  else{h="You are Recruiter A. You're working hard. Your results stop when you do.";c="This isn't a critique of your effort &mdash; it's a description of the approach. The applied task asks you to name one parent at one location. Just one. That's where the shift starts.";}
+  document.getElementById('rh').textContent=h;document.getElementById('sl').textContent=total+' out of 30 points ('+pct+'%)';
+  setTimeout(()=>{document.getElementById('sbf').style.width=pct+'%';},100);
+  const dims=[
+    {l:'Relationship Depth',s:depth,d:depth>=4?'Strong &mdash; parents contact you. That\'s the measure.':depth>=3?'Developing &mdash; you have some parent relationships but they\'re not yet producing inbound contact consistently.':'Early stage &mdash; the relationships with staff are the foundation, not the goal. The applied task this week starts to close that gap.'},
+    {l:'Individual Connection',s:connection,d:connection>=4?'Strong &mdash; your conversations and follow-ups are person-to-person, not location-to-location.':connection>=3?'Developing &mdash; you do this at your best locations. The work is making it consistent everywhere.':'Early stage &mdash; every visit has a parent conversation available if you look for it. The applied task will give you a specific place to start.'},
+    {l:'Strategic Territory',s:strategic,d:strategic>=4?'Strong &mdash; you read your territory accurately and manage your time based on evidence, not hope.':strategic>=3?'Developing &mdash; you have a sense of territory quality but haven\'t fully acted on it yet.':'Early stage &mdash; knowing which doors are open and which are politely closed is a skill. The applied task includes a specific exercise for this.'}
+  ];
+  document.getElementById('db').innerHTML=dims.map(d=>'<div class="dimension"><div class="dim-label">'+d.l+' &mdash; '+d.s+'/5</div><div class="dim-title">'+(d.s>=4?'Strong':d.s>=3?'Developing':'Building')+'</div><div class="dim-desc">'+d.d+'</div></div>').join('');
+  document.getElementById('rc').textContent=c;
+  const rp=document.getElementById('rp');rp.classList.add('visible');setTimeout(()=>rp.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+</script>
+</body>
+</html>
