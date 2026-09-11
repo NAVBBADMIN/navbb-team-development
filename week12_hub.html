@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development Series — Week 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  @keyframes floatSlow{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;animation:loaderExit 0.6s ease 2s forwards;}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:600;animation:fadeUp 0.5s ease 0.3s both;}
+  .loader-week{font-size:13px;font-weight:700;color:rgba(255,255,255,0.6);animation:fadeUp 0.5s ease 0.5s both;}
+  .loader-title{font-size:clamp(20px,4vw,28px);font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.5s ease 0.7s both;}
+  .loader-title span{color:var(--red);}
+  .hero{min-height:70vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 60%,var(--blue-mid) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 64px;animation:fadeUp 0.8s ease 2.2s both;opacity:0;}
+  .hero-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;}
+  .hero-nav{position:absolute;top:0;left:0;right:0;padding:28px 60px;display:flex;justify-content:space-between;align-items:center;z-index:10;}
+  .nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--white);display:flex;align-items:center;gap:8px;}
+  .nav-dot{width:7px;height:7px;border-radius:50%;background:var(--red);}
+  .nav-week{font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);}
+  .mascots{position:absolute;right:50px;bottom:44px;display:flex;align-items:flex-end;gap:12px;}
+  .biscuit-float{animation:floatSlow 5s ease-in-out 0.3s infinite;}
+  .patricia-float{animation:float 4s ease-in-out infinite;}
+  .hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:12px;position:relative;z-index:2;}
+  .hero-eyebrow::before{content:"";width:28px;height:2px;background:var(--red);}
+  h1{font-size:clamp(36px,6vw,64px);font-weight:900;color:var(--white);line-height:1.02;letter-spacing:-2px;margin-bottom:18px;position:relative;z-index:2;}
+  h1 em{font-style:normal;color:var(--red);}
+  .hero-sub{font-size:17px;font-weight:300;color:rgba(255,255,255,0.65);max-width:520px;line-height:1.65;position:relative;z-index:2;}
+  .hero-meta{display:flex;gap:40px;margin-top:32px;position:relative;z-index:2;}
+  .meta-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+  .meta-val{font-size:15px;font-weight:800;color:var(--white);}
+  .participation-banner{background:var(--red);padding:16px 60px;}
+  .participation-banner p{font-size:14px;font-weight:600;color:var(--white);line-height:1.5;}
+  main{max-width:860px;margin:0 auto;padding:72px 40px 100px;}
+  .section-label{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:32px;}
+  .section-label::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+  .michael-card{background:var(--ink);border-radius:20px;padding:36px;margin-bottom:44px;}
+  .mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+  .mc-quote{font-size:18px;font-weight:700;color:var(--white);font-style:italic;line-height:1.55;margin-bottom:12px;}
+  .mc-attr{font-size:13px;color:rgba(255,255,255,0.45);}
+  .pieces{display:flex;flex-direction:column;gap:14px;margin-bottom:52px;}
+  .piece-card{display:flex;align-items:center;text-decoration:none;border:1.5px solid var(--gray-mid);border-radius:16px;overflow:hidden;background:var(--white);transition:all 0.25s;}
+  .piece-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(1,86,152,0.12);transform:translateY(-3px);}
+  .piece-card.alt:hover{border-color:var(--red);box-shadow:0 8px 32px rgba(237,45,43,0.1);}
+  .piece-num-wrap{width:64px;min-height:88px;background:var(--blue-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .piece-card.alt .piece-num-wrap{background:var(--red);}
+  .piece-num{font-size:22px;font-weight:900;color:var(--white);}
+  .piece-body{flex:1;padding:20px 24px;}
+  .piece-kind{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+  .piece-card.alt .piece-kind{color:var(--red);}
+  .piece-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+  .piece-desc{font-size:13px;color:var(--gray-text);line-height:1.5;}
+  .piece-right{padding:20px 24px;display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex-shrink:0;}
+  .piece-time{font-size:12px;font-weight:600;color:var(--gray-text);}
+  .piece-arrow{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray-mid);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-text);transition:all 0.2s;}
+  .piece-card:hover .piece-arrow{background:var(--blue);color:var(--white);border-color:var(--blue);}
+  .piece-card.alt:hover .piece-arrow{background:var(--red);border-color:var(--red);}
+  .survey-card{background:var(--red);border-radius:20px;padding:36px 40px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+  .survey-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;}
+  .survey-card h3{font-size:22px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .survey-card p{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;}
+  .survey-btn{display:inline-block;background:var(--white);color:var(--red);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 32px;border-radius:12px;text-decoration:none;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+  .survey-btn:hover{background:var(--ink);color:var(--white);}
+  .sync-section{background:var(--blue-dark);border-radius:20px;padding:40px;margin-bottom:40px;}
+  .sync-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .sync-label::before{content:"";width:20px;height:2px;background:var(--red);}
+  .sync-section h3{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+  .sync-section p{font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;font-weight:300;}
+  .prog-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);margin-bottom:16px;}
+  .prog-weeks{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
+  .prog-week{border-radius:8px;padding:10px 4px;text-align:center;border:1.5px solid var(--gray-mid);}
+  .prog-week.active{background:var(--blue-dark);border-color:var(--blue-dark);}
+  .prog-week.done{background:var(--gray-light);}
+  .pw-num{font-size:8px;font-weight:700;color:var(--gray-text);margin-bottom:2px;}
+  .prog-week.active .pw-num{color:rgba(255,255,255,0.5);}
+  .pw-title{font-size:7px;font-weight:700;color:var(--ink);line-height:1.3;}
+  .prog-week.active .pw-title{color:var(--white);}
+  .pw-status{font-size:7px;color:var(--gray-text);margin-top:2px;}
+  .prog-week.active .pw-status{color:var(--red);}
+  @media(max-width:640px){.hero{padding:0 24px 48px;}.hero-nav{padding:20px 24px;}.participation-banner{padding:14px 24px;}.mascots{right:10px;bottom:36px;}.survey-card{flex-direction:column;}.prog-weeks{grid-template-columns:repeat(3,1fr);}}
+</style>
+</head>
+<body>
+<div class="loader">
+  <div class="loader-label">Team Development Series</div>
+  <div class="loader-week">Week 12 of ongoing</div>
+  <div class="loader-title">One at a Time:<br><span>The Only Thing That Works</span></div>
+</div>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-week">Week 12 &middot; Ongoing Series</div></nav>
+  <div class="mascots">
+    <div class="biscuit-float"><img src="https://navbbadmin.github.io/navbb-team-development/Biscuit.jpg" alt="Biscuit" style="width:80px;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));border-radius:12px;object-fit:cover;"></div>
+    <div class="patricia-float"><img src="https://navbbadmin.github.io/navbb-team-development/Patricia1.jpg" alt="Patricia" style="width:90px;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));border-radius:12px;object-fit:cover;"></div>
+  </div>
+  <div class="hero-eyebrow">Week 12 of ongoing</div>
+  <h1>One at a Time:<br><em>The Only Thing That Works</em></h1>
+  <p class="hero-sub">Seven years of doing this. One lesson that never changes. You can have twelve locations on your schedule or eight &mdash; what matters is how many people in those locations actually know you.</p>
+  <div class="hero-meta">
+    <div class="meta-item"><div class="meta-label">This Week</div><div class="meta-val">4 pieces, your pace</div></div>
+    <div class="meta-item"><div class="meta-label">Total Time</div><div class="meta-val">~35 min</div></div>
+    <div class="meta-item"><div class="meta-label">Sync</div><div class="meta-val">10 min, next meeting</div></div>
+  </div>
+</section>
+<div class="participation-banner">
+  <p>&#9888; At our next meeting you'll share one parent by name &mdash; not a manager, a parent &mdash; at one of your locations, and what that relationship has produced.</p>
+</div>
+<main>
+  <div class="michael-card">
+    <div class="mc-label">Seven Years. One Rule.</div>
+    <div class="mc-quote">"One relationship with every donor owner is the only thing that works. We've been doing this for seven years. Nothing else will work. I will not allow anyone else to try it. Because it does not work. So just keep doing what you're doing &mdash; go out there and talk to people."</div>
+    <div class="mc-attr">The whole philosophy. In two sentences.</div>
+  </div>
+  <div class="section-label">This Week's Content</div>
+  <div class="pieces">
+    <a class="piece-card" href="https://navbbadmin.github.io/navbb-team-development/week12_read.html">
+      <div class="piece-num-wrap"><div class="piece-num">1</div></div>
+      <div class="piece-body"><div class="piece-kind">Read</div><p class="piece-title">One at a Time</p><p class="piece-desc">What it actually means to build a relationship at a location vs. knowing a location. How one real parent connection produces more than ten surface-level visits. And how to read the polite brush-off before it costs you more time.</p></div>
+      <div class="piece-right"><span class="piece-time">~7 min</span><div class="piece-arrow">&#8594;</div></div>
+    </a>
+    <a class="piece-card alt" href="https://navbbadmin.github.io/navbb-team-development/week12_case_study.html">
+      <div class="piece-num-wrap"><div class="piece-num">2</div></div>
+      <div class="piece-body"><div class="piece-kind">Case Study</div><p class="piece-title">Two Recruiters, Same Territory</p><p class="piece-desc">Recruiter A has twelve locations. Recruiter B has eight. Recruiter A is busier. Recruiter B has three parents who call her. Six scenes showing what the difference actually produces.</p></div>
+      <div class="piece-right"><span class="piece-time">~8 min</span><div class="piece-arrow">&#8594;</div></div>
+    </a>
+    <a class="piece-card" href="https://navbbadmin.github.io/navbb-team-development/week12_self_assessment.html">
+      <div class="piece-num-wrap"><div class="piece-num">3</div></div>
+      <div class="piece-body"><div class="piece-kind">Self-Assessment</div><p class="piece-title">Who Would Call You?</p><p class="piece-desc">Six questions across relationship depth, individual connection, and territory management. The key question: can you name a parent &mdash; not a manager, a parent &mdash; at your anchor locations who would reach out to you unprompted?</p></div>
+      <div class="piece-right"><span class="piece-time">~10 min</span><div class="piece-arrow">&#8594;</div></div>
+    </a>
+    <a class="piece-card alt" href="https://navbbadmin.github.io/navbb-team-development/week12_applied_task.html">
+      <div class="piece-num-wrap"><div class="piece-num">4</div></div>
+      <div class="piece-body"><div class="piece-kind">Applied Task</div><p class="piece-title">Name One Person</p><p class="piece-desc">At each active location, name one parent with a real relationship. If you can't name one, that's your work this week. Then: identify one location giving you the polite brush-off and write your plan &mdash; continue, redirect, or close.</p></div>
+      <div class="piece-right"><span class="piece-time">Real work</span><div class="piece-arrow">&#8594;</div></div>
+    </a>
+  </div>
+  <div class="survey-card">
+    <div>
+      <div class="survey-eyebrow">Required &mdash; Before You Leave</div>
+      <h3>Complete the Week 12 Check-In</h3>
+      <p>This is the one thing leadership actually sees. Takes 2 minutes. Do the pieces first &mdash; then submit before your next meeting.</p>
+    </div>
+    <a class="survey-btn" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUNEROQkJCRE5IVkhQTzcwOU5RRVEwQjNVOS4u" target="_blank">Submit Check-In &#8594;</a>
+  </div>
+  <div class="sync-section">
+    <div class="sync-label">10 Min &middot; Next Meeting</div>
+    <h3>What you'll bring</h3>
+    <p>One parent by name &mdash; not a manager, a parent &mdash; at one of your locations, and what that relationship has actually produced. Patricia will not be sharing. Patricia knows all seventeen of her locations. Patricia cannot name a single parent at any of them who would contact her unprompted. Patricia considers herself well connected.</p>
+  </div>
+  <div>
+    <div class="prog-label">Recent Series Progress</div>
+    <div class="prog-weeks">
+      <div class="prog-week done"><div class="pw-num">W7</div><div class="pw-title">Adapting</div><div class="pw-status">&#10003;</div></div>
+      <div class="prog-week done"><div class="pw-num">W8</div><div class="pw-title">Murphy</div><div class="pw-status">&#10003;</div></div>
+      <div class="prog-week done"><div class="pw-num">W9</div><div class="pw-title">Challenge</div><div class="pw-status">&#10003;</div></div>
+      <div class="prog-week done"><div class="pw-num">W10</div><div class="pw-title">Feel It</div><div class="pw-status">&#10003;</div></div>
+      <div class="prog-week done"><div class="pw-num">W11</div><div class="pw-title">Mission</div><div class="pw-status">&#10003;</div></div>
+      <div class="prog-week active"><div class="pw-num">W12</div><div class="pw-title">One at a Time</div><div class="pw-status">&#8592; Here</div></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

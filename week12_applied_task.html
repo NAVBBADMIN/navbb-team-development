@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 12 Applied Task</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--gold);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta-line{font-size:13px;color:var(--gray-text);margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .mission-card{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:20px;padding:40px;margin-bottom:40px;}
+  .mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+  .mc-title{font-size:22px;font-weight:900;color:var(--white);margin-bottom:12px;}
+  .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.75;}
+  .pm-block{background:var(--ink);border-radius:16px;overflow:hidden;margin:0 0 36px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:15px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0;}
+  .task-section{margin-bottom:32px;}
+  .task-section h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .task-section .hint{font-size:13px;color:var(--gray-text);margin-bottom:14px;line-height:1.6;}
+  .three-decisions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .decision-chip{padding:8px 16px;border-radius:20px;border:1.5px solid var(--gray-mid);font-size:13px;font-weight:600;color:var(--gray-text);cursor:pointer;transition:all 0.2s;background:var(--white);}
+  .decision-chip.selected{background:var(--blue-dark);color:var(--white);border-color:var(--blue-dark);}
+  textarea{width:100%;min-height:80px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+  textarea:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  input[type=text]{width:100%;padding:11px 14px;border:1.5px solid var(--gray-mid);border-radius:8px;font-family:'Poppins',sans-serif;font-size:14px;color:var(--ink);margin-bottom:14px;}
+  input[type=text]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  .save-indicator{font-size:12px;color:var(--gray-text);height:16px;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 12 &middot; Applied Task</div><div class="loader-title">Name <span>One Person</span></div></div>
+<div class="wrap">
+  <div class="kicker">Applied Task &middot; Week 12</div>
+  <h1>Name One Person</h1>
+  <p class="meta-line">Two parts &middot; Real work in your territory &middot; Bring both to the next meeting.</p>
+
+  <div class="notice">
+    <div class="notice-label">Before You Start &mdash; Please Read</div>
+    <p><strong>Your responses here are stored only on your device and are never automatically submitted or shared.</strong></p>
+    <p><strong>To be counted as complete</strong>, scroll to the bottom and hit <strong>Submit Week 12 Check-In</strong>.</p>
+  </div>
+
+  <div class="mission-card">
+    <div class="mc-label">This Week &mdash; Two Things</div>
+    <div class="mc-title">One parent by name. One location decision.</div>
+    <p class="mc-body">Part one: at each of your active locations, name one parent who has a real relationship with you &mdash; not a manager, a parent. Their name, their dog's name, and what that relationship has produced. If you can't name one at a location, that's your work for this week. Part two: identify one location where you've been getting the polite brush-off and make a decision about it.</p>
+  </div>
+
+  <div class="pm-block">
+    <div class="pm-header">
+      <img src="https://navbbadmin.github.io/navbb-team-development/Patricia%20desk.jpg" alt="Patricia" style="width:48px;height:48px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.2);">
+      <div><div class="pm-lbl">A Patricia Moment</div><div class="pm-title">Patricia completed Part 1.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia listed her seventeen locations. Patricia wrote "Jennifer" next to Barkability. Jennifer is the front desk manager. Patricia is now re-reading the instructions. The instructions say a parent, not a manager. Patricia is considering whether Jennifer sometimes talks to parents and whether this counts. Patricia has decided it counts. Patricia considers Part 1 complete.</p></div>
+  </div>
+
+  <div class="task-section">
+    <h3>Part 1 &mdash; Name One Parent Per Location</h3>
+    <p class="hint">For each of your active locations, name one parent &mdash; their name, their dog's name, and what your relationship with them has produced (a referral, a sign-up, an introduction, a conversation that wouldn't have happened without the relationship). If you can't name one at a location, write that honestly &mdash; that's what you're working on this week at that location.</p>
+    <textarea id="parents" placeholder="Location name &mdash; Parent name &mdash; Dog name &mdash; What it produced&#10;&#10;Example:&#10;Barkability &mdash; Sarah M &mdash; Cooper (Golden, 4yr) &mdash; Referred me to her neighbor whose dog is now a donor&#10;Dog Stop &mdash; None yet &mdash; working on it this week..." oninput="autoSave()" style="min-height:180px;"></textarea>
+  </div>
+
+  <div class="task-section">
+    <h3>One specific ask you made this week</h3>
+    <p class="hint">At one of your locations, make a specific ask of a staff member that could turn them into someone who works for the program between your visits. "Would you be willing to text me when a new large dog joins the daycare?" Name the location, the staff member, and what you asked.</p>
+    <textarea id="specific_ask" placeholder="Location, staff member name, what you asked, and what they said..." oninput="autoSave()"></textarea>
+  </div>
+
+  <div class="task-section">
+    <h3>Part 2 &mdash; The Polite Brush-Off Location</h3>
+    <p class="hint">Name one location that has been giving you vague, non-committal responses across multiple visits. How many times have you been there? What have you tried? Then pick your decision.</p>
+    <input type="text" id="brushoff_location" placeholder="Location name..." oninput="autoSave()">
+    <input type="text" id="brushoff_attempts" placeholder="How many visits / how long you've been trying..." oninput="autoSave()">
+    <p class="hint" style="margin-bottom:12px;">What's your decision?</p>
+    <div class="three-decisions">
+      <div class="decision-chip" onclick="selectDecision(this,'Continue &mdash; with a different approach')">Continue &mdash; different approach</div>
+      <div class="decision-chip" onclick="selectDecision(this,'One final targeted attempt, then redirect')">One final attempt</div>
+      <div class="decision-chip" onclick="selectDecision(this,'Redirect the time elsewhere')">Redirect elsewhere</div>
+    </div>
+    <input type="text" id="brushoff_decision" placeholder="Your decision and why..." oninput="autoSave()">
+    <p class="hint" style="margin-bottom:12px;">What specifically are you doing differently, or where is the redirected time going?</p>
+    <textarea id="brushoff_plan" placeholder="The specific next step..." oninput="autoSave()"></textarea>
+    <div class="save-indicator" id="si"></div>
+  </div>
+
+  <div style="margin-top:40px;background:var(--blue-dark);border-radius:20px;padding:36px 40px;text-align:center;">
+    <h3 style="font-size:20px;font-weight:900;color:var(--white);margin-bottom:8px;">Done? Submit your Week 12 check-in.</h3>
+    <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6;">Takes 2 minutes. This is the one thing leadership actually sees.</p>
+    <a style="display:inline-block;background:var(--red);color:var(--white);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 40px;border-radius:12px;text-decoration:none;" href="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=ZtRBmJX3ZkqiWD-xByrlTkzkXSDwtVFDt2hkRPh5fOFUNEROQkJCRE5IVkhQTzcwOU5RRVEwQjNVOS4u" target="_blank">Submit Week 12 Check-In &rarr;</a>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:16px;">
+    <a style="font-size:14px;color:var(--blue);text-decoration:none;font-weight:600;" href="https://navbbadmin.github.io/navbb-team-development/week12_hub.html">&larr; Back to Week 12 Hub</a>
+  </div>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function selectDecision(el,val){document.querySelectorAll('.decision-chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');document.getElementById('brushoff_decision').value=val;autoSave();}
+const fields=['parents','specific_ask','brushoff_location','brushoff_attempts','brushoff_decision','brushoff_plan'];
+function autoSave(){try{const d={};fields.forEach(f=>{const el=document.getElementById(f);if(el)d[f]=el.value;});localStorage.setItem('w12-at',JSON.stringify(d));document.getElementById('si').textContent='Saved.';setTimeout(()=>document.getElementById('si').textContent='',2000);}catch(e){}}
+function load(){try{const raw=localStorage.getItem('w12-at');if(!raw)return;const d=JSON.parse(raw);fields.forEach(f=>{const el=document.getElementById(f);if(el&&d[f])el.value=d[f];});}catch(e){}}
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 12 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--gold);}
+  .progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+  .kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}
+  .meta{font-size:13px;color:var(--gray-text);margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+  .notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+  .notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}
+  .notice p:last-child{margin-bottom:0;}
+  .pm-block{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+  .pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-title{font-size:16px;font-weight:800;color:var(--white);}
+  .pm-body{padding:20px 28px;}
+  .pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+  .q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+  .q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+  .q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+  .q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+  .opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+  .opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+  .opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+  .results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}
+  .results-panel.visible{display:block;}
+  .results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+  .score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+  .score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 1s ease;}
+  .dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+  .dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+  .dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+  .dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+  .results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+  .results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+  .score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+  .score-btn:hover{background:#c0201f;}
+  .next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.wrap{padding:40px 20px 80px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 12 &middot; Self-Assessment</div><div class="loader-title">Who Would<br><span>Call You?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 12</div>
+  <h1>Who Would Call You?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private &mdash; your answers are not shared or tracked.</p>
+  <div class="notice">
+    <div class="notice-label">Before You Start &mdash; Please Read</div>
+    <p><strong>This self-assessment is completely private.</strong> Your answers are stored only on your device and are never submitted or shared.</p>
+    <p>Answer based on what's actually true in your territory right now &mdash; not your goal state.</p>
+    <p><strong>To be counted as complete</strong>, scroll to the bottom after scoring and hit <strong>Submit Week 12 Check-In</strong>.</p>
+  </div>
+  <div class="pm-block">
+    <div class="pm-header">
+      <img src="https://navbbadmin.github.io/navbb-team-development/Patricia1.jpg" alt="Patricia" style="width:48px;height:48px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.2);">
+      <div><div class="pm-lbl">A Patricia Moment</div><div class="pm-title">Patricia scored herself a 4 on relationship depth.</div></div>
+    </div>
+    <div class="pm-body"><p>Patricia has visited Barkability eleven times. Patricia knows Jennifer at the front desk. Patricia considers this a strong relationship. Patricia cannot name a single parent at Barkability. Patricia has never asked Jennifer to text her when a new eligible dog joins. Patricia has never followed up with a specific parent by name after a visit. Patricia waves at Jennifer when she arrives. Jennifer waves back. Patricia calls this a partnership.</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 1 of 6 &middot; Relationship Depth</div>
+    <div class="q-text">At my anchor locations, I can name at least one parent &mdash; not a manager, a parent &mdash; who would recognize my name if a staff member mentioned it.</div>
+    <div class="q-sub">Not someone you've talked to once. Someone who would say "oh yes, I know her" if the daycare brought you up.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I don't think any parents at my locations would recognize my name if the staff mentioned it.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">Maybe one or two across all my locations, but I'm not confident.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">A few at my strongest locations. Most locations I'm mostly known to the staff, not parents.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">Yes &mdash; at most of my anchor locations I have at least one parent who knows me by name.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">Multiple parents at multiple locations know me by name. Some have my number.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 2 of 6 &middot; Relationship Depth</div>
+    <div class="q-text">I have received at least one inbound contact from a parent &mdash; a call, a text, a message &mdash; that I did not initiate, in the last month.</div>
+    <div class="q-sub">Someone who reached out to you because they thought of something relevant to the program. Not a response to your outreach.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">No. All of my contact with parents is outbound. Nobody contacts me unprompted.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">Occasionally someone responds to something I sent, but nothing truly unprompted.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">Once or twice I've gotten a message I didn't prompt, but it's not a regular pattern.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">Yes &mdash; at least one parent or staff member has contacted me unprompted in the last month.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">This happens regularly. I have parents and staff who think of me when something relevant comes up and reach out.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 3 of 6 &middot; Individual Connection</div>
+    <div class="q-text">After visits, I follow up with specific parents by name &mdash; not mass emails, individual messages about their specific dog or situation.</div>
+    <div class="q-sub">The follow-up that says "I was thinking about Cooper specifically" rather than "thanks for stopping to chat today."</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I don't really do individual follow-ups. I send the same follow-up to everyone I meet at a location.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I do it sometimes when someone made a strong impression, but it's not a habit.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I try to but I don't always have the contact info or the specific detail to make it personal.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">I do this regularly at my stronger locations. I keep notes on specific parents after visits.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">This is core to how I work. Every meaningful conversation produces a specific, individual follow-up that references something personal from that conversation.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 4 of 6 &middot; Individual Connection</div>
+    <div class="q-text">I have made a specific ask of a staff member &mdash; such as letting me know when a new large dog joins &mdash; that has turned them into someone who works for the program between my visits.</div>
+    <div class="q-sub">One conversation, one specific ask, that created an ongoing system you didn't have to keep maintaining.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">I haven't made that kind of specific ask. I let the relationship develop naturally without putting requests on staff.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I've hinted at it but never made the ask directly enough for it to stick.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I've done it at one location. It mostly works. I haven't replicated it across my other anchors yet.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">Yes &mdash; I have at least one staff member at a location who proactively flags things for me because I asked them to specifically.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">I have this at multiple locations. It's part of how I set up a new location relationship &mdash; one specific ask that creates an ongoing channel.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 5 of 6 &middot; Territory Management</div>
+    <div class="q-text">I have identified &mdash; and acted on &mdash; at least one location on my schedule that is giving me the polite brush-off and doesn't merit the continued time.</div>
+    <div class="q-sub">Not just noticed it. Done something about it &mdash; redirected the time, made one final targeted attempt, or had a clear plan for what comes next.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I haven't really evaluated which locations are costing me time without producing results. I visit them all.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I know which locations aren't responding well but I keep going because I'm not sure when to stop.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I've identified the ones that aren't working but haven't made a decision about them yet.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">I've dropped or paused at least one location that wasn't producing real signals, and redirected that time.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">I review my territory actively. Locations that don't show real signals get one targeted pivot attempt, then I redirect. My schedule reflects actual relationship potential, not habit.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-num">Question 6 of 6 &middot; Territory Management</div>
+    <div class="q-text">When I'm at a location, I leave with at least one specific name &mdash; a parent I talked to &mdash; and a plan to follow up with that person specifically.</div>
+    <div class="q-sub">Not a general sense of how it went. A name, and what you're going to do with it.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I usually leave without specific names. I talk to whoever is there and move on to the next location.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I sometimes get a name but I don't usually have a specific plan for following up with that person.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">At my better locations I leave with a name. At developing locations I'm more in broadcasting mode.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I make a point of leaving every visit with at least one name and a note about what would make a meaningful follow-up.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">Every visit produces at least one specific name and a specific follow-up plan. I track this and I do it consistently, not just at my best locations.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="rp">
+    <h2 id="rh"></h2>
+    <p class="score-line" id="sl"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="sbf" style="width:0%"></div></div>
+    <div id="db"></div>
+    <div class="results-cta"><p id="rc"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week12_applied_task.html">Next: Applied Task &rarr;</a>
+    </div>
+  </div>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  const qs=['q1','q2','q3','q4','q5','q6'];
+  let scores=[];
+  for(const q of qs){const v=document.querySelector('input[name="'+q+'"]:checked');if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  const total=scores.reduce((a,b)=>a+b,0);const pct=Math.round(total/30*100);
+  const depth=Math.round((scores[0]+scores[1])/2);const individual=Math.round((scores[2]+scores[3])/2);const territory=Math.round((scores[4]+scores[5])/2);
+  let h,c;
+  if(pct>=80){h="People know you. Some of them work for you when you're not there.";c="The applied task this week is about naming them specifically and identifying one location where you can redirect time you're currently spending on the polite brush-off.";}
+  else if(pct>=55){h="You have real relationships. Not as many as you could.";c="The gap is usually in the individual follow-up and the specific ask. The applied task will push you to name one parent per location and make one specific ask this week.";}
+  else{h="You're visiting locations. You're not yet building relationships inside them.";c="The applied task starts small: name one parent at one location who knows you. If you can't name one, that's the work this week.";}
+  document.getElementById('rh').textContent=h;document.getElementById('sl').textContent=total+' out of 30 points ('+pct+'%)';
+  setTimeout(()=>{document.getElementById('sbf').style.width=pct+'%';},100);
+  const dims=[
+    {l:'Relationship Depth',s:depth,d:depth>=4?'Strong — people know you and some contact you unprompted.':depth>=3?'Developing — you have real relationships at your anchors but the inbound contact isn\'t flowing yet.':'Early stage — the applied task will help you identify who to build with first.'},
+    {l:'Individual Connection',s:individual,d:individual>=4?'Strong — you follow up specifically and you\'ve created channels that work for you between visits.':individual>=3?'Developing — you do individual follow-up sometimes. Making it a habit at every location is the next step.':'Early stage — the single most impactful thing you can do this week is leave one visit with a specific name and a plan.'},
+    {l:'Territory Management',s:territory,d:territory>=4?'Strong — your schedule reflects real relationship potential, not habit.':territory>=3?'Developing — you know which locations aren\'t working. The applied task will push you to make a decision about one of them.':'Early stage — visiting a location out of habit that isn\'t producing signals costs you time at locations that would.'}
+  ];
+  document.getElementById('db').innerHTML=dims.map(d=>'<div class="dimension"><div class="dim-label">'+d.l+' &mdash; '+d.s+'/5</div><div class="dim-title">'+(d.s>=4?'Strong':d.s>=3?'Developing':'Building')+'</div><div class="dim-desc">'+d.d+'</div></div>').join('');
+  document.getElementById('rc').textContent=c;
+  const rp=document.getElementById('rp');rp.classList.add('visible');setTimeout(()=>rp.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+</script>
+</body>
+</html>
