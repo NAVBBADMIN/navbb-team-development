@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development — Week 14: The Moment After Yes</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+  .loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+  @keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+  .loader-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}
+  .loader-title span{color:var(--red);}
+  .pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}
+  .pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+  .hero{min-height:52vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+  .hero-nav{position:absolute;top:0;left:0;right:0;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}
+  .nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:8px;}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
+  .nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+  .hero-ey{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+  .hero-ey::before{content:"";width:24px;height:2px;background:var(--red);}
+  .hero-title{font-size:clamp(34px,5vw,56px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;position:relative;z-index:2;}
+  .hero-title em{font-style:normal;color:var(--red);}
+  .hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:480px;line-height:1.6;position:relative;z-index:2;}
+  .content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}
+  .sec{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:36px;}
+  .sec::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+  p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}
+  p strong{color:var(--ink);font-weight:700;}
+  .pm{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}
+  .pm-h{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .pm-ttl{font-size:17px;font-weight:800;color:var(--white);}
+  .pm-b{padding:28px 32px;}
+  .pm-b p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}
+  .pm-b p:last-child{margin-bottom:0;}
+  .tb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}
+  .tb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}
+  .tb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+  .gold-box{background:rgba(196,154,48,0.08);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--gold);}
+  .gold-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+  .gold-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}
+  .gold-box p:last-child{margin-bottom:0;}
+  .steps{display:flex;flex-direction:column;gap:16px;margin:44px 0;}
+  .step{display:flex;gap:20px;align-items:flex-start;padding:24px;background:rgba(1,86,152,0.05);border:1.5px solid rgba(1,86,152,0.15);border-radius:14px;}
+  .step-num{width:36px;height:36px;border-radius:50%;background:var(--blue-dark);color:var(--white);font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-body h4{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+  .step-body p{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+  .meeting-cta{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}
+  .mc-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .mc-lbl::before{content:"";width:20px;height:2px;background:var(--red);}
+  .mc-ttl{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+  .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;}
+  .next-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}
+  .next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+  .next-btn:hover{background:var(--blue-dark);}
+  @media(max-width:600px){.hero{padding:0 24px 40px;}.content{padding:48px 24px 80px;}}
+</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 14 &middot; Read</div><div class="loader-title">The Moment<br><span>After Yes</span></div></div>
+<section class="hero"><div class="hero-grid"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+  <div class="hero-ey">Chapter 14 of ongoing</div>
+  <h1 class="hero-title">The Moment<br><em>After Yes</em></h1>
+  <p class="hero-sub">The sign-up is not the finish line. The first donation is. What you do in the 60 seconds after someone says yes determines whether they ever make it to the donation room.</p>
+</section>
+<main class="content">
+  <div class="sec">Where the Drop-Off Happens</div>
+  <p>Right now we're seeing 60 to 100 days between registration and first donation. That gap is not mostly a scheduling problem. It's a follow-through problem. The majority of donors who register and never show up don't cancel &mdash; they just drift. Life gets busy. The urgency they felt in the lobby fades. The date they vaguely meant to find on the calendar never gets put there. And nobody individual reaches back out to them in a way that re-anchors the commitment.</p>
+  <p>Here's the tension: <strong>we tell people blood is short and dogs are dying without it &mdash; and then 90 days pass before they donate.</strong> The urgency in the pitch and the gap to first donation are completely at odds. If we believe what we're saying in the lobby, we should be acting like it matters to get them through the door as fast as possible.</p>
+
+  <div class="pm"><div class="pm-h">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="52" height="52" class="p-svg"></svg>
+    <div><div class="pm-lbl">A Patricia Moment</div><div class="pm-ttl">Patricia got twelve sign-ups last month.</div></div>
+  </div><div class="pm-b">
+    <p>After each sign-up, Patricia said "great, we'll be in touch!" Patricia then sent a group email to all twelve pending donors with the next donation event dates. Patricia considers this follow-through. Patricia has a 40% show rate at first screening. Patricia attributes this to owners being busy.</p>
+    <p>Three people opened the email. None of them scheduled a screening. Patricia has followed up with zero of them individually. Patricia is confused about why her show rate is low. Patricia is planning to send another group email.</p>
+  </div></div>
+
+  <div class="sec">What to Do in the First 60 Seconds</div>
+  <p>The best time to secure a first screening appointment is the moment someone says yes. Their commitment is at its peak. Their dog is right there. Their positive feeling about the program is fresh. Every hour that passes after that moment dilutes it.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Give them the specific next date immediately</h4><p>Not "we'll be in touch." Not "check the website." Tell them: "Our next screening at this location is [specific date]. That's two weeks from now." Make it concrete while they're still standing in front of you.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Help them put it on their calendar right now</h4><p>Ask them to open their phone and put the date in. Not as a suggestion &mdash; as a natural next step in the process. "While I have you &mdash; can you put that date in your phone now so we don't lose it?" Most people will do it if you ask directly.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Make one personal note from the conversation</h4><p>Their dog's name. Something they mentioned. Something they were nervous about. Write it down. That note is the difference between a form-letter follow-up and a specific one that actually gets read. "Hi, just checking in on Cooper ahead of his screening next Tuesday" beats "Hi, just following up on your registration."</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Set your own reminder to follow up two days before</h4><p>Not a group email. One message to that specific person. Reference the specific date and something specific about them. Keep it short. The goal is to re-anchor the commitment at the moment it's most likely to slip &mdash; two days before, when life is busy and the calendar reminder they set isn't enough.</p></div></div>
+  </div>
+
+  <div class="tb"><p>Recruit on the same day of the week the collection team goes to that location. Sign someone up today on a Tuesday &mdash; the team is back there in two weeks on a Tuesday. That's 14 days, not 90.</p></div>
+
+  <div class="sec">The Align-Your-Schedule System</div>
+  <div class="gold-box"><div class="gold-lbl">Recruit Two Weeks Out &mdash; Not Random Days</div>
+    <p>Here's the system: know which daycares your collection team visits on which day of the week. Recruit at that daycare on that same day of the week, two weeks before the next collection visit. That way, a parent who signs up today is looking at a first screening in two weeks &mdash; not two months.</p>
+    <p>The date also feels real when it's that close. "We'll be back here in two weeks, on a Tuesday just like today" is a completely different kind of urgency than "we'll reach out about scheduling." One is concrete. The other is a vague intention that competes with everything else in a parent's week.</p>
+    <p>And if a location is slow that week, don't just redirect to another day &mdash; find a different Tuesday location, because the parents who show up on Tuesdays aren't necessarily the same ones who'll show up on Thursdays.</p>
+  </div>
+
+  <div class="sec">The Dog-Anxiety Objection</div>
+  <p>When an owner says their dog doesn't do well at the vet, two things are usually true: the dog may genuinely be reactive, and the owner is projecting some of their own anxiety onto the dog. Both are real, and neither one is a reason to stop.</p>
+  <p>Three responses that work:</p>
+  <p><strong>The familiar place frame:</strong> "This isn't a vet visit &mdash; it's in their daycare, which is already their happy place. They know the smells, they know the staff. That matters." This reframes the whole experience before they have a chance to picture the vet.</p>
+  <p><strong>The happy visit offer:</strong> "Would it help if we just brought them in to meet our team before the actual screening? No poke, no pressure &mdash; just introductions. Then you can tell us how they did and we go from there." This converts a hesitant owner into someone who has now taken a step, which is much closer to a committed donor.</p>
+  <p><strong>The medication question:</strong> "Does your dog have anything from the vet for stressful situations? A lot of our dogs are on trazodone or gabapentin for visits like this, and it makes a big difference. If you have it, it's worth using." Most owners aren't offended by this question anymore &mdash; it's become completely normal in veterinary care.</p>
+
+  <div class="meeting-cta"><div class="mc-lbl">Bring This To Our Next Meeting</div>
+    <div class="mc-ttl">One thing you did at sign-up to shorten the gap &mdash; and what happened</div>
+    <p class="mc-body">Pick one sign-up from this week. What specifically did you do in the moment to move them toward their first screening? Did you give them a specific date? Help them calendar it? Make a personal note? Follow up individually? Tell us one thing you did and whether it worked. Patricia will not be sharing. Patricia sent another group email.</p>
+  </div>
+  <div class="next-wrap"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week14_case_study.html">Next: Case Study &rarr;</a></div>
+</main>
+<script>const P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';const B='<ellipse cx="50" cy="80" rx="35" ry="22" fill="#c49a30"/><ellipse cx="50" cy="82" rx="27" ry="16" fill="#e8c060"/><circle cx="50" cy="52" r="24" fill="#c49a30"/><ellipse cx="34" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(-15 34 38)"/><ellipse cx="66" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(15 66 38)"/><circle cx="43" cy="50" r="4.5" fill="#1f1a10"/><circle cx="57" cy="50" r="4.5" fill="#1f1a10"/><circle cx="44" cy="48" r="1.5" fill="white"/><circle cx="58" cy="48" r="1.5" fill="white"/><ellipse cx="50" cy="62" rx="10" ry="7" fill="#e8c060"/><ellipse cx="50" cy="60" rx="5" ry="4" fill="#c47050"/><path d="M44 68 Q50 73 56 68" stroke="#1f1a10" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(-10 38 95)"/><ellipse cx="62" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(10 62 95)"/><path d="M72 75 Q88 65 85 80 Q82 90 72 88" stroke="#c49a30" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="38" y="55" width="24" height="10" rx="3" fill="#015698"/><text x="50" y="63" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5" font-weight="700" fill="white">BISCUIT</text>';document.querySelectorAll('.p-svg').forEach(el=>el.innerHTML+=P);document.querySelectorAll('.b-svg').forEach(el=>el.innerHTML+=B);</script>
+<script>window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});</script>
+</body></html>
