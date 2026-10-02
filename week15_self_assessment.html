@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development W15 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>:root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}@keyframes loaderExit{to{opacity:0;pointer-events:none;}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}.loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}.loader-title span{color:var(--gold);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}.kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}.meta{font-size:13px;color:var(--gray-text);margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+.notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}.notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}.notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}.notice p:last-child{margin-bottom:0;}
+.pm-block{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}.pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}.pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}.pm-title{font-size:16px;font-weight:800;color:var(--white);}.pm-body{padding:20px 28px;}.pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+.q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}.q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}.q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}.q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+.options{display:flex;flex-direction:column;gap:10px;}.opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}.opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}.opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}.opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+.results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}.results-panel.visible{display:block;}.results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}.score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}.score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}.score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 1s ease;}
+.dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}.dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}.dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}.dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+.results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}.results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+.score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;}
+.next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}.next-btn:hover{background:var(--blue-dark);}
+@media(max-width:600px){.wrap{padding:40px 20px 80px;}}</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 15 &middot; Self-Assessment</div><div class="loader-title">How Strong Is Your<br><span>Commitment Conversation?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 15</div>
+  <h1>How Strong Is Your Commitment Conversation?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private - your answers are not shared or tracked.</p>
+  <div class="notice"><div class="notice-label">Before You Start - Please Read</div><p><strong>This self-assessment is completely private.</strong> Your answers stay on your device and are never submitted or shared.</p><p><strong>To be counted as complete</strong>, scroll to the bottom after scoring and hit <strong>Submit Week 15 Check-In</strong>.</p></div>
+  <div class="pm-block"><div class="pm-header"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="p-svg"></svg><div><div class="pm-lbl">A Patricia Moment</div><div class="pm-title">Patricia does not mention the six-donation commitment upfront.</div></div></div><div class="pm-body"><p>Patricia does not want to scare people off. Patricia has a high sign-up count and a low show rate. Patricia has never connected these two things. Patricia scored herself a 4 on this self-assessment. Patricia's last three sign-ups did not know the team comes on Tuesdays. One of them called on a Wednesday to ask where everyone was. Patricia is designing a new flyer.</p></div></div>
+
+  <div class="q-block"><div class="q-num">Question 1 of 6 - The Investment Frame</div>
+    <div class="q-text">When I talk to parents about the program, I lead with what the program invests in their dog - not just what I am asking them to give.</div>
+    <div class="q-sub">Bloodwork, parasite prevention, health monitoring - these are real benefits the dog receives. Do you make them concrete before you make the ask?</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I mostly describe what the program does and what we need from donors. I do not specifically frame it as an investment in the dog.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I mention the health benefits sometimes but it is not a deliberate part of how I frame the conversation.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">I usually mention the health monitoring and parasite prevention, but I do not always frame it as the program investing in the dog specifically.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">I regularly use the investment frame - I make clear what the program puts into the dog before I ask for the commitment.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">The investment frame is a deliberate part of every conversation. I make the investment concrete and specific before I make the ask, every time.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 2 of 6 - The Investment Frame</div>
+    <div class="q-text">When a parent seems to be disengaging or ready to walk away, I know how to change the frame of the conversation instead of just adding more information.</div>
+    <div class="q-sub">More information does not work on someone who has already decided to leave. Changing what the conversation is about is different from adding more of what was not working.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">When someone is walking away, I usually try to cover more ground - add more details, give them the flyer, mention the website. I do not have a specific pivot move.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">I sometimes try to change the subject but I do not have a consistent move I use when someone is tuning out.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">I have a sense of when someone is disengaging and I try to do something different, but I am not always sure what to pivot to.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">I have a deliberate pivot when someone is walking away - shifting to the dog's health and what the program does for them specifically.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">I read disengagement early and I know exactly what to do. The investment frame is my pivot move and I use it consistently when the standard conversation is not landing.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 3 of 6 - The Commitment</div>
+    <div class="q-text">I tell parents about the six-donation minimum commitment before they sign up - out loud, clearly, as part of the conversation.</div>
+    <div class="q-sub">Not in the paperwork. Not implied. Said directly: "We ask for a minimum of six donations over twelve months." Then confirmed: "Does that work for you?"</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I do not bring up the six-donation commitment before sign-up. I am worried it will discourage people from saying yes.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I sometimes mention it in general terms but I do not say six donations and twelve months explicitly before they sign.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I usually mention it but I am not always as direct as I could be about the specific numbers.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">I state the commitment clearly before sign-up most of the time - six donations, twelve months - and I ask if that works for them.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">Every sign-up hears the commitment before they sign, stated directly. I ask whether it works for them. The parents who stay after that question are the ones who show up.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 4 of 6 - The Commitment</div>
+    <div class="q-text">Before a parent signs up, I confirm that the collection day actually works for their schedule.</div>
+    <div class="q-sub">Not assumed. Asked directly: "Our team comes every Tuesday - does Tuesday work for you?" If it does not, that conversation happens now, not after they register and never show up.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">I tell them the collection day but I do not usually ask directly whether it works for their schedule. I assume if they sign up, they can make it work.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I mention the day and sometimes ask if it works, but I do not always make it an explicit confirmation before they sign.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I usually ask, but sometimes I let it slide if the conversation is going well and I do not want to interrupt the momentum.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I ask directly whether the collection day works for them before every sign-up. If it does not work, I would rather know now than after they register.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">Confirming the day is non-negotiable. I ask every parent before they sign. If the day does not work, we figure that out in the lobby. I have never had a sign-up who did not know what day we come.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 5 of 6 - The Dates</div>
+    <div class="q-text">After sign-up, I make sure parents have the specific next donation date and at least the following quarter of dates in a format they can actually use.</div>
+    <div class="q-sub">Texted, emailed, written down, on their calendar. Not "check the website." A specific date they can point to.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I tell them our schedule generally and direct them to the website or follow-up email for dates. I do not usually give them specific dates in the moment.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I give them the next date but I do not always make sure they have it in a format they can actually reference later.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I usually give them the next date and sometimes the following ones, but it depends on the conversation.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">Every sign-up leaves with the next date and at least the quarterly schedule. I offer to text, email, or write it down - whatever works for them.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">Every parent leaves with the dates in a form they can use. I ask how they want to receive them, I make sure they have them before they walk away, and I follow up if they need a reminder before the first one.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 6 of 6 - The Overall Ask</div>
+    <div class="q-text">When a parent leaves a conversation with me, they know: what the program invests in their dog, that the commitment is six donations over twelve months, and what day the team comes.</div>
+    <div class="q-sub">All three. Not one or two. All three, every time.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">Honestly, I am not sure all three come up in every conversation. Some parents leave knowing some of these things but probably not all three.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I cover most of it but there are conversations where one of the three probably gets left out, especially when the parent seems rushed.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I usually cover all three but I cannot say with confidence it happens every single time.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">All three come up in almost every sign-up conversation. I consider it incomplete if any of them is missing.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">Every parent who signs up with me knows all three things before they leave the lobby. That is the minimum standard I hold myself to on every conversation.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="rp">
+    <h2 id="rh"></h2>
+    <p class="score-line" id="sl"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="sbf" style="width:0%"></div></div>
+    <div id="db"></div>
+    <div class="results-cta"><p id="rc"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week15_applied_task.html">Next: Applied Task &rarr;</a></div>
+  </div>
+</div>
+<script>
+var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';
+document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});
+window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  var qs=['q1','q2','q3','q4','q5','q6'];var scores=[];
+  for(var i=0;i<qs.length;i++){var v=document.querySelector('input[name="'+qs[i]+'"]:checked');if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  var total=scores.reduce(function(a,b){return a+b;},0);var pct=Math.round(total/30*100);
+  var frame=Math.round((scores[0]+scores[1])/2);var commit=Math.round((scores[2]+scores[3])/2);var dates=Math.round((scores[4]+scores[5])/2);
+  var h,c;
+  if(pct>=80){h="Your commitment conversation is solid. The yes you get means something.";c="The applied task this week asks you to use the investment frame deliberately in at least one conversation and document what happened. You probably already do this - make it conscious and repeatable.";}
+  else if(pct>=55){h="You have most of the pieces. The commitment conversation is not fully locked in yet.";c="The gap is usually in stating the six-donation commitment clearly upfront and confirming the day works. The applied task will push you to make both deliberate habits.";}
+  else{h="The sign-ups are happening. The commitment conversation is not there yet.";c="Start with one thing: before your next sign-up leaves the lobby, say the six-donation commitment out loud and ask whether it works for them. That one move will change your show rate more than anything else.";}
+  document.getElementById('rh').textContent=h;
+  document.getElementById('sl').textContent=total+' out of 30 points ('+pct+'%)';
+  setTimeout(function(){document.getElementById('sbf').style.width=pct+'%';},100);
+  var dimData=[
+    {l:"The Investment Frame",s:frame,d:frame>=4?"Strong - you lead with what the program invests in the dog and you know how to pivot when someone is walking away.":frame>=3?"Developing - you mention the health benefits but the investment frame is not yet a deliberate, consistent part of every conversation.":"Building - the investment frame is the single most effective thing you can add to a conversation that is not landing. The applied task starts there."},
+    {l:"The Commitment",s:commit,d:commit>=4?"Strong - parents know the six-donation expectation and the collection day before they sign. The yes you get is real.":commit>=3?"Developing - you cover most of it but the commitment conversation is not fully locked in on every sign-up. Make both things non-negotiable.":"Building - if parents do not know what they are committing to, the sign-up does not mean what you think it means. State it clearly. Ask if it works. Every time."},
+    {l:"The Dates",s:dates,d:dates>=4?"Strong - every parent leaves with the dates in a format they can actually use.":dates>=3?"Developing - you give the next date usually but the quarterly schedule and calendar commitment are not consistent yet.":"Building - give them the next date before they walk away. Text it, write it down, put it in their phone. If they do not have it, the commitment fades."}
+  ];
+  document.getElementById('db').innerHTML=dimData.map(function(d){return '<div class="dimension"><div class="dim-label">'+d.l+' - '+d.s+'/5</div><div class="dim-title">'+(d.s>=4?'Strong':d.s>=3?'Developing':'Building')+'</div><div class="dim-desc">'+d.d+'</div></div>';}).join('');
+  document.getElementById('rc').textContent=c;
+  var rp=document.getElementById('rp');rp.classList.add('visible');setTimeout(function(){rp.scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+</script></body></html>
