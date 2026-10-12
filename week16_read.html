@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development W16: Call Them. Not Later.</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>:root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}@keyframes loaderExit{to{opacity:0;pointer-events:none;}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}.loader-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}.loader-title span{color:var(--red);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.hero{min-height:52vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}.hero-nav{position:absolute;top:0;left:0;right:0;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}.nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:8px;}.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}.nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+.hero-ey{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}.hero-ey::before{content:"";width:24px;height:2px;background:var(--red);}.hero-title{font-size:clamp(34px,5vw,56px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;position:relative;z-index:2;}.hero-title em{font-style:normal;color:var(--red);}.hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:480px;line-height:1.6;position:relative;z-index:2;}
+.content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}.sec{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:36px;}.sec::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}p strong{color:var(--ink);font-weight:700;}
+.pm{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}.pm-h{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}.pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}.pm-ttl{font-size:17px;font-weight:800;color:var(--white);}.pm-b{padding:28px 32px;}.pm-b p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}.pm-b p:last-child{margin-bottom:0;}
+.tb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}.tb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}.tb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+.gold-box{background:rgba(196,154,48,0.08);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--gold);}.gold-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}.gold-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}.gold-box p:last-child{margin-bottom:0;}
+.script-block{background:rgba(1,86,152,0.05);border:1.5px solid rgba(1,86,152,0.2);border-radius:16px;padding:28px 32px;margin:44px 0;}.sb-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;}.sb-line{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start;}.sb-who{font-size:12px;font-weight:800;color:var(--blue);min-width:80px;flex-shrink:0;padding-top:2px;}.sb-say{font-size:15px;color:var(--ink);line-height:1.6;}
+.meeting-cta{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}.mc-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}.mc-lbl::before{content:"";width:20px;height:2px;background:var(--red);}.mc-ttl{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}.mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;}
+.next-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}.next-btn:hover{background:var(--blue-dark);}
+@media(max-width:600px){.hero{padding:0 24px 40px;}.content{padding:48px 24px 80px;}}</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 16 &middot; Read</div><div class="loader-title">Call Them.<br><span>Not Later.</span></div></div>
+<section class="hero"><div class="hero-grid"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+  <div class="hero-ey">Chapter 16 of ongoing</div>
+  <h1 class="hero-title">Call Them.<br><em>Not Later &mdash; Two Weeks Out.</em></h1>
+  <p class="hero-sub">Email sits in an inbox. A voicemail sits in someone's ear. A conversation sits in someone's memory. One of those three closes the gap between signed up and walked through the door.</p>
+</section>
+<main class="content">
+  <div class="sec">The 22% Problem</div>
+  <p>Our current go rate is 22%. That means for every 100 dogs we have recruited and screened into the program, 78 of them are not donating when the collection team shows up. We have sign-ups. We do not have donors walking through the door.</p>
+  <p>This is not a recruiting problem. We had 41 sign-ups last week alone. This is a follow-through problem. And the follow-through problem is not being solved by email.</p>
+  <div class="tb"><p>Sending an email is not following up. Sending an email is informing. Following up is what you do when the email did not work.</p></div>
+
+  <div class="sec">Why Email Does Not Close the Gap</div>
+  <p>Email has exactly one job: to deliver information. It delivers it well. The problem is that a parent who is drifting is not failing to show up because they lack information. They know the dates. They have the emails. They are drifting because life got busy and no one made them feel like they were expected somewhere.</p>
+  <p>A phone call does something email cannot. It creates a moment of direct, personal accountability. When you call someone and they pick up, they have to respond to a real person who cares whether they show up. When they do not pick up, a voicemail from a real person carries more weight than a reminder in a folder they stopped reading two weeks ago. <strong>You can read a lot into how someone responds on a phone call that email will never give you.</strong> The hesitation, the tone, the "oh I totally forgot about that" versus "yeah, we are definitely coming" &mdash; all of it is information you cannot get any other way.</p>
+
+  <div class="pm"><div class="pm-h">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="52" height="52" class="p-svg"></svg>
+    <div><div class="pm-lbl">A Patricia Moment</div><div class="pm-ttl">Patricia uses preferred communication method.</div></div>
+  </div><div class="pm-b">
+    <p>When a parent signs up, they select their preferred communication method. Patricia respects this. Three of Patricia's donors said email. Patricia emails them. Patricia has not spoken to any of them since the sign-up conversation. Patricia's emails are going to three different inboxes with very different open rates. Patricia considers this doing her job. Patricia's show rate for those three donors is zero.</p>
+    <p>Preferred communication method means the parent's preference for how you reach them. It does not mean the most effective way to keep a donor engaged. If email is not working, call. Call regardless.</p>
+  </div></div>
+
+  <div class="sec">The Call That Works</div>
+  <p>Two weeks before an event is the moment. Not a week out, not three days out. Two weeks out, while the parent still has time to plan and before life fills in the calendar around the date they meant to keep open.</p>
+  <p>Midday is the right time. The parent has had time to start their day and is not yet in the afternoon rush. If they do not pick up at midday, call again at 2:30. Two calls on the same day, same issue, is not harassment &mdash; it is evidence that you actually need them there.</p>
+
+  <div class="script-block">
+    <div class="sb-lbl">What to Say &mdash; When They Pick Up</div>
+    <div class="sb-line"><div class="sb-who">You:</div><div class="sb-say">"Hey, this is [name] from NAVBB &mdash; I work with [dog's name] at [daycare]. Just calling to remind you that our next donation event is [specific date] and we are really hoping to see [dog's name] there. Does that date still work for you?"</div></div>
+    <div class="sb-line"><div class="sb-who">If yes:</div><div class="sb-say">Confirm what time the daycare opens, remind them the team will be there that morning, and tell them you are looking forward to seeing the dog.</div></div>
+    <div class="sb-line"><div class="sb-who">If hesitant:</div><div class="sb-say">Ask what is going on. Is it the schedule? The day of the week? Something with the dog? Get the real answer. You cannot fix something you do not know about.</div></div>
+    <div class="sb-line"><div class="sb-who">If no:</div><div class="sb-say">Find out if it is this month or ongoing. If this month, offer the next date. If ongoing, ask whether the program is still a good fit or whether the dog's situation has changed. Better to know now than to carry the name for another 60 days.</div></div>
+  </div>
+
+  <div class="script-block" style="margin-top:0;">
+    <div class="sb-lbl">What to Say &mdash; Voicemail</div>
+    <div class="sb-line"><div class="sb-who">You:</div><div class="sb-say">"Hey, this is [name] from NAVBB calling about [dog's name]. We have our next donation event at [daycare] on [specific date] and we would love to see [dog's name] there. Give me a call back or just reply to my text &mdash; I just want to make sure we are still on. Talk soon."</div></div>
+  </div>
+
+  <div class="gold-box"><div class="gold-lbl">The Archive Decision</div>
+    <p>If you have called twice and emailed once and gotten no response, that is not a pending donor. That is a name on a list that is making your show rate look worse than it is. After two calls and an email with no response, archive the dog. Note it as unresponsive. Move on.</p>
+    <p>This is not giving up. This is keeping your pipeline clean. A list full of donors who never respond tells you nothing useful and takes the same energy to manage as a list of donors who actually show up. The dogs you archive for non-response free up your attention for the ones who will actually come through the door.</p>
+  </div>
+
+  <div class="meeting-cta"><div class="mc-lbl">Bring This To Our Next Meeting</div>
+    <div class="mc-ttl">One proactive call &mdash; what you said, how they responded, whether they showed</div>
+    <p class="mc-body">Pick one pending or at-risk donor you called this week. Not emailed &mdash; called. Tell us the specific conversation: what you said, what the parent said, and whether you expect to see the dog at the next event. If you made an archive decision this week, bring that too. Patricia will not be sharing. Patricia sent an email. Patricia is waiting to hear back.</p>
+  </div>
+  <div class="next-wrap"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week16_case_study.html">Next: Case Study &rarr;</a></div>
+</main>
+<script>
+var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';
+document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});
+window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+</script></body></html>

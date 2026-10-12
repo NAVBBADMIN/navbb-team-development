@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development W16 Case Study: Same Pipeline. Very Different Doors.</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>:root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}@keyframes loaderExit{to{opacity:0;pointer-events:none;}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}.loader-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}.loader-title span{color:var(--red);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.wrap{max-width:720px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}.kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+h1{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.1;}.meta{font-size:13px;color:var(--gray-text);margin-bottom:48px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+.stage-counter{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);text-align:center;margin-bottom:10px;}.progress-track{height:4px;background:var(--gray-light);border-radius:2px;margin-bottom:52px;overflow:hidden;}.progress-track-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:16%;transition:width 0.5s ease;}
+.scene{display:none;min-height:280px;animation:fadeUp 0.4s ease both;}.scene.active{display:block;}
+.scene-time{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;}.scene-time::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}.scene-time.red{color:var(--red);}.scene-time.red::before{background:var(--red);}
+.scene h2{font-size:clamp(20px,3.5vw,28px);font-weight:900;margin-bottom:18px;letter-spacing:-0.5px;}.scene p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:16px;}.scene p em{font-style:normal;color:var(--ink);font-weight:600;}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}.split-card{border-radius:12px;padding:20px;}.split-card.a{background:rgba(237,45,43,0.05);border:1.5px solid rgba(237,45,43,0.2);}.split-card.b{background:rgba(1,86,152,0.07);border:1.5px solid rgba(1,86,152,0.2);}.split-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}.split-card.a .split-label{color:var(--red);}.split-card.b .split-label{color:var(--blue);}.split-card p{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+.result-card{background:var(--blue-dark);border-radius:14px;padding:24px 28px;margin:24px 0;}.result-card p{font-size:15px;color:rgba(255,255,255,0.85);line-height:1.7;margin:0;}.result-card p strong{color:var(--white);}
+.reflection-block{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:36px;box-shadow:6px 6px 0 rgba(1,86,152,0.08);}.rl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}.reflection-block h3{font-size:20px;font-weight:800;margin-bottom:8px;}.hint{font-size:14px;color:var(--gray-text);margin-bottom:20px;line-height:1.6;}
+textarea{width:100%;min-height:100px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:40px;}.nav-btn{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;transition:all 0.2s;}.nav-btn.next{background:var(--blue);color:var(--white);}.nav-btn.prev{background:var(--gray-light);color:var(--ink);border:1.5px solid var(--gray-mid);}.nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.next-btn-wrap{display:flex;justify-content:flex-end;margin-top:32px;}.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}.next-btn:hover{background:var(--blue-dark);}
+@media(max-width:600px){.wrap{padding:40px 20px 80px;}.split{grid-template-columns:1fr;}}</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 16 &middot; Case Study</div><div class="loader-title">Same Pipeline.<br><span>Very Different Doors.</span></div></div>
+<div class="wrap">
+  <div class="kicker">Case Study &middot; Week 16</div>
+  <h1>Same Pipeline. Very Different Doors.</h1>
+  <div class="meta">~8 min &middot; Click through each scene &middot; One question at the end.</div>
+  <div class="stage-counter" id="sc">Scene 1 of 6</div>
+  <div class="progress-track"><div class="progress-track-fill" id="tf"></div></div>
+
+  <div class="scene active" data-scene="1">
+    <div class="scene-time">The Setup</div>
+    <h2>Same sign-up count. Same territory size. One has a 36% show rate. The other has over 100%.</h2>
+    <p>Recruiter A and Recruiter B both had solid months of sign-ups. Both are hitting their numbers at the recruitment stage. The collection team, however, sees something completely different when it shows up to each of their locations. One recruiter consistently has dogs walking through the door. The other consistently has empty spots on the board.</p>
+    <p>The difference is not in how they recruit. It is in what happens in the two weeks between sign-up and show-up.</p>
+  </div>
+
+  <div class="scene" data-scene="2">
+    <div class="scene-time red">Recruiter A: The Email Approach</div>
+    <h2>Recruiter A follows preferred communication method. Three donors said email. She emails.</h2>
+    <p>Recruiter A keeps meticulous records of preferred communication method. When a donor says email, she emails. The email goes out the week before the event. It has the date, the location, what to expect, and a reminder about hydration.</p>
+    <p>The email is informative and professionally written. Two of the three donors open it. One of those two is planning to come. The other saw it at 6am and forgot about it by noon. <em>Recruiter A does not know any of this. She sent the email. In her mind, she has followed up.</em></p>
+  </div>
+
+  <div class="scene" data-scene="3">
+    <div class="scene-time">Recruiter B: The Call Approach</div>
+    <h2>Recruiter B calls at midday. And again at 2:30 if they do not pick up.</h2>
+    <p>Recruiter B also has donors who said email as their preferred method. She emails them the quarterly dates when they sign up. After that, she calls. Two weeks out, midday. If they do not pick up, she leaves a voicemail and calls again at 2:30.</p>
+    <p>On the call, she uses the dog's name. She says she is looking forward to seeing them. She asks directly whether they are still planning to come. She reads their answer. A confident "yes" and a hesitant "yeah I think so" are different information that an email open rate will never give her. <em>She knows before event day who is coming and who is not.</em></p>
+  </div>
+
+  <div class="scene" data-scene="4">
+    <div class="scene-time">What the Voicemail Does</div>
+    <h2>A voicemail from a real person sits differently than a reminder in a folder.</h2>
+    <p>One of Recruiter B's donors is the type who never picks up the phone. He does not call back either. But when Recruiter B leaves a message using his dog Murphy's name and says she is personally hoping to see Murphy on Tuesday, something different happens in his brain than when he receives an email reminder.</p>
+    <p>He mentions it to his wife that evening. "Someone called about Murphy's blood donation thing." His wife says "oh you should really do that, Murphy loves those people." <em>Murphy shows up on Tuesday.</em></p>
+    <p>Recruiter A sent the same donor an email. He did not open it. He did not bring Murphy. Murphy's spot on the board was empty. Recruiter A added him to her follow-up list for next month.</p>
+  </div>
+
+  <div class="scene" data-scene="5">
+    <div class="scene-time">The Archive Decision</div>
+    <h2>Recruiter B archives faster. And her pipeline is actually cleaner because of it.</h2>
+    <div class="split">
+      <div class="split-card a">
+        <div class="split-label">Recruiter A</div>
+        <p>Has 28 pending donors. Some registered in May. She has not called any of them. She emails when the event approaches and notes whether they showed. Several have not shown in three months. They are still on the list. They make her show rate look worse. She keeps them because they might still come. They will not come.</p>
+      </div>
+      <div class="split-card b">
+        <div class="split-label">Recruiter B</div>
+        <p>Called every pending donor within two weeks of sign-up. Called them again before the first event. Anyone who did not respond to two calls and an email got archived. Her pipeline is smaller. Every name on her list is someone she has spoken to who has confirmed they are still in. Her show rate reflects real donors, not stale names.</p>
+      </div>
+    </div>
+    <div class="result-card"><p><strong>A 36% show rate on 28 pending donors is 10 actual donors. A 100% show rate on 12 real donors is 12 actual donors.</strong> Recruiter B has fewer names and more donations. The list is not the goal. The door is the goal.</p></div>
+  </div>
+
+  <div class="scene" data-scene="6">
+    <div class="reflection-block">
+      <div class="rl">Your Turn</div>
+      <h3>Look at your pending donor list. When did you last actually speak to each of them? Not email &mdash; speak?</h3>
+      <p class="hint">For anyone you have not spoken to since the sign-up conversation, that is your list for this week. Not to email. To call. What would you expect to find out if you called them right now?</p>
+      <textarea id="ref" placeholder="Type your answer here..."></textarea>
+    </div>
+    <div class="next-btn-wrap">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week16_self_assessment.html">Next: Self-Assessment &rarr;</a>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn prev" id="prevBtn" onclick="go(-1)" disabled>&#8592; Back</button>
+    <button class="nav-btn next" id="nextBtn" onclick="go(1)">Continue &rarr;</button>
+  </div>
+</div>
+<script>
+var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});
+var cur=1;var tot=6;
+function render(){document.querySelectorAll('.scene').forEach(function(s){s.classList.toggle('active',parseInt(s.dataset.scene)===cur);});document.getElementById('sc').textContent=cur===tot?'Your response':'Scene '+cur+' of '+(tot-1);document.getElementById('tf').style.width=(cur/tot*100)+'%';document.getElementById('prevBtn').disabled=cur===1;document.getElementById('nextBtn').style.display=cur===tot?'none':'inline-block';window.scrollTo({top:0,behavior:'smooth'});}
+function go(d){var n=cur+d;if(n<1||n>tot)return;cur=n;render();}
+window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+render();
+</script></body></html>
