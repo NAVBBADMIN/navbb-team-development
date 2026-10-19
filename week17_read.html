@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development W17: The Two-Step Reactivation</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>:root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}@keyframes loaderExit{to{opacity:0;pointer-events:none;}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}.loader-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}.loader-title span{color:var(--red);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.hero{min-height:52vh;background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 52px;}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}.hero-nav{position:absolute;top:0;left:0;right:0;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;}.nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;gap:8px;}.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}.nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+.hero-ey{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}.hero-ey::before{content:"";width:24px;height:2px;background:var(--red);}.hero-title{font-size:clamp(34px,5vw,56px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-1.5px;margin-bottom:16px;position:relative;z-index:2;}.hero-title em{font-style:normal;color:var(--red);}.hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:480px;line-height:1.6;position:relative;z-index:2;}
+.content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}.sec{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:36px;}.sec::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}p strong{color:var(--ink);font-weight:700;}
+.pm{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}.pm-h{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}.pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}.pm-ttl{font-size:17px;font-weight:800;color:var(--white);}.pm-b{padding:28px 32px;}.pm-b p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}.pm-b p:last-child{margin-bottom:0;}
+.tb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}.tb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}.tb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+.two-step{display:flex;flex-direction:column;gap:0;margin:44px 0;border-radius:16px;overflow:hidden;}.step-row{display:flex;gap:0;}.step-num-col{width:56px;background:var(--blue-dark);display:flex;align-items:flex-start;justify-content:center;padding-top:24px;flex-shrink:0;}.step-num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:var(--white);font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;}.step-content{flex:1;background:rgba(1,86,152,0.05);border:1.5px solid rgba(1,86,152,0.15);border-left:none;padding:24px;}.step-row:first-child .step-content{border-top-right-radius:16px;}.step-row:last-child .step-content{border-bottom-right-radius:16px;border-top:none;}.step-row:last-child .step-num-col{border-bottom-left-radius:16px;}.step-row:first-child .step-num-col{border-top-left-radius:16px;}.step-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;}.step-desc{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+.script-block{background:rgba(196,154,48,0.06);border:1.5px solid rgba(196,154,48,0.25);border-radius:16px;padding:28px 32px;margin:44px 0;}.sb-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}.sb-line{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}.sb-line:last-child{margin-bottom:0;}.sb-who{font-size:12px;font-weight:800;color:var(--gold);min-width:72px;flex-shrink:0;padding-top:2px;}.sb-say{font-size:15px;color:var(--ink);line-height:1.6;}
+.three-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:44px 0;}.type-card{border-radius:12px;padding:20px;background:var(--gray-light);border:1.5px solid var(--gray-mid);}.type-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}.type-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;}.type-desc{font-size:13px;color:var(--gray-text);line-height:1.5;margin:0;}
+.meeting-cta{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}.mc-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}.mc-lbl::before{content:"";width:20px;height:2px;background:var(--red);}.mc-ttl{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}.mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;}
+.next-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}.next-btn:hover{background:var(--blue-dark);}
+@media(max-width:600px){.hero{padding:0 24px 40px;}.content{padding:48px 24px 80px;}.three-types{grid-template-columns:1fr;}}</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 17 &middot; Read</div><div class="loader-title">The Two-Step<br><span>Reactivation</span></div></div>
+<section class="hero"><div class="hero-grid"></div>
+  <nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+  <div class="hero-ey">Chapter 17 of ongoing</div>
+  <h1 class="hero-title">The Two-Step<br><em>Reactivation</em></h1>
+  <p class="hero-sub">Email opens the door. A real conversation walks through it. Neither one alone is enough &mdash; but together they brought back four donors this week who were on their way to the archive list.</p>
+</section>
+<main class="content">
+  <div class="sec">The Difference Between Lapsed and Lost</div>
+  <p>When a donor misses one event, they are lapsed. When they miss two or three and have not responded to outreach, they are drifting. When they have been called twice, emailed once, and still nothing &mdash; then they are probably lost and it is time to archive. But between lapsed and lost, there is a window. That window is what reactivation is about.</p>
+  <p>A lapsed donor is not someone who decided to leave. In most cases they are someone whose life got busy, whose schedule shifted, whose daycare situation changed, or who just got out of the habit. They may have every intention of coming back. They just have not been given a specific reason to do it right now. <strong>The reactivation call is that reason.</strong></p>
+
+  <div class="pm"><div class="pm-h">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="52" height="52" class="p-svg"></svg>
+    <div><div class="pm-lbl">A Patricia Moment</div><div class="pm-ttl">Patricia emailed Teddy and Sully's mom again.</div></div>
+  </div><div class="pm-b">
+    <p>Teddy and Sully have not donated since July. Their mom has not responded to two emails. Patricia sent a third email this week. The subject line was "We Miss Teddy and Sully!" Patricia considered two exclamation points but decided that was too much. Patricia is waiting to hear back. Patricia is also preparing a fourth email for next week just in case.</p>
+    <p>The problem is not the subject line. Teddy and Sully's mom is not going to respond to a fourth email when she did not respond to three. She needs a phone call and a specific offer. Patricia does not know this because Patricia has not tried anything other than email.</p>
+  </div></div>
+
+  <div class="sec">The Two-Step Sequence</div>
+  <div class="two-step">
+    <div class="step-row">
+      <div class="step-num-col"><div class="step-num">1</div></div>
+      <div class="step-content">
+        <div class="step-title">Email to reopen the door &mdash; warm, not administrative</div>
+        <div class="step-desc">The reactivation email is not a reminder about dates. It is a reconnection that acknowledges the absence and frames the return in terms of impact. "We have missed seeing [dog's name] at our events. We understand schedules change, but the impact [dog's name] makes in saving lives is real, and we would love to figure out a way to make it work again." Then offer specific options: their current location, the office, a different daycare that might work better. Make the door easy to walk through.</div>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num-col"><div class="step-num">2</div></div>
+      <div class="step-content">
+        <div class="step-title">Phone call or in-person follow-up to close</div>
+        <div class="step-desc">After the email goes out, the conversation that brings them back almost never happens over email. It happens on a phone call or in person at a recruiting event when you see them. That is where you find out what actually changed &mdash; the schedule, the daycare, the life situation. And it is where you can offer a solution they did not know was possible: a different location, a different day, an office appointment, a flexible timing option. The email opens the conversation. You close it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tb"><p>An email tells them you noticed they were gone. A conversation finds out why &mdash; and gives you something to actually fix.</p></div>
+
+  <div class="sec">What the Email Needs to Say</div>
+  <div class="script-block"><div class="sb-lbl">The Reconnection Email &mdash; Core Elements</div>
+    <div class="sb-line"><div class="sb-who">Open with:</div><div class="sb-say">The dog's name and how much you have missed seeing them. Personal, not administrative. This is not a system notification &mdash; it is a message from a person who actually knows the dog.</div></div>
+    <div class="sb-line"><div class="sb-who">Acknowledge:</div><div class="sb-say">That schedules change and life happens. Do not make them feel guilty for being gone. Make them feel welcome to come back.</div></div>
+    <div class="sb-line"><div class="sb-who">Frame the impact:</div><div class="sb-say">"The impact that [dog's name] makes in donations is real, and we would love to reconnect and see if we can figure out a schedule that works." This is why the return matters &mdash; not to your numbers, but to the dogs who need blood.</div></div>
+    <div class="sb-line"><div class="sb-who">Offer options:</div><div class="sb-say">Their current location at a specific date. The office. Another nearby daycare. Give them two or three concrete options so the path back is clear, not vague.</div></div>
+    <div class="sb-line"><div class="sb-who">Make it easy:</div><div class="sb-say">Your phone number. A direct reply. No forms, no portals, no "check the website." Tell them to respond to you specifically and you will handle the rest.</div></div>
+  </div>
+
+  <div class="sec">Three Types of Lapsed Donors</div>
+  <div class="three-types">
+    <div class="type-card"><div class="type-lbl">The Schedule Shift</div><div class="type-title">Life changed, not intent</div><div class="type-desc">Work schedule changed, kids' activities started, daycare day no longer works. The owner still wants to participate. They just need a new plan. Offer the alternative location or office appointment and they usually come back.</div></div>
+    <div class="type-card"><div class="type-lbl">The Drifted Owner</div><div class="type-title">Lost the habit</div><div class="type-desc">No specific reason, just fell off. The email reconnects the feeling. The in-person or phone conversation re-establishes the habit. These are the most responsive to the impact frame because guilt is not useful but purpose is.</div></div>
+    <div class="type-card"><div class="type-lbl">The Daycare Dropout</div><div class="type-title">No longer attending</div><div class="type-desc">The dog stopped going to the daycare where they were donating. Check whether they are at a different daycare that you also visit. If yes, offer to transfer them. If no, the office appointment is the option. This is worth solving because the dog is already screened.</div></div>
+  </div>
+
+  <div class="meeting-cta"><div class="mc-lbl">Bring This To Our Next Meeting</div>
+    <div class="mc-ttl">One reactivation attempt &mdash; what you tried and what you found out</div>
+    <p class="mc-body">Pick one lapsed donor you reached out to this week. Walk us through the email you sent, what happened next, and what the conversation revealed. Whether they came back or not, what did you learn about why they drifted? That information is worth sharing either way.</p>
+  </div>
+  <div class="next-wrap"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week17_case_study.html">Next: Case Study &rarr;</a></div>
+</main>
+<script>
+var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';
+document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});
+window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+</script></body></html>
