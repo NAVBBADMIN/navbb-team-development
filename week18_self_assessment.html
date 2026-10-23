@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development W18 Self-Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>:root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}@keyframes loaderExit{to{opacity:0;pointer-events:none;}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}.loader-title{font-size:24px;font-weight:900;color:var(--white);animation:fadeUp 0.4s ease 0.4s both;}.loader-title span{color:var(--gold);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.wrap{max-width:700px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}.kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;}.meta{font-size:13px;color:var(--gray-text);margin-bottom:16px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+.notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}.notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}.notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}.notice p:last-child{margin-bottom:0;}
+.pm-block{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}.pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}.pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}.pm-title{font-size:16px;font-weight:800;color:var(--white);}.pm-body{padding:20px 28px;}.pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+.q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}.q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}.q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}.q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+.options{display:flex;flex-direction:column;gap:10px;}.opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}.opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}.opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}.opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+.results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}.results-panel.visible{display:block;}.results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}.score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}.score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}.score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 1s ease;}
+.dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}.dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}.dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}.dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+.results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}.results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+.score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;}
+.next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}.next-btn:hover{background:var(--blue-dark);}
+@media(max-width:600px){.wrap{padding:40px 20px 80px;}}</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 18 &middot; Self-Assessment</div><div class="loader-title">What Happens to<br><span>Your Retired Donors?</span></div></div>
+<div class="wrap">
+  <div class="kicker">Self-Assessment &middot; Week 18</div>
+  <h1>What Happens to Your Retired Donors?</h1>
+  <p class="meta">~10 min &middot; 6 questions &middot; Private - your answers are not shared or tracked.</p>
+  <div class="notice"><div class="notice-label">Before You Start - Please Read</div><p><strong>This self-assessment is completely private.</strong> Your answers stay on your device and are never submitted or shared.</p><p><strong>To be counted as complete</strong>, scroll to the bottom after scoring and hit <strong>Submit Week 18 Check-In</strong>.</p></div>
+  <div class="pm-block"><div class="pm-header"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="p-svg"></svg><div><div class="pm-lbl">A Patricia Moment</div><div class="pm-title">Patricia has eleven medically retired donors. Patricia has followed up with zero of their parents.</div></div></div><div class="pm-body"><p>Patricia received the retirement notices. Patricia filed them. Patricia considers the relationship with the parent ended when the dog stopped being eligible. Patricia does not know the reason for most of the retirements. Patricia does not know whether any of them involve temporary conditions. Patricia scored herself a 3 on this self-assessment because she knows where the retired list is. Patricia is preparing a group email to all eleven parents reminding them of upcoming donation dates. Patricia has not noticed that none of these dogs are eligible to attend those dates.</p></div></div>
+
+  <div class="q-block"><div class="q-num">Question 1 of 6 - Staying in Contact</div>
+    <div class="q-text">When one of my donors gets medically retired, I continue to maintain contact with the parent at daycare visits rather than treating the relationship as ended.</div>
+    <div class="q-sub">Not outreach specifically about the retirement - just the ongoing relationship that makes a future reactivation conversation possible.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">When a dog gets retired, I tend to stop treating that parent as a priority at visits. The relationship shifts to the background.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I say hi if I see them but I do not actively maintain the relationship after a medical retirement. I am not sure what to say.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">I try to stay in contact but it is not always consistent, especially with dogs who have been retired for a while.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">I keep the relationship going at daycare visits. I ask about the dog, I check in with the parent, and I treat them like part of the program even when their dog is not active.</span></label>
+      <label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">Staying in contact with retired donor parents is a deliberate part of how I manage my territory. I never let the relationship go quiet just because the dog is not currently eligible.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 2 of 6 - Staying in Contact</div>
+    <div class="q-text">When a parent whose dog has been retired signals a change - mentions the medication stopped, brings up a vet visit, asks how to get back - I catch that signal and act on it.</div>
+    <div class="q-sub">The signal is not always direct. Sometimes it is a mention of a vet appointment. Sometimes it is the parent asking a question. Do you notice when it happens?</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">I probably miss these signals because I am not thinking about reactivation when I am at the daycare. My focus is on new sign-ups.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">I would catch a direct question but I might miss a more indirect signal about a medication change or vet visit.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">I am usually paying attention and I would catch most signals, but I do not have a specific habit of listening for them with retired donor parents.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">I listen for signals from retired donor parents specifically and I act on them when I hear them. I know that is when the reactivation conversation becomes possible.</span></label>
+      <label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">Catching these signals is one of the things I pay attention to at every visit. When a retired donor parent mentions their dog's health, I am always listening for the opening.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 3 of 6 - Knowing the Reason</div>
+    <div class="q-text">For the medically retired dogs on my list, I know the reason for each retirement and whether that reason is likely temporary or permanent.</div>
+    <div class="q-sub">Medication is often temporary. Age thresholds are permanent. Bloodwork flags vary. Knowing the reason tells you whether to stay in the conversation.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I know which dogs are retired but I do not always know the specific reason. The retirement notice comes through and I note it but do not dig into the details.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I know the reason for some of them but not all. I have not systematically tracked it.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I usually know the reason but I do not always know whether it is likely temporary or permanent. I have not thought about it that way.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">I know the reason for most of my retired donors and I have a sense of which ones might have a path back based on the retirement reason.</span></label>
+      <label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">I know the reason for every retired donor on my list and I have thought about each one: is this likely to change? Is this worth staying in the conversation for?</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 4 of 6 - Engaging the Medical Team</div>
+    <div class="q-text">When I think a medically retired dog might be a candidate for reactivation, I know how to bring that question to the medical team - what to ask, what information to gather, and how to take the answer back to the parent.</div>
+    <div class="q-sub">The recruiter does not make the medical call. But the recruiter is the bridge between the parent who wants their dog to come back and the medical team who can say yes or no.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">I am not sure how to raise a reactivation question with the medical team. I would not know what to ask or how to frame it.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I could bring it up generally but I do not have a clear sense of what information I need to gather or what the parent needs to do.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I have a general sense of the process but I have not done it enough times to feel confident in how to navigate it.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I know how to bring a reactivation question to the medical team. I gather what information I can from the parent, ask the specific question, and take the answer back with a clear next step for the parent.</span></label>
+      <label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">Bridging the parent to the medical team is something I do well. I know what to gather, who to ask, and how to communicate the outcome to the parent in a way that gives them a clear path forward.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 5 of 6 - Stale Sign-Ups</div>
+    <div class="q-text">When I encounter a parent who signed up a while ago and has not been active, I treat them as a re-engagement opportunity rather than writing them off as inactive.</div>
+    <div class="q-sub">Stale sign-ups are not the same as medical retirements but the outcome is similar: a parent who said yes and then went quiet. The fix is different but the attitude is the same.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">If a parent has not been active in a while, I mostly move on. Stale sign-ups feel like lost causes.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I would try to re-engage if I ran into them but I do not actively go looking for stale sign-ups to reconnect with.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I treat them as worth trying when I encounter them, but it is situational rather than a deliberate part of how I manage my territory.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">When I encounter a parent with a stale sign-up, I immediately look for the specific reason and the specific path back. I give them news, not a reminder.</span></label>
+      <label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">Stale sign-ups are one of the first things I look for on territory visits. I know these parents already said yes once. They just need a specific date and someone who is still treating them like they are part of the program.</span></label>
+    </div>
+  </div>
+
+  <div class="q-block"><div class="q-num">Question 6 of 6 - The Retired List</div>
+    <div class="q-text">I have reviewed my medically retired donor list recently and I know which dogs on it might have a realistic path back into the program.</div>
+    <div class="q-sub">Not as a project - as basic pipeline awareness. Knowing which retired dogs might return is part of managing the long-term health of your territory.</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I have not reviewed my retired list recently. I am not sure what is on it or how current the information is.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I know the list exists but I have not gone through it with the question of who might return. I treat retired as effectively permanent.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I have thought about a few of them but I have not done a full review or made a specific plan around any of them.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I have reviewed the list and I can name at least one dog who might have a path back. I have thought about what it would take to get there.</span></label>
+      <label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">I review my retired list as part of managing my territory. I know which retirements are likely permanent and which ones might change, and I have a plan for the ones that might.</span></label>
+    </div>
+  </div>
+
+  <button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+
+  <div class="results-panel" id="rp">
+    <h2 id="rh"></h2>
+    <p class="score-line" id="sl"></p>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="sbf" style="width:0%"></div></div>
+    <div id="db"></div>
+    <div class="results-cta"><p id="rc"></p></div>
+    <div class="next-btn-wrap" style="margin-top:28px;"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week18_applied_task.html">Next: Applied Task &rarr;</a></div>
+  </div>
+</div>
+<script>
+var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';
+document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});
+window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+function scoreIt(){
+  var qs=['q1','q2','q3','q4','q5','q6'];var scores=[];
+  for(var i=0;i<qs.length;i++){var v=document.querySelector('input[name="'+qs[i]+'"]:checked');if(!v){alert('Please answer all 6 questions before scoring.');return;}scores.push(parseInt(v.value));}
+  var total=scores.reduce(function(a,b){return a+b;},0);var pct=Math.round(total/30*100);
+  var contact=Math.round((scores[0]+scores[1])/2);var knowledge=Math.round((scores[2]+scores[3])/2);var pipeline=Math.round((scores[4]+scores[5])/2);
+  var h,c;
+  if(pct>=80){h="Your retired list is an active part of your territory management.";c="The applied task asks you to audit your retired list and name one candidate for reactivation review. You probably already have one in mind.";}
+  else if(pct>=55){h="You stay in contact. The retirement reasons and process are not fully mapped yet.";c="The gap is usually in knowing the reason behind each retirement and knowing how to engage the medical team on a specific reactivation question. The applied task will push you to look at your retired list with those two questions in mind.";}
+  else{h="Your retired list is sitting there without anyone checking on it.";c="Start with one thing: pull your retired list this week and find one dog whose retirement reason might be temporary. Stay in contact with that parent. That is the whole job for now.";}
+  document.getElementById('rh').textContent=h;
+  document.getElementById('sl').textContent=total+' out of 30 points ('+pct+'%)';
+  setTimeout(function(){document.getElementById('sbf').style.width=pct+'%';},100);
+  var dimData=[
+    {l:"Staying in Contact",s:contact,d:contact>=4?"Strong - you maintain relationships with retired donor parents and you notice when they signal a change.":contact>=3?"Developing - you stay in contact sometimes but catching the signal from a retired parent is not yet a deliberate habit.":"Building - the relationship does not end when the dog is retired. The applied task starts with staying in contact at your next daycare visit."},
+    {l:"Knowing the Reason and the Process",s:knowledge,d:knowledge>=4?"Strong - you know the retirement reasons and you know how to bridge the parent to the medical team.":knowledge>=3?"Developing - you know some reasons but the process for engaging the medical team on a reactivation question is not fully clear yet.":"Building - knowing the retirement reason is the first step. Knowing who to ask and what to bring them is the second. The applied task walks through both."},
+    {l:"Pipeline Awareness",s:pipeline,d:pipeline>=4?"Strong - you treat your retired list as part of your territory and you catch stale sign-ups as re-engagement opportunities.":pipeline>=3?"Developing - you know the list exists but have not reviewed it recently with the question of who might return.":"Building - pull your retired list this week. The applied task is literally that. Look at each name and ask: is this permanent or could it change?"}
+  ];
+  document.getElementById('db').innerHTML=dimData.map(function(d){return '<div class="dimension"><div class="dim-label">'+d.l+' - '+d.s+'/5</div><div class="dim-title">'+(d.s>=4?'Strong':d.s>=3?'Developing':'Building')+'</div><div class="dim-desc">'+d.d+'</div></div>';}).join('');
+  document.getElementById('rc').textContent=c;
+  var rp=document.getElementById('rp');rp.classList.add('visible');setTimeout(function(){rp.scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+</script></body></html>
