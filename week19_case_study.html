@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Development W19 Case Study: Donna, the Kennel Cough Question, and Diamond Dog House</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>:root{--blue:#015698;--blue-dark:#012B4A;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}@keyframes loaderExit{to{opacity:0;pointer-events:none;}}@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}.loader-title{font-size:22px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}.loader-title span{color:var(--gold);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:500;}.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.wrap{max-width:720px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}.kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+h1{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.1;}.meta{font-size:13px;color:var(--gray-text);margin-bottom:48px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+.stage-counter{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);text-align:center;margin-bottom:10px;}.progress-track{height:4px;background:var(--gray-light);border-radius:2px;margin-bottom:52px;overflow:hidden;}.progress-track-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:16%;transition:width 0.5s ease;}
+.scene{display:none;min-height:280px;animation:fadeUp 0.4s ease both;}.scene.active{display:block;}
+.scene-time{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;}.scene-time::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}.scene-time.red{color:var(--red);}.scene-time.red::before{background:var(--red);}.scene-time.green{color:#16a34a;}.scene-time.green::before{background:#16a34a;}
+.scene h2{font-size:clamp(20px,3.5vw,28px);font-weight:900;margin-bottom:18px;letter-spacing:-0.5px;}.scene p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:16px;}.scene p em{font-style:normal;color:var(--ink);font-weight:600;}
+.takeaway{background:var(--blue-dark);border-radius:14px;padding:24px 28px;margin:24px 0;}.takeaway-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}.takeaway p{font-size:15px;color:rgba(255,255,255,0.85);line-height:1.7;margin:0;}.takeaway p strong{color:var(--white);}
+.reflection-block{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:36px;box-shadow:6px 6px 0 rgba(1,86,152,0.08);}.rl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}.reflection-block h3{font-size:20px;font-weight:800;margin-bottom:8px;}.hint{font-size:14px;color:var(--gray-text);margin-bottom:20px;line-height:1.6;}
+textarea{width:100%;min-height:100px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:40px;}.nav-btn{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;transition:all 0.2s;}.nav-btn.next{background:var(--blue);color:var(--white);}.nav-btn.prev{background:var(--gray-light);color:var(--ink);border:1.5px solid var(--gray-mid);}.nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.next-btn-wrap{display:flex;justify-content:flex-end;margin-top:32px;}.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}.next-btn:hover{background:var(--blue-dark);}
+@media(max-width:600px){.wrap{padding:40px 20px 80px;}}</style></head><body>
+<div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 19 &middot; Case Study</div><div class="loader-title">Donna, the Kennel Cough<br><span>Question, and Diamond Dog House</span></div></div>
+<div class="wrap">
+  <div class="kicker">Case Study &middot; Week 19</div>
+  <h1>Donna, the Kennel Cough Question, and Diamond Dog House</h1>
+  <div class="meta">~8 min &middot; Click through each scene &middot; One question at the end. &middot; Based on real events from this week.</div>
+  <div class="stage-counter" id="sc">Scene 1 of 6</div>
+  <div class="progress-track"><div class="progress-track-fill" id="tf"></div></div>
+
+  <div class="scene active" data-scene="1">
+    <div class="scene-time">The Setup</div>
+    <h2>Diamond Dog House reported pneumonia in three dogs. The owner had questions. Two recruiters were in a position to respond.</h2>
+    <p>Donna was scheduled to visit Diamond Dog House. Before she could get in, the owner &mdash; Ms. Dodie &mdash; reached out with a concern. Three dogs at her facility had what she described as pneumonia. She wanted to understand whether the blood donation program could have contributed to it, and whether it was safe for the collection team to come.</p>
+    <p>This is a medical question. It involves disease transmission, incubation periods, and clinical diagnosis. <em>It is not a question a recruiter should answer.</em> Watch what happens when two recruiters respond to the same kind of question very differently.</p>
+  </div>
+
+  <div class="scene" data-scene="2">
+    <div class="scene-time red">Recruiter A: Answering the Question</div>
+    <h2>Recruiter A does some research. She tells Ms. Dodie what she found.</h2>
+    <p>Recruiter A hears about the pneumonia concern and wants to help. She looks it up. She finds that kennel cough is caused by Bordetella bronchiseptica, has an incubation period of 3 to 10 days, and is spread through airborne droplets. She tells Ms. Dodie this. She also tells her that the collection team takes sanitation seriously, so there is nothing to worry about.</p>
+    <p>Ms. Dodie is not reassured. She has more questions. She has read something different online. She pushes back. <em>The recruiter has now given her something specific to debate, and she is debating it.</em> The conversation spirals. Ms. Dodie becomes less confident in the program, not more. The 45 minutes that follow are spent recalibrating a conversation that should have been routed to a veterinarian from the start.</p>
+    <div class="takeaway"><div class="takeaway-lbl">What went wrong</div><p>The recruiter answered a medical question with information that was partially accurate but incomplete. <strong>When you give a daycare owner something to focus on, they focus on it.</strong> The goal was to make her feel better. The result was a longer, harder conversation than the original question.</p></div>
+  </div>
+
+  <div class="scene" data-scene="3">
+    <div class="scene-time green">Recruiter B: Routing the Question</div>
+    <h2>Donna hears about the concern. Donna routes it immediately.</h2>
+    <p>Donna hears that Diamond Dog House has a pneumonia concern. Her first move is not to look it up. Her first move is to contact Dr. Galanis, and then Dr. Blake, to get the right person on the phone with Ms. Dodie.</p>
+    <p>"I was able to reach out with Dr. Galanis yesterday and then with Dr. Blake, who was able to connect with Ms. Dodie and hopefully ease some of her concerns." That is the whole action. Route the medical question to the medical team. Hold the relationship while the right person handles the clinical question. <em>Donna did not need to know the answer. She needed to know who to call.</em></p>
+    <div class="takeaway"><div class="takeaway-lbl">What went right</div><p>Donna took the concern seriously, moved fast, and got the right expertise in front of the owner. Dr. Blake was able to speak from 30 years of experience. He was able to address not just the facts but the specific timeline &mdash; and his read was that the description "pneumonia" probably did not accurately describe what those dogs were experiencing. <strong>That calibration is not something a recruiter can provide. It is exactly what a veterinarian can.</strong></p></div>
+  </div>
+
+  <div class="scene" data-scene="4">
+    <div class="scene-time">What Dr. Blake Said After</div>
+    <h2>Kennel cough is a syndrome, not a single disease. The recruiter's job is to share facts, not explain it.</h2>
+    <p>Dr. Blake explained this on the call this week, and it is worth understanding even if you never repeat it verbatim to a daycare owner: kennel cough is caused by multiple pathogens. The incubation periods vary. Some animals shed contagious disease before they show symptoms. The condition can range from mild and self-limiting to something that progresses further in immunosuppressed animals.</p>
+    <p>None of this means a recruiter should explain kennel cough to a daycare owner. It means the opposite. <em>"You can have a very educated conversation with these people, but what you don't want to do is inadvertently add fuel to the fire by saying something that they immediately pick up on."</em> The more complex the topic, the more important it is to let the medical team handle it.</p>
+    <div class="takeaway"><div class="takeaway-lbl">The rule</div><p>Share facts. "Our veterinary team takes this very seriously." Route the question. "Can I have Dr. Blake give you a call today?" Hold the relationship. <strong>Do not explain the disease. That is not your job, and it carries real risk when you get a detail wrong or incomplete.</strong></p></div>
+  </div>
+
+  <div class="scene" data-scene="5">
+    <div class="scene-time">The Result</div>
+    <h2>Ms. Dodie got educated. Dr. Blake gave her context. The program maintained the relationship.</h2>
+    <p>After Dr. Blake spoke with Ms. Dodie, she had a clearer picture of the situation. Her infection control procedures at the facility were actually quite good &mdash; Dr. Blake noted this explicitly. The timeline of the illness at her facility did not fit with the blood donation events. The word "pneumonia" was probably a description of something less severe than what that word typically means clinically.</p>
+    <p>Ms. Dodie felt better. Not because she got a simple answer, but because she got a real one from someone qualified to give it. And Diamond Dog House remained a location the program could work with. <em>Donna handled it exactly right. She took the bull by the horns, got the right people involved, and let them do what they are trained to do.</em></p>
+  </div>
+
+  <div class="scene" data-scene="6">
+    <div class="reflection-block">
+      <div class="rl">Your Turn</div>
+      <h3>Think about a time a daycare owner or parent asked you something medical. What did you do? Was it the right call in hindsight?</h3>
+      <p class="hint">Be honest. Did you answer it? Did you look something up and share what you found? Did you route it to the medical team? What would you do differently now?</p>
+      <textarea id="ref" placeholder="Type your answer here..."></textarea>
+    </div>
+    <div class="next-btn-wrap">
+      <a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week19_self_assessment.html">Next: Self-Assessment &rarr;</a>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn prev" id="prevBtn" onclick="go(-1)" disabled>&#8592; Back</button>
+    <button class="nav-btn next" id="nextBtn" onclick="go(1)">Continue &rarr;</button>
+  </div>
+</div>
+<script>
+var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});
+var cur=1;var tot=6;
+function render(){document.querySelectorAll('.scene').forEach(function(s){s.classList.toggle('active',parseInt(s.dataset.scene)===cur);});document.getElementById('sc').textContent=cur===tot?'Your response':'Scene '+cur+' of '+(tot-1);document.getElementById('tf').style.width=(cur/tot*100)+'%';document.getElementById('prevBtn').disabled=cur===1;document.getElementById('nextBtn').style.display=cur===tot?'none':'inline-block';window.scrollTo({top:0,behavior:'smooth'});}
+function go(d){var n=cur+d;if(n<1||n>tot)return;cur=n;render();}
+window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});
+render();
+</script></body></html>
