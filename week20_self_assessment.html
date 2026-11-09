@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Team Development W20 Self-Assessment</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"><style>:root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;}
+@keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes floatSlow{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+.loader-title{font-size:24px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}
+.loader-title span{color:var(--red);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:1100;}
+.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.hero{background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 60%,var(--blue-mid) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 56px;}
+body.hub .hero{min-height:70vh;}body.read .hero{min-height:52vh;}
+.hero-bg,.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:44px 44px;}
+.hero-nav{position:absolute;top:0;left:0;right:0;padding:26px 56px;display:flex;justify-content:space-between;align-items:center;z-index:10;}
+.nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--white);display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--red);}
+.nav-week{font-size:12px;font-weight:700;color:rgba(255,255,255,0.55);}
+.mascots{position:absolute;right:50px;bottom:44px;display:flex;align-items:flex-end;gap:8px;}
+.b-float{animation:floatSlow 5s ease-in-out 0.3s infinite;}.p-float{animation:float 4s ease-in-out infinite;}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:12px;position:relative;z-index:2;}
+.hero-eyebrow::before{content:"";width:28px;height:2px;background:var(--red);}
+.hero h1{font-size:clamp(34px,5.5vw,60px);font-weight:900;color:var(--white);line-height:1.04;letter-spacing:-1.8px;margin-bottom:18px;position:relative;z-index:2;}
+.hero h1 em{font-style:normal;color:var(--red);}
+.hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:520px;line-height:1.65;position:relative;z-index:2;}
+.hero-meta{display:flex;gap:40px;margin-top:30px;position:relative;z-index:2;}
+.meta-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+.meta-val{font-size:15px;font-weight:800;color:var(--white);}
+.banner{background:var(--red);}.banner-inner{display:flex;align-items:stretch;}
+.banner-icon{background:rgba(0,0,0,0.2);padding:18px 24px;display:flex;align-items:center;font-size:24px;flex-shrink:0;}
+.banner-text{flex:1;padding:14px 22px;}
+.banner-label{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:4px;}
+.banner-msg{font-size:14px;font-weight:700;color:var(--white);line-height:1.45;}
+.banner-cta{background:rgba(0,0,0,0.2);padding:18px 24px;display:flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.7);flex-shrink:0;white-space:nowrap;}
+main{max-width:860px;margin:0 auto;padding:72px 40px 100px;}
+.sec{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:32px;}
+.sec::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+.anchor-card{background:var(--ink);border-radius:20px;padding:36px;margin-bottom:28px;}
+.ac-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.ac-label::before{content:"";width:20px;height:2px;background:var(--red);}
+.ac-quote{font-size:18px;font-weight:700;color:var(--white);font-style:italic;line-height:1.6;margin-bottom:12px;border-left:3px solid var(--red);padding-left:20px;}
+.ac-attr{font-size:13px;color:rgba(255,255,255,0.45);}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:44px;}
+.stat{border:1.5px solid var(--gray-mid);border-radius:14px;padding:18px 14px;text-align:center;background:var(--gray-light);}
+.stat-num{font-size:28px;font-weight:900;color:var(--blue-dark);line-height:1;margin-bottom:6px;}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-text);}
+.pieces{display:flex;flex-direction:column;gap:14px;margin-bottom:52px;}
+.piece-card{display:flex;align-items:center;text-decoration:none;border:1.5px solid var(--gray-mid);border-radius:16px;overflow:hidden;background:var(--white);transition:all 0.25s;}
+.piece-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(1,86,152,0.12);transform:translateY(-3px);}
+.piece-card.alt:hover{border-color:var(--red);box-shadow:0 8px 32px rgba(237,45,43,0.1);}
+.piece-num-wrap{width:64px;min-height:88px;background:var(--blue-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:stretch;}
+.piece-card.alt .piece-num-wrap{background:var(--red);}
+.piece-num{font-size:22px;font-weight:900;color:var(--white);}
+.piece-body{flex:1;padding:20px 24px;}
+.piece-kind{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.piece-card.alt .piece-kind{color:var(--red);}
+.piece-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.piece-desc{font-size:13px;color:var(--gray-text);line-height:1.5;}
+.piece-right{padding:20px 24px;display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex-shrink:0;}
+.piece-time{font-size:12px;font-weight:600;color:var(--gray-text);}
+.piece-arrow{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray-mid);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-text);transition:all 0.2s;}
+.piece-card:hover .piece-arrow{background:var(--blue);color:var(--white);border-color:var(--blue);}
+.piece-card.alt:hover .piece-arrow{background:var(--red);border-color:var(--red);}
+.survey-card{background:var(--red);border-radius:20px;padding:36px 40px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+.survey-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;}
+.survey-card h3{font-size:22px;font-weight:900;color:var(--white);margin-bottom:8px;}
+.survey-card p{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;}
+.survey-btn{display:inline-block;background:var(--white);color:var(--red);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 32px;border-radius:12px;text-decoration:none;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+.survey-btn:hover{background:var(--ink);color:var(--white);}
+.sync-section{background:var(--blue-dark);border-radius:20px;padding:40px;margin-bottom:40px;}
+.sync-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.sync-label::before{content:"";width:20px;height:2px;background:var(--red);}
+.sync-section h3{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.sync-section p{font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;font-weight:300;}
+.prog-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);margin-bottom:16px;}
+.prog-weeks{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
+.prog-week{border-radius:8px;padding:10px 4px;text-align:center;border:1.5px solid var(--gray-mid);}
+.prog-week.active{background:var(--blue-dark);border-color:var(--blue-dark);}.prog-week.done{background:var(--gray-light);}
+.pw-num{font-size:8px;font-weight:700;color:var(--gray-text);margin-bottom:2px;}.prog-week.active .pw-num{color:rgba(255,255,255,0.5);}
+.pw-title{font-size:7px;font-weight:700;color:var(--ink);line-height:1.3;}.prog-week.active .pw-title{color:var(--white);}
+.pw-status{font-size:7px;color:var(--gray-text);margin-top:2px;}.prog-week.active .pw-status{color:var(--red);}
+.hero-ey{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+.hero-ey::before{content:"";width:24px;height:2px;background:var(--red);}
+.nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+.content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}
+.content p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}
+.content p strong{color:var(--ink);font-weight:700;}
+.pm{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}
+.pm-h{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.pm-ttl{font-size:17px;font-weight:800;color:var(--white);}
+.pm-b{padding:28px 32px;}
+.content .pm-b p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}
+.pm-b p:last-child{margin-bottom:0;}
+.tb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}
+.tb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}
+.content .tb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+.role-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:44px 0;}
+.role-card{border-radius:14px;padding:24px;}
+.role-card.rec{background:rgba(1,86,152,0.06);border:1.5px solid rgba(1,86,152,0.2);}
+.role-card.med{background:rgba(196,154,48,0.06);border:1.5px solid rgba(196,154,48,0.25);}
+.role-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.role-card.rec .role-lbl{color:var(--blue);}.role-card.med .role-lbl{color:var(--gold);}
+.role-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:10px;}
+.content .role-desc{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+.steps{display:flex;flex-direction:column;gap:16px;margin:44px 0;}
+.step{display:flex;gap:20px;align-items:flex-start;padding:24px;background:rgba(1,86,152,0.05);border:1.5px solid rgba(1,86,152,0.15);border-radius:14px;}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--blue-dark);color:var(--white);font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-body h4{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.content .step-body p{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+.gold-box{background:rgba(196,154,48,0.08);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--gold);}
+.gold-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.content .gold-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}
+.gold-box p:last-child{margin-bottom:0;}
+.meeting-cta{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}
+.mc-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.mc-lbl::before{content:"";width:20px;height:2px;background:var(--red);}
+.mc-ttl{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.content .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;margin:0;}
+.next-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}
+.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.next-btn:hover{background:var(--blue-dark);}
+.wrap{max-width:720px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+.wrap h1{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.1;}
+.meta{font-size:13px;color:var(--gray-text);margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+.stage-counter{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);text-align:center;margin-bottom:10px;}
+.progress-track{height:4px;background:var(--gray-light);border-radius:2px;margin-bottom:52px;overflow:hidden;}
+.progress-track-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:16%;transition:width 0.5s ease;}
+.scene{display:none;min-height:280px;animation:fadeUp 0.4s ease both;}.scene.active{display:block;}
+.scene-time{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.scene-time::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}
+.scene-time.gold{color:var(--gold);}.scene-time.gold::before{background:var(--gold);}
+.scene-time.green{color:#16a34a;}.scene-time.green::before{background:#16a34a;}
+.scene-time.red{color:var(--red);}.scene-time.red::before{background:var(--red);}
+.scene h2{font-size:clamp(20px,3.5vw,28px);font-weight:900;margin-bottom:18px;letter-spacing:-0.5px;}
+.scene p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:16px;}
+.scene p em{font-style:normal;color:var(--ink);font-weight:600;}
+.takeaway{background:var(--blue-dark);border-radius:14px;padding:24px 28px;margin:24px 0;}
+.takeaway-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.scene .takeaway p{font-size:15px;color:rgba(255,255,255,0.85);line-height:1.7;margin:0;}
+.takeaway p strong{color:var(--white);}
+.result-pill{display:inline-block;background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.4);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;color:#16a34a;margin-bottom:20px;}
+.result-pill.amber{background:rgba(196,154,48,0.12);border-color:rgba(196,154,48,0.4);color:#9a7420;}
+.reflection-block{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:36px;box-shadow:6px 6px 0 rgba(1,86,152,0.08);}
+.rl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+.reflection-block h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+.hint{font-size:14px;color:var(--gray-text);margin-bottom:20px;line-height:1.6;}
+textarea{width:100%;min-height:90px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+textarea:focus,input[type=text]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+input[type=text]{width:100%;padding:11px 14px;border:1.5px solid var(--gray-mid);border-radius:8px;font-family:'Poppins',sans-serif;font-size:14px;color:var(--ink);margin-bottom:14px;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:40px;}
+.nav-btn{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.nav-btn.next{background:var(--blue);color:var(--white);}
+.nav-btn.prev{background:var(--gray-light);color:var(--ink);border:1.5px solid var(--gray-mid);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+.notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+.notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}.notice p:last-child{margin-bottom:0;}
+.pm-block{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+.pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.pm-title{font-size:16px;font-weight:800;color:var(--white);}
+.pm-body{padding:20px 28px;}.pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+.q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+.q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+.q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+.q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+.opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+.opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+.opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+.results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}.results-panel.visible{display:block;}
+.results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+.score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+.score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+.score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 1s ease;}
+.dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+.dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+.dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+.dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+.results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+.results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+.score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;}
+.mission-card{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:20px;padding:40px;margin-bottom:40px;}
+.mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+.mc-title{font-size:22px;font-weight:900;color:var(--white);margin-bottom:12px;}
+.mc-body2{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.75;}
+.task-section{margin-bottom:32px;}
+.task-section h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.task-section .hint{margin-bottom:14px;font-size:13px;}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{padding:8px 16px;border-radius:20px;border:1.5px solid var(--gray-mid);font-size:13px;font-weight:600;color:var(--gray-text);cursor:pointer;transition:all 0.2s;background:var(--white);}
+.chip.selected{background:var(--blue-dark);color:var(--white);border-color:var(--blue-dark);}
+.save-indicator{font-size:12px;color:var(--gray-text);height:16px;margin-top:4px;}
+.divider{margin-top:36px;padding-top:32px;border-top:2px solid var(--gray-light);}
+@media(max-width:640px){.hero{padding:0 24px 48px;}.hero-nav{padding:20px 24px;}.banner-cta{display:none;}.mascots{right:10px;bottom:36px;}.survey-card{flex-direction:column;}.prog-weeks{grid-template-columns:repeat(3,1fr);}.stat-grid{grid-template-columns:repeat(2,1fr);}.content{padding:48px 24px 80px;}.role-split{grid-template-columns:1fr;}.wrap{padding:40px 20px 80px;}main{padding:48px 24px 80px;}}</style></head><body class="sa"><div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 20 &middot; Self-Assessment</div><div class="loader-title">Is Your Pending<br><span>List Real?</span></div></div>
+<div class="wrap">
+<div class="kicker">Self-Assessment &middot; Week 20</div>
+<h1>Is Your Pending List Real?</h1>
+<p class="meta">~10 min &middot; 6 questions &middot; Private - your answers are not shared or tracked.</p>
+<div class="notice"><div class="notice-label">Before You Start - Please Read</div><p><strong>This self-assessment is completely private.</strong> Your answers stay on your device and are never submitted or shared.</p><p><strong>To be counted as complete</strong>, scroll to the bottom after scoring and hit <strong>Submit Week 20 Check-In</strong>.</p></div>
+<div class="pm-block"><div class="pm-header"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="p-svg"></svg><div><div class="pm-lbl" style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;">A Patricia Moment</div><div class="pm-title">Patricia scored herself a 5 on Question 1.</div></div></div><div class="pm-body"><p>Patricia explained that she registers every maybe so that she never loses a lead, and that this is the most responsible thing a recruiter can do. She has 47 pending donors. She has contacted none of them since registering. Patricia also scored herself a 5 on the pending list question because she knows exactly where the list is.</p></div></div>
+<div class="q-block"><div class="q-num">Question 1 of 6 - Sign-Up Integrity</div><div class="q-text">When a parent is not sure yet, I take their phone number and call them back. I do not register the donor in FETCH as a placeholder.</div><div class="q-sub">The registration should mean the parent said yes. Contact information is how you hold a maybe.</div><div class="options"><label class="opt"><input type="radio" name="q1" value="1"><span class="opt-label">I register almost everyone who shows interest so I do not lose them. I clean up later.</span></label><label class="opt"><input type="radio" name="q1" value="2"><span class="opt-label">I register maybes fairly often, especially when I am about to leave the daycare.</span></label><label class="opt"><input type="radio" name="q1" value="3"><span class="opt-label">I try to wait for a yes, but I sometimes register someone just to be able to reach them again.</span></label><label class="opt"><input type="radio" name="q1" value="4"><span class="opt-label">I capture the number, tell them when I will call, and register on the yes.</span></label><label class="opt"><input type="radio" name="q1" value="5"><span class="opt-label">Registration is reserved for real yeses. For everyone else I have a number, a call time, and a note, and I follow through on the call.</span></label></div></div><div class="q-block"><div class="q-num">Question 2 of 6 - Sign-Up Integrity</div><div class="q-text">Before a parent signs up, I say the monthly commitment out loud, name the day, and give them an easy way to say no.</div><div class="q-sub">For example: this is once a month, we are here every four weeks on a Monday, and if it cannot work, just tell me.</div><div class="options"><label class="opt"><input type="radio" name="q2" value="1"><span class="opt-label">I mention that donations are periodic but I do not get specific about the day or the monthly cadence.</span></label><label class="opt"><input type="radio" name="q2" value="2"><span class="opt-label">I say it is monthly, but I rarely give them room to say no.</span></label><label class="opt"><input type="radio" name="q2" value="3"><span class="opt-label">I explain the commitment most of the time, but not always when the conversation is rushed.</span></label><label class="opt"><input type="radio" name="q2" value="4"><span class="opt-label">I state the monthly commitment and the day, and I invite a no.</span></label><label class="opt"><input type="radio" name="q2" value="5"><span class="opt-label">It is part of how I open every sign-up. Monthly, the specific day, and I tell them a no is welcome. Parents know exactly what they agreed to.</span></label></div></div><div class="q-block"><div class="q-num">Question 3 of 6 - Daycare Sign-Ups</div><div class="q-text">When a daycare signs a parent up without me, I call that parent myself and confirm the commitment.</div><div class="q-sub">A sign-up you did not take is a sign-up you have not confirmed.</div><div class="options"><label class="opt"><input type="radio" name="q3" value="1"><span class="opt-label">I count them as real sign-ups and wait for them to show up.</span></label><label class="opt"><input type="radio" name="q3" value="2"><span class="opt-label">I send a general email with the dates but do not usually call.</span></label><label class="opt"><input type="radio" name="q3" value="3"><span class="opt-label">I follow up on some, depending on how busy the week is.</span></label><label class="opt"><input type="radio" name="q3" value="4"><span class="opt-label">I call within the week, explain the monthly commitment, and ask for their preferred contact method.</span></label><label class="opt"><input type="radio" name="q3" value="5"><span class="opt-label">Every daycare-initiated sign-up gets my own call and a note. I also ask the daycare to say the commitment out loud when I am not there.</span></label></div></div><div class="q-block"><div class="q-num">Question 4 of 6 - Pending List</div><div class="q-text">I review my pending list regularly and contact anything that has sat for months with no communication.</div><div class="q-sub">Name the location and date. Ask if it works. Say you are happy to remove them if not.</div><div class="options"><label class="opt"><input type="radio" name="q4" value="1"><span class="opt-label">I do not review the pending list unless someone asks me to.</span></label><label class="opt"><input type="radio" name="q4" value="2"><span class="opt-label">I look at it occasionally, mostly when numbers come up in a meeting.</span></label><label class="opt"><input type="radio" name="q4" value="3"><span class="opt-label">I review it from time to time, but old names still sit there without a plan.</span></label><label class="opt"><input type="radio" name="q4" value="4"><span class="opt-label">I go through it regularly and have a message ready for anyone with no recent contact.</span></label><label class="opt"><input type="radio" name="q4" value="5"><span class="opt-label">I know my oldest pending donors by name. Nothing sits for months without a contact, a conversion, or an archive decision.</span></label></div></div><div class="q-block"><div class="q-num">Question 5 of 6 - Decisions</div><div class="q-text">When a donor is not going to work out, I archive them and write the reason in the notes. I do not leave them to sit.</div><div class="q-sub">Happy visits are two to three tries, and only work when they are consistent. Past that, it needs a decision.</div><div class="options"><label class="opt"><input type="radio" name="q5" value="1"><span class="opt-label">I find it hard to archive anyone, especially if I already put work into them.</span></label><label class="opt"><input type="radio" name="q5" value="2"><span class="opt-label">I archive eventually, but I rarely write the reason.</span></label><label class="opt"><input type="radio" name="q5" value="3"><span class="opt-label">I have a general sense of when to stop, but I sometimes go well past it.</span></label><label class="opt"><input type="radio" name="q5" value="4"><span class="opt-label">I have a threshold. I archive, and I write a short reason so the next person understands.</span></label><label class="opt"><input type="radio" name="q5" value="5"><span class="opt-label">I decide on a clear threshold, apply it the same way for everyone, and the notes always say why.</span></label></div></div><div class="q-block"><div class="q-num">Question 6 of 6 - Verify First</div><div class="q-text">When I hear a medical claim from an owner or daycare, I ask for vet records and pass them to the medical team. I do not repeat the diagnosis word.</div><div class="q-sub">Heartworm versus hookworm. Pneumonia versus kennel cough. The label matters, and units can be pulled when it is wrong.</div><div class="options"><label class="opt"><input type="radio" name="q6" value="1"><span class="opt-label">I usually pass along what I was told, since the owner would know best.</span></label><label class="opt"><input type="radio" name="q6" value="2"><span class="opt-label">I repeat it to the medical team but I do not ask for records.</span></label><label class="opt"><input type="radio" name="q6" value="3"><span class="opt-label">I ask for records when I remember, but not consistently.</span></label><label class="opt"><input type="radio" name="q6" value="4"><span class="opt-label">I ask for the vet records, send them to the medical team, and avoid repeating the label to staff or other parents.</span></label><label class="opt"><input type="radio" name="q6" value="5"><span class="opt-label">Records first, every time. I never characterize a diagnosis myself, and I keep it out of daycare conversation entirely.</span></label></div></div>
+<button class="score-btn" onclick="scoreIt()">Score My Assessment</button>
+<div class="results-panel" id="rp"><h2 id="rh"></h2><p class="score-line" id="sl"></p><div class="score-bar-wrap"><div class="score-bar-fill" id="sbf" style="width:0%"></div></div><div id="db"></div><div class="results-cta"><p id="rc"></p></div>
+<div class="next-btn-wrap"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week20_applied_task.html">Next: Applied Task &rarr;</a></div></div>
+</div><script>var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';var B='<ellipse cx="50" cy="80" rx="35" ry="22" fill="#c49a30"/><ellipse cx="50" cy="82" rx="27" ry="16" fill="#e8c060"/><circle cx="50" cy="52" r="24" fill="#c49a30"/><ellipse cx="34" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(-15 34 38)"/><ellipse cx="66" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(15 66 38)"/><circle cx="43" cy="50" r="4.5" fill="#1f1a10"/><circle cx="57" cy="50" r="4.5" fill="#1f1a10"/><circle cx="44" cy="48" r="1.5" fill="white"/><circle cx="58" cy="48" r="1.5" fill="white"/><ellipse cx="50" cy="62" rx="10" ry="7" fill="#e8c060"/><ellipse cx="50" cy="60" rx="5" ry="4" fill="#c47050"/><path d="M44 68 Q50 73 56 68" stroke="#1f1a10" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(-10 38 95)"/><ellipse cx="62" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(10 62 95)"/><path d="M72 75 Q88 65 85 80 Q82 90 72 88" stroke="#c49a30" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="38" y="55" width="24" height="10" rx="3" fill="#015698"/><text x="50" y="63" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5" font-weight="700" fill="white">BISCUIT</text>';document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});document.querySelectorAll('.b-svg').forEach(function(el){el.innerHTML+=B;});window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});function scoreIt(){
+  var qs=["q1","q2","q3","q4","q5","q6"];var scores=[];
+  for(var i=0;i<qs.length;i++){var v=document.querySelector('input[name="'+qs[i]+'"]:checked');if(!v){alert("Please answer all 6 questions before scoring.");return;}scores.push(parseInt(v.value));}
+  var total=scores.reduce(function(a,b){return a+b;},0);var pct=Math.round(total/30*100);
+  var integrity=Math.round((scores[0]+scores[1])/2);var pending=Math.round((scores[2]+scores[3])/2);var decisions=Math.round((scores[4]+scores[5])/2);
+  var h,c;
+  if(pct>=80){h="Your numbers are real, and you can defend every one of them.";c="The applied task asks you to pick your three oldest pending donors and decide on each one. You probably already know who they are. Make the decisions and write them down.";}
+  else if(pct>=55){h="Your list is mostly honest. A few names are along for the ride.";c="The gap is usually in the oldest names and in the follow-through on sign-ups you did not take yourself. The applied task walks you through contact, convert, or archive for the three that have waited longest.";}
+  else{h="Your pending list has become a bookmark folder.";c="Start with one thing: pull your three oldest pending donors this week and call each of them with a specific date. Anyone who is not interested gets archived, with the reason in the notes. That alone will change what the dashboard says.";}
+  document.getElementById("rh").textContent=h;
+  document.getElementById("sl").textContent=total+" out of 30 points ("+pct+"%)";
+  setTimeout(function(){document.getElementById("sbf").style.width=pct+"%";},100);
+  var dimData=[
+    {l:"Sign-Up Integrity",s:integrity,d:integrity>=4?"Strong - you register on a real yes and the commitment is said out loud.":integrity>=3?"Developing - you often wait for a yes, but placeholders still slip in when the day is busy.":"Building - take the number, call back, and register on the yes. That one change cleans most of the list."},
+    {l:"Daycare Sign-Ups and Pending List",s:pending,d:pending>=4?"Strong - you confirm sign-ups you did not take and you work the old names.":pending>=3?"Developing - you follow up when you can, but the oldest names are still waiting for a plan.":"Building - sign-ups from daycares need your own call, and the oldest pending names need a date and a question."},
+    {l:"Decisions and Records",s:decisions,d:decisions>=4?"Strong - you decide, you document, and you verify before you pass anything along.":decisions>=3?"Developing - you decide eventually, but the reasons and the records are not consistent yet.":"Building - set a threshold, write the reason in the notes, and ask for vet records before repeating any diagnosis."}
+  ];
+  document.getElementById("db").innerHTML=dimData.map(function(d){return '<div class="dimension"><div class="dim-label">'+d.l+' - '+d.s+'/5</div><div class="dim-title">'+(d.s>=4?"Strong":d.s>=3?"Developing":"Building")+'</div><div class="dim-desc">'+d.d+'</div></div>';}).join("");
+  document.getElementById("rc").textContent=c;
+  var rp=document.getElementById("rp");rp.classList.add("visible");setTimeout(function(){rp.scrollIntoView({behavior:"smooth",block:"start"});},100);
+}</script></body></html>

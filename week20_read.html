@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Team Development W20: Get the Number, Not the Registration</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"><style>:root{--blue:#015698;--blue-dark:#012B4A;--blue-mid:#0270C0;--red:#ED2D2B;--white:#FFFFFF;--gray-light:#F0F4F8;--gray-mid:#CBD5E1;--gray-text:#64748B;--ink:#0F172A;--gold:#c49a30;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;}
+@keyframes loaderExit{to{opacity:0;pointer-events:none;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes floatSlow{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+.loader{position:fixed;inset:0;background:var(--blue-dark);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:loaderExit 0.5s ease 1.6s forwards;}
+.loader-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:600;animation:fadeUp 0.4s ease 0.2s both;}
+.loader-title{font-size:24px;font-weight:900;color:var(--white);text-align:center;animation:fadeUp 0.4s ease 0.4s both;}
+.loader-title span{color:var(--red);}
+.pb-wrap{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,0.05);z-index:1100;}
+.pb-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:0%;transition:width 0.1s;}
+.hero{background:linear-gradient(150deg,var(--blue-dark) 0%,var(--blue) 60%,var(--blue-mid) 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 56px 56px;}
+body.hub .hero{min-height:70vh;}body.read .hero{min-height:52vh;}
+.hero-bg,.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:44px 44px;}
+.hero-nav{position:absolute;top:0;left:0;right:0;padding:26px 56px;display:flex;justify-content:space-between;align-items:center;z-index:10;}
+.nav-logo{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--white);display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--red);}
+.nav-week{font-size:12px;font-weight:700;color:rgba(255,255,255,0.55);}
+.mascots{position:absolute;right:50px;bottom:44px;display:flex;align-items:flex-end;gap:8px;}
+.b-float{animation:floatSlow 5s ease-in-out 0.3s infinite;}.p-float{animation:float 4s ease-in-out infinite;}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:12px;position:relative;z-index:2;}
+.hero-eyebrow::before{content:"";width:28px;height:2px;background:var(--red);}
+.hero h1{font-size:clamp(34px,5.5vw,60px);font-weight:900;color:var(--white);line-height:1.04;letter-spacing:-1.8px;margin-bottom:18px;position:relative;z-index:2;}
+.hero h1 em{font-style:normal;color:var(--red);}
+.hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,0.7);max-width:520px;line-height:1.65;position:relative;z-index:2;}
+.hero-meta{display:flex;gap:40px;margin-top:30px;position:relative;z-index:2;}
+.meta-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+.meta-val{font-size:15px;font-weight:800;color:var(--white);}
+.banner{background:var(--red);}.banner-inner{display:flex;align-items:stretch;}
+.banner-icon{background:rgba(0,0,0,0.2);padding:18px 24px;display:flex;align-items:center;font-size:24px;flex-shrink:0;}
+.banner-text{flex:1;padding:14px 22px;}
+.banner-label{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:4px;}
+.banner-msg{font-size:14px;font-weight:700;color:var(--white);line-height:1.45;}
+.banner-cta{background:rgba(0,0,0,0.2);padding:18px 24px;display:flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.7);flex-shrink:0;white-space:nowrap;}
+main{max-width:860px;margin:0 auto;padding:72px 40px 100px;}
+.sec{display:flex;align-items:center;gap:14px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:32px;}
+.sec::after{content:"";flex:1;height:1px;background:var(--gray-mid);}
+.anchor-card{background:var(--ink);border-radius:20px;padding:36px;margin-bottom:28px;}
+.ac-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.ac-label::before{content:"";width:20px;height:2px;background:var(--red);}
+.ac-quote{font-size:18px;font-weight:700;color:var(--white);font-style:italic;line-height:1.6;margin-bottom:12px;border-left:3px solid var(--red);padding-left:20px;}
+.ac-attr{font-size:13px;color:rgba(255,255,255,0.45);}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:44px;}
+.stat{border:1.5px solid var(--gray-mid);border-radius:14px;padding:18px 14px;text-align:center;background:var(--gray-light);}
+.stat-num{font-size:28px;font-weight:900;color:var(--blue-dark);line-height:1;margin-bottom:6px;}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-text);}
+.pieces{display:flex;flex-direction:column;gap:14px;margin-bottom:52px;}
+.piece-card{display:flex;align-items:center;text-decoration:none;border:1.5px solid var(--gray-mid);border-radius:16px;overflow:hidden;background:var(--white);transition:all 0.25s;}
+.piece-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(1,86,152,0.12);transform:translateY(-3px);}
+.piece-card.alt:hover{border-color:var(--red);box-shadow:0 8px 32px rgba(237,45,43,0.1);}
+.piece-num-wrap{width:64px;min-height:88px;background:var(--blue-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:stretch;}
+.piece-card.alt .piece-num-wrap{background:var(--red);}
+.piece-num{font-size:22px;font-weight:900;color:var(--white);}
+.piece-body{flex:1;padding:20px 24px;}
+.piece-kind{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.piece-card.alt .piece-kind{color:var(--red);}
+.piece-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.piece-desc{font-size:13px;color:var(--gray-text);line-height:1.5;}
+.piece-right{padding:20px 24px;display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex-shrink:0;}
+.piece-time{font-size:12px;font-weight:600;color:var(--gray-text);}
+.piece-arrow{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray-mid);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-text);transition:all 0.2s;}
+.piece-card:hover .piece-arrow{background:var(--blue);color:var(--white);border-color:var(--blue);}
+.piece-card.alt:hover .piece-arrow{background:var(--red);border-color:var(--red);}
+.survey-card{background:var(--red);border-radius:20px;padding:36px 40px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+.survey-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;}
+.survey-card h3{font-size:22px;font-weight:900;color:var(--white);margin-bottom:8px;}
+.survey-card p{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;}
+.survey-btn{display:inline-block;background:var(--white);color:var(--red);font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;padding:16px 32px;border-radius:12px;text-decoration:none;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+.survey-btn:hover{background:var(--ink);color:var(--white);}
+.sync-section{background:var(--blue-dark);border-radius:20px;padding:40px;margin-bottom:40px;}
+.sync-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.sync-label::before{content:"";width:20px;height:2px;background:var(--red);}
+.sync-section h3{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.sync-section p{font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;font-weight:300;}
+.prog-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);margin-bottom:16px;}
+.prog-weeks{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
+.prog-week{border-radius:8px;padding:10px 4px;text-align:center;border:1.5px solid var(--gray-mid);}
+.prog-week.active{background:var(--blue-dark);border-color:var(--blue-dark);}.prog-week.done{background:var(--gray-light);}
+.pw-num{font-size:8px;font-weight:700;color:var(--gray-text);margin-bottom:2px;}.prog-week.active .pw-num{color:rgba(255,255,255,0.5);}
+.pw-title{font-size:7px;font-weight:700;color:var(--ink);line-height:1.3;}.prog-week.active .pw-title{color:var(--white);}
+.pw-status{font-size:7px;color:var(--gray-text);margin-top:2px;}.prog-week.active .pw-status{color:var(--red);}
+.hero-ey{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+.hero-ey::before{content:"";width:24px;height:2px;background:var(--red);}
+.nav-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;}
+.content{max-width:780px;margin:0 auto;padding:72px 48px 100px;}
+.content p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:20px;}
+.content p strong{color:var(--ink);font-weight:700;}
+.pm{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:44px 0;}
+.pm-h{padding:24px 32px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.pm-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.pm-ttl{font-size:17px;font-weight:800;color:var(--white);}
+.pm-b{padding:28px 32px;}
+.content .pm-b p{color:rgba(255,255,255,0.8);font-size:15px;line-height:1.75;margin-bottom:14px;}
+.pm-b p:last-child{margin-bottom:0;}
+.tb{background:var(--ink);border-radius:16px;padding:32px 36px;margin:44px 0;}
+.tb::before{content:"TRUTH BOMB";font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px;}
+.content .tb p{font-size:20px;font-weight:700;color:var(--white);font-style:italic;line-height:1.4;margin:0;}
+.role-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:44px 0;}
+.role-card{border-radius:14px;padding:24px;}
+.role-card.rec{background:rgba(1,86,152,0.06);border:1.5px solid rgba(1,86,152,0.2);}
+.role-card.med{background:rgba(196,154,48,0.06);border:1.5px solid rgba(196,154,48,0.25);}
+.role-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.role-card.rec .role-lbl{color:var(--blue);}.role-card.med .role-lbl{color:var(--gold);}
+.role-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:10px;}
+.content .role-desc{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+.steps{display:flex;flex-direction:column;gap:16px;margin:44px 0;}
+.step{display:flex;gap:20px;align-items:flex-start;padding:24px;background:rgba(1,86,152,0.05);border:1.5px solid rgba(1,86,152,0.15);border-radius:14px;}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--blue-dark);color:var(--white);font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-body h4{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.content .step-body p{font-size:14px;color:var(--gray-text);line-height:1.6;margin:0;}
+.gold-box{background:rgba(196,154,48,0.08);border-radius:16px;padding:28px 32px;margin:44px 0;border-left:4px solid var(--gold);}
+.gold-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.content .gold-box p{font-size:15px;color:var(--ink);line-height:1.75;margin-bottom:12px;}
+.gold-box p:last-child{margin-bottom:0;}
+.meeting-cta{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);border-radius:20px;padding:40px;margin:44px 0;}
+.mc-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.mc-lbl::before{content:"";width:20px;height:2px;background:var(--red);}
+.mc-ttl{font-size:22px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.content .mc-body{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.7;font-weight:300;margin:0;}
+.next-wrap{display:flex;justify-content:flex-end;margin-top:48px;padding-top:32px;border-top:1px solid var(--gray-mid);}
+.next-btn{background:var(--blue);color:var(--white);border:none;padding:14px 32px;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.next-btn:hover{background:var(--blue-dark);}
+.wrap{max-width:720px;margin:0 auto;padding:60px 40px 100px;animation:fadeUp 0.7s ease 1.8s both;}
+.kicker{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.kicker::before{content:"";width:20px;height:2px;background:var(--red);}
+.wrap h1{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;line-height:1.1;}
+.meta{font-size:13px;color:var(--gray-text);margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid);}
+.stage-counter{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray-text);text-align:center;margin-bottom:10px;}
+.progress-track{height:4px;background:var(--gray-light);border-radius:2px;margin-bottom:52px;overflow:hidden;}
+.progress-track-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--red));width:16%;transition:width 0.5s ease;}
+.scene{display:none;min-height:280px;animation:fadeUp 0.4s ease both;}.scene.active{display:block;}
+.scene-time{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.scene-time::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);}
+.scene-time.gold{color:var(--gold);}.scene-time.gold::before{background:var(--gold);}
+.scene-time.green{color:#16a34a;}.scene-time.green::before{background:#16a34a;}
+.scene-time.red{color:var(--red);}.scene-time.red::before{background:var(--red);}
+.scene h2{font-size:clamp(20px,3.5vw,28px);font-weight:900;margin-bottom:18px;letter-spacing:-0.5px;}
+.scene p{font-size:17px;line-height:1.8;color:var(--gray-text);margin-bottom:16px;}
+.scene p em{font-style:normal;color:var(--ink);font-weight:600;}
+.takeaway{background:var(--blue-dark);border-radius:14px;padding:24px 28px;margin:24px 0;}
+.takeaway-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.scene .takeaway p{font-size:15px;color:rgba(255,255,255,0.85);line-height:1.7;margin:0;}
+.takeaway p strong{color:var(--white);}
+.result-pill{display:inline-block;background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.4);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;color:#16a34a;margin-bottom:20px;}
+.result-pill.amber{background:rgba(196,154,48,0.12);border-color:rgba(196,154,48,0.4);color:#9a7420;}
+.reflection-block{background:var(--white);border:2px solid var(--ink);border-radius:16px;padding:36px;box-shadow:6px 6px 0 rgba(1,86,152,0.08);}
+.rl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+.reflection-block h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+.hint{font-size:14px;color:var(--gray-text);margin-bottom:20px;line-height:1.6;}
+textarea{width:100%;min-height:90px;padding:14px 16px;border:1.5px solid var(--gray-mid);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;resize:vertical;color:var(--ink);}
+textarea:focus,input[type=text]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+input[type=text]{width:100%;padding:11px 14px;border:1.5px solid var(--gray-mid);border-radius:8px;font-family:'Poppins',sans-serif;font-size:14px;color:var(--ink);margin-bottom:14px;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:40px;}
+.nav-btn{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.nav-btn.next{background:var(--blue);color:var(--white);}
+.nav-btn.prev{background:var(--gray-light);color:var(--ink);border:1.5px solid var(--gray-mid);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.next-btn-wrap{display:flex;justify-content:flex-end;margin-top:28px;}
+.notice{background:#F0F4F8;border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:20px 24px;margin-bottom:36px;}
+.notice-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.notice p{font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:10px;}.notice p:last-child{margin-bottom:0;}
+.pm-block{background:var(--blue-dark);border-radius:20px;overflow:hidden;margin:0 0 40px;}
+.pm-header{padding:20px 28px;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.pm-title{font-size:16px;font-weight:800;color:var(--white);}
+.pm-body{padding:20px 28px;}.pm-body p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;}
+.q-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--gray-light);}
+.q-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+.q-text{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.4;}
+.q-sub{font-size:13px;color:var(--gray-text);margin-bottom:20px;line-height:1.5;}
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--gray-mid);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+.opt:hover{border-color:var(--blue);background:rgba(1,86,152,0.04);}
+.opt input{margin-top:3px;accent-color:var(--blue);flex-shrink:0;}
+.opt-label{font-size:14px;line-height:1.5;color:var(--gray-text);}
+.results-panel{display:none;background:var(--ink);border-radius:20px;padding:44px;margin-top:44px;}.results-panel.visible{display:block;}
+.results-panel h2{font-size:28px;font-weight:900;color:var(--white);margin-bottom:8px;}
+.score-line{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;}
+.score-bar-wrap{background:rgba(255,255,255,0.1);height:8px;border-radius:4px;margin-bottom:28px;overflow:hidden;}
+.score-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:4px;transition:width 1s ease;}
+.dimension{margin-bottom:16px;padding:20px 24px;border-radius:12px;background:rgba(255,255,255,0.06);}
+.dim-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+.dim-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+.dim-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+.results-cta{margin-top:24px;padding:24px 28px;background:var(--red);border-radius:12px;}
+.results-cta p{font-size:15px;font-weight:600;color:var(--white);line-height:1.6;margin:0;}
+.score-btn{width:100%;background:var(--red);color:var(--white);border:none;padding:16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;}
+.mission-card{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:20px;padding:40px;margin-bottom:40px;}
+.mc-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+.mc-title{font-size:22px;font-weight:900;color:var(--white);margin-bottom:12px;}
+.mc-body2{font-size:15px;color:rgba(255,255,255,0.8);line-height:1.75;}
+.task-section{margin-bottom:32px;}
+.task-section h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.task-section .hint{margin-bottom:14px;font-size:13px;}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{padding:8px 16px;border-radius:20px;border:1.5px solid var(--gray-mid);font-size:13px;font-weight:600;color:var(--gray-text);cursor:pointer;transition:all 0.2s;background:var(--white);}
+.chip.selected{background:var(--blue-dark);color:var(--white);border-color:var(--blue-dark);}
+.save-indicator{font-size:12px;color:var(--gray-text);height:16px;margin-top:4px;}
+.divider{margin-top:36px;padding-top:32px;border-top:2px solid var(--gray-light);}
+@media(max-width:640px){.hero{padding:0 24px 48px;}.hero-nav{padding:20px 24px;}.banner-cta{display:none;}.mascots{right:10px;bottom:36px;}.survey-card{flex-direction:column;}.prog-weeks{grid-template-columns:repeat(3,1fr);}.stat-grid{grid-template-columns:repeat(2,1fr);}.content{padding:48px 24px 80px;}.role-split{grid-template-columns:1fr;}.wrap{padding:40px 20px 80px;}main{padding:48px 24px 80px;}}</style></head><body class="read"><div class="pb-wrap"><div class="pb-fill" id="pb"></div></div>
+<div class="loader"><div class="loader-label">Week 20 &middot; Read</div><div class="loader-title">Get the Number,<br><span>Not the Registration</span></div></div>
+<section class="hero"><div class="hero-grid"></div>
+<nav class="hero-nav"><div class="nav-logo"><div class="nav-dot"></div>NAVBB</div><div class="nav-badge">Team Development Series</div></nav>
+<div class="hero-ey">Chapter 20 of ongoing</div>
+<h1>Get the Number,<br><em>Not the Registration</em></h1>
+<p class="hero-sub">Every registration sets a chain in motion: a pending line, a screening, a collection plan, a number on the dashboard. A maybe belongs in your notes, not in FETCH.</p>
+</section>
+<main class="content">
+<div class="sec">What a Sign-Up Actually Is</div>
+<p>A registration is not a note to self. The moment a donor is registered, it becomes a line on the pending list, a name the medical team may screen, a donor the collection team plans a day around, and a figure on the dashboard that leadership reads on Monday. Each of those steps costs time, travel, or money.</p>
+<p>So when a registration is really a maybe, such as "let me talk to my husband" or "I think Mondays might work," it is a bookmark. A bookmark looks exactly like a real donor right up until the day it does not show up.</p>
+<div class="tb"><p>A bookmark looks like a sign-up on the dashboard. It only looks different on screening day.</p></div>
+<div class="pm"><div class="pm-h"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="52" height="52" class="p-svg"></svg><div><div class="pm-lbl">A Patricia Moment</div><div class="pm-ttl">Patricia has 47 pending donors and calls it a healthy pipeline.</div></div></div><div class="pm-b"><p>Patricia registers every parent who says maybe, so she will not forget them. She has not called any of them. Eleven have never been contacted since the day they were entered. One has been pending since February and Patricia does not recognize the name. She is leaving it there in case it becomes important.</p><p>Patricia's pending list is the longest in the region. Patricia's show rate is not. Patricia considers these unrelated.</p></div></div>
+<div class="sec">Register When. Capture the Number When.</div>
+<div class="role-split">
+<div class="role-card rec"><div class="role-lbl">Register in FETCH when</div><div class="role-title">You have a real yes</div><p class="role-desc">The parent has heard the once-a-month commitment and said yes. You know the location and the day. You have their number and their preferred way to be reached. The dog fits the weight, age, and health basics.</p></div>
+<div class="role-card med"><div class="role-lbl">Capture the number when</div><div class="role-title">You have a maybe</div><p class="role-desc">The parent wants to check with a spouse, is unsure the schedule works, or you need a medical answer first. Take their number, tell them exactly when you will call, call, and register on the yes.</p></div>
+</div>
+<p>This is the point leadership made to the whole team this week: the system should not become a contact card. If a parent needs to talk it over, that is fine. Get the contact information, make the call, and let the number in FETCH mean something.</p>
+<div class="sec">The Commitment Has to Be Said Out Loud</div>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-body"><h4>Say the monthly part plainly</h4><p>"This is a once-a-month commitment. If that cannot work for you, just tell me and I will take your dog off the list." That second sentence gives the parent a safe way to say no, and a no you hear early is far cheaper than a no that shows up as an empty screening slot.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><h4>Name the day and the cadence</h4><p>"We are at the daycare every four weeks on a Monday." A parent who hears the actual day can check the actual calendar. A parent who hears "once a month" may picture something far looser.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><h4>Check the sign-ups you did not take yourself</h4><p>When a daycare signs a parent up in your absence, the commitment message often gets lost on the way. This week a donor was registered by the daycare, dad confirmed he would bring him, and nothing happened, even though the daycare said the dog is there several days a week. Ask the daycare to say the commitment out loud, then make your own call to the parent within the week.</p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><h4>Archive fast and kindly on a no</h4><p>A parent registered at Berkeley Creek so the recruiter could reach her. A few days later she said a Monday every month would not work with her family's jobs. The recruiter archived her immediately and said, "If anything changes, please let me know." The list stayed honest and the door stayed open.</p></div></div>
+</div>
+<div class="sec">Work the Pending List Before It Works You</div>
+<div class="gold-box"><div class="gold-lbl">The pending list is a to-do list, not a trophy case</div>
+<p>This week there were 134 pending donors. While going through the list, the medical team found names from April through August with no communication logged at all, plus one donor pending since February with no donations, no notes, and no reason anyone could find for why the donor was still there. That donor was archived on the spot.</p>
+<p>The request is simple: <strong>anything from April through August with no communication, call or text.</strong> Name the location and the date. Ask whether it works. Say plainly, "If not, we are happy to remove you." Where it helps, mention that some daycares offer free daycare on screening day, or that an office appointment is available.</p></div>
+<p>Run three questions on every pending donor older than about sixty days: <strong>Is there a recent communication note? Does this parent know the next specific date? Have I offered an alternative?</strong> If the answers are no, no, and no, you have found your call for the day. If a real conversation still ends in no, archive and write the reason in the notes, so the next person does not have to wonder why.</p>
+<p>The same rule applies to happy visits. Two or three visits is the working range, and they only build anything when they are consistent. A donor seen twice in several months is not getting more comfortable. She is starting over every time. That is a decision point, and it needs a decision.</p>
+<div class="sec">Trust Records, Not Labels</div>
+<p>This week a parent told the team their dog could not come because of heartworm. The vet records said hookworm. A daycare described three dogs as having pneumonia. Pneumonia is a radiographic diagnosis, and the dog's owner later said it was treated as kennel cough, with no x-rays. Before anyone corrected the record, units were pulled as a safeguard, which means incorrect information from owners can cost real product.</p>
+<p>When a medical claim comes up, ask for the vet records and pass them to the medical team. Do not repeat a diagnosis word to daycare staff or other parents. By the second or third person it has changed shape, and the owner often decides what the problem is on the strength of the first word they hear.</p>
+<div class="tb"><p>Always be recruiting. November and December are the second-best months to recruit, and the numbers do not lie. Just make sure the numbers are real.</p></div>
+<div class="meeting-cta"><div class="mc-lbl">Bring This To Our Next Meeting</div><div class="mc-ttl">One pending donor, and what you did about it</div><p class="mc-body">Pick a donor from your pending list that has been sitting there. Tell us how long, what you know, and what you did this week: contact, convert, or archive. If you archived one, tell us the reason you wrote in the notes.</p></div>
+<div class="next-wrap"><a class="next-btn" href="https://navbbadmin.github.io/navbb-team-development/week20_case_study.html">Next: Case Study &rarr;</a></div>
+</main><script>var P='<ellipse cx="50" cy="62" rx="28" ry="20" fill="#b89a8a"/><ellipse cx="50" cy="64" rx="22" ry="14" fill="#f0e4dc"/><circle cx="50" cy="38" r="20" fill="#b89a8a"/><ellipse cx="34" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(-20 34 22)"/><ellipse cx="66" cy="22" rx="7" ry="11" fill="#8c7163" transform="rotate(20 66 22)"/><ellipse cx="34" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(-20 34 23)"/><ellipse cx="66" cy="23" rx="4" ry="7" fill="#e8a8a0" transform="rotate(20 66 23)"/><ellipse cx="50" cy="44" rx="10" ry="7" fill="#f0e4dc"/><circle cx="43" cy="35" r="3.2" fill="#1f2421"/><circle cx="57" cy="35" r="3.2" fill="#1f2421"/><circle cx="44" cy="34" r="0.9" fill="#fff"/><circle cx="58" cy="34" r="0.9" fill="#fff"/><ellipse cx="50" cy="46" rx="3.5" ry="2.5" fill="#1f2421"/><rect x="36" y="55" width="28" height="12" rx="4" fill="#ED2D2B"/><text x="50" y="64" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6" font-weight="700" fill="white">PATRICIA</text>';var B='<ellipse cx="50" cy="80" rx="35" ry="22" fill="#c49a30"/><ellipse cx="50" cy="82" rx="27" ry="16" fill="#e8c060"/><circle cx="50" cy="52" r="24" fill="#c49a30"/><ellipse cx="34" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(-15 34 38)"/><ellipse cx="66" cy="38" rx="9" ry="16" fill="#9a7020" transform="rotate(15 66 38)"/><circle cx="43" cy="50" r="4.5" fill="#1f1a10"/><circle cx="57" cy="50" r="4.5" fill="#1f1a10"/><circle cx="44" cy="48" r="1.5" fill="white"/><circle cx="58" cy="48" r="1.5" fill="white"/><ellipse cx="50" cy="62" rx="10" ry="7" fill="#e8c060"/><ellipse cx="50" cy="60" rx="5" ry="4" fill="#c47050"/><path d="M44 68 Q50 73 56 68" stroke="#1f1a10" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(-10 38 95)"/><ellipse cx="62" cy="95" rx="10" ry="7" fill="#9a7020" transform="rotate(10 62 95)"/><path d="M72 75 Q88 65 85 80 Q82 90 72 88" stroke="#c49a30" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="38" y="55" width="24" height="10" rx="3" fill="#015698"/><text x="50" y="63" text-anchor="middle" font-family="Poppins,sans-serif" font-size="5" font-weight="700" fill="white">BISCUIT</text>';document.querySelectorAll('.p-svg').forEach(function(el){el.innerHTML+=P;});document.querySelectorAll('.b-svg').forEach(function(el){el.innerHTML+=B;});window.addEventListener('scroll',function(){var d=document.documentElement;document.getElementById('pb').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';});</script></body></html>
